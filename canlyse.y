@@ -226,7 +226,31 @@ inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON {printf("Déclaration d'e
 
 declaration_entier :
  declaration_entier PUNCTUATOR_COMMA IDENTIFIER 
+ {
+   if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,1,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ }
 | declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
+{   if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$5);
+    ajouter($3,0,1,str,0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER {
   if (recherche($1) !=NULL) {
     printf (" variable deja declarie");
@@ -234,7 +258,6 @@ declaration_entier :
   }
   else { 
     ajouter($1,0,1,"null",0);
-    printf ("  ajout avec secuus ");
     affiche_dico();
   }
 }
@@ -245,10 +268,9 @@ declaration_entier :
     // ajouter une qdp  (,,,) -------------- ? a confirmer 
   }
   else { 
-    char  str[20]; 
-     sprintf(str,"%d",$3);
-    ajouter($1,0,1,str,0);
-    printf ("  ajout avec secuus ");
+    char  str1[20]; 
+     sprintf(str1,"%d",$3);
+    ajouter($1,0,1,str1,0);
     affiche_dico();
   }
 }

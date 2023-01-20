@@ -2,7 +2,7 @@ programe glab;
 
 
 var{
-int c=2*2;
+int c=9+6,m=6+99,n;
 
 }
 
