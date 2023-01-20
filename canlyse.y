@@ -107,8 +107,8 @@ char* identif;
   int integer;
   double real;
   char charecter ;
-  char *string;
-  int boolean;
+  char* string;
+  
 }
 
 
@@ -117,16 +117,12 @@ char* identif;
 
 %token  PARENTHESE_GAUCHE PARENTHESE_DROITE
 
-%type  <integer> IntExpression
-%type  <integer> IntFact2
-%type  <integer> IntTerm
-%type  <integer> IntFact
 
 
-%type  <real> Expression
-%type  <real> Fact2
-%type  <real> Term
-%type  <real> Fact
+%type  <string> Expression
+%type  <string> Fact2
+%type  <string> Term
+%type  <string> Fact
 
 %type  <integer> LogicExpression
 %type  <integer> LogicExpression1
@@ -255,19 +251,22 @@ declaration_entier :
 
     printf ("  ajout avec secuus ");
     affiche_dico();
+    afficher_tbq();
+
   }
  }
-| declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
+| declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
 {   if (recherche($3) !=NULL) {
     printf (" variable deja declarie");
     // ajouter une qdp  (,,,) -------------- ? a confirmer 
   }
   else { 
     char  str[20]; 
-     sprintf(str,"%d",$5);
+     sprintf(str,"%s",$5);
     ajouter($3,0,1,str,0);
     
     affiche_dico();
+    afficher_tbq();
   }
 }
 | IDENTIFIER {
@@ -280,17 +279,21 @@ declaration_entier :
     affiche_dico();
   }
 }
-| IDENTIFIER PUNCTUATOR_ASSIGN IntExpression {
+| IDENTIFIER PUNCTUATOR_ASSIGN Expression {
 
    if (recherche($1) !=NULL) {
     printf (" variable deja declarie");
     // ajouter une qdp  (,,,) -------------- ? a confirmer 
   }
   else { 
+    printf (" expression ");
+
     char  str1[20]; 
-     sprintf(str1,"%d",$3);
-    ajouter($1,0,1,str1,0);
-    affiche_dico();
+     sprintf(str1,"%s",$3);
+     ajouter($1,0,1,str1,0);
+     affiche_dico();
+    afficher_tbq();
+
   }
 }
 
@@ -675,7 +678,7 @@ instList_function : instList_function inst_function
 ;
 inst_function : inst | inst_var
 ;
-return_statement_int :  RETURN IntExpression PUNCTUATOR_SEMICOLON;
+return_statement_int :  RETURN NUMBER PUNCTUATOR_SEMICOLON;
 return_statement_double :  RETURN Expression PUNCTUATOR_SEMICOLON;
 return_statement_string : RETURN CONSTSTRING PUNCTUATOR_SEMICOLON ;
 return_statement_char : RETURN CHAR PUNCTUATOR_SEMICOLON ;
@@ -690,21 +693,15 @@ instList : instList   inst
 inst :
  IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON  { 
    
-   printf("Assign %f \n " , $3);
-
-
   if (recherche($1) ==NULL) {
     printf (" variable non decalrie");
   }
   else { 
     desc_identif* var  =  recherche($1) ;
     if (var->type == 2){
-
          char  str[20]; 
-     sprintf(str,"%f",$3);
-
+     sprintf(str,"%s",$3);
      modifier($1,0,1,str,0);
-
      ajouter_quadruplet(":=" , $1 , "",str);
        
      afficher_tbq();    
@@ -714,28 +711,20 @@ inst :
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
-
-
-
     }
-|IDENTIFIER PUNCTUATOR_ASSIGN IntExpression PUNCTUATOR_SEMICOLON 
+    /*
+|IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON 
 { 
    
-   printf("Assign %d \n " , $3);
-
-
   if (recherche($1) ==NULL) {
     printf (" variable non decalrie");
   }
   else { 
     desc_identif* var  =  recherche($1) ;
     if (var->type == 1){
-
          char  str[20]; 
      sprintf(str,"%d",$3);
     modifier($1,0,1,str,0);
-
-
     
      ajouter_quadruplet(":=" , $1 , "",str);
        
@@ -746,16 +735,14 @@ inst :
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
-
-
-
     }
-
+*/
 | IDENTIFIER OPERATOR_INCREMENTATION PUNCTUATOR_SEMICOLON  { printf("Inc\n "); }
 | IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  { printf("Dec\n "); }
 | READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  { printf("READ \n"); }
 | WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  {printf("WRITE \n"); }
-| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression   PUNCTUATOR_CLOSE_PARENTHESIS Action    { printf("IF \n"); }
+| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression   PUNCTUATOR_CLOSE_PARENTHESIS Action  
+  { printf("IF \n"); }
 | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action  ELSE Action {printf("IF ELSE \n");}
 | WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS  Action        { printf("WHILE \n") ;}
 | FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { printf("FOR\n");}
@@ -768,37 +755,69 @@ Parmeter  : NUMBER | CONSTSTRING | REAL | CHAR | IDENTIFIER |
 ;
 Expression:
    
-  Expression OPERATOR_PLUS Term {$$=$1+$3; }
-  |Expression OPERATOR_MINUS Term { $$=$1-$3; }
-  | Term 
+  Expression OPERATOR_PLUS Term {
+  	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("+",$1,$3,$$);
+    	afficher_tbq();
+   }
+  |Expression OPERATOR_MINUS Term {
+     	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("-",$1,$3,$$);
+      }
+  | Term {$$ = $1;}
+  ;
 Term: 
-  Term OPERATOR_MULTIPLICATION Fact  {$$=$1*$3; }
-  |Term OPERATOR_DEVISION Fact  { $$= $1/$3; }
-  | Fact
+  Term OPERATOR_MULTIPLICATION Fact  {
+    	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("*",$1,$3,$$);
+  
+   }
+  |Term OPERATOR_DEVISION Fact  { 
+	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("/",$1,$3,$$);
+   }
+  | Fact {$$ = $1;
+  }
+  ;
 Fact : 
-  Fact OPERATOR_POWER Fact2 { $$=pow($1,$3); }
-  | Fact2
+  Fact OPERATOR_POWER Fact2 {
+      	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+      	ajouter_quadruplet("**",$1,$3,$$);
+     }
+  | Fact2 {$$ = $1;}
+  ;
 Fact2 : 
-   REAL      { $$=$1; } 
-  |PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS  { $$=$2; }
+   REAL      {
+      char str[50];
+      sprintf(str,"%f",$1);
+       $$ = strdup(str);
+      } 
+  |NUMBER      {
+      char str[50];
+      sprintf(str,"%d",$1);
+      $$ = strdup(str);
+      }
+  |PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS  {
+      $$=$2;
+      }
   ;  
-IntExpression:
-   
-  IntExpression OPERATOR_PLUS IntTerm {$$=$1+$3; }
-  |IntExpression OPERATOR_MINUS IntTerm { $$=$1-$3; }
-  | IntTerm 
-IntTerm: 
-  IntTerm OPERATOR_MULTIPLICATION IntFact  {$$=$1*$3; }
-  |IntTerm OPERATOR_DEVISION IntFact  { $$=(int) $1/$3; }
-  | IntFact
-IntFact : 
-  IntFact OPERATOR_POWER IntFact2 { $$=pow($1,$3); }
-  |IntFact OPERATOR_MOD IntFact2 { $$=$1%$3; }
-  | IntFact2
-IntFact2 : 
-   NUMBER      { $$=$1; }  
-  |PUNCTUATOR_OPEN_PARENTHESIS IntExpression PUNCTUATOR_CLOSE_PARENTHESIS  { $$=$2; }
-  ;  
+ 
+  
 LogicExpression :
    LogicExpression1  {
      $$ = $1; 
@@ -814,24 +833,23 @@ LogicExpression2 :
   LogicExpression3  {$$ = $1;} | PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS {$$ = $2;} 
 ;
 LogicExpression3 :
-   CHAR OPERATOR_EQUALS  CHAR { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
+   CHAR OPERATOR_EQUALS  CHAR { 
+    if ($1 == $3 ) $$ = 1; else $$ = 0 ;
+    // ajouter_quadruplet(""); 
+     }
   | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_EQUALS  Expression { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
-  | IntExpression OPERATOR_EQUALS  IntExpression { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
+  | Expression OPERATOR_EQUALS  Expression { 
+    //ajouter_quadruplet("-",$1,$2,"r"+index_tbq);
+    }
   
   | CHAR OPERATOR_DEFFRENT  CHAR {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
   | CONSTSTRING OPERATOR_DEFFRENT  CONSTSTRING {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
   | Expression OPERATOR_DEFFRENT Expression {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
-  | IntExpression OPERATOR_DEFFRENT  IntExpression {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
   
   | Expression OPERATOR_INFERIER Expression {if ($1 < $3 ) $$ = 1; else $$ = 0 ;}
   | Expression OPERATOR_INFERIEROREQUALS Expression {if ($1 <= $3 ) $$ = 1; else $$ = 0 ;}
   | Expression OPERATOR_SUPERIER Expression {if ($1 > $3 ) $$ = 1; else $$ = 0 ;}
   | Expression OPERATOR_SUPERIEROREQUALS Expression {if ($1 >= $3 ) $$ = 1;  else $$ = 0 ;}
-  | IntExpression OPERATOR_INFERIER IntExpression {if ($1 < $3 ) $$ = 1; else $$ = 0 ;}
-  | IntExpression OPERATOR_INFERIEROREQUALS IntExpression {if ($1 <= $3 ) $$ = 1; else $$ = 0 ;}
-  | IntExpression OPERATOR_SUPERIER IntExpression {if ($1 > $3 ) $$ = 1; else $$ = 0 ;}
-  | IntExpression OPERATOR_SUPERIEROREQUALS IntExpression {if ($1 >= $3 ) $$ = 1;  else $$ = 0 ;}
   
 ;
 %%
@@ -871,12 +889,10 @@ void ajouter(char *identif, int classe, int type,char * value, int complement){
          tbs->root = t;
 tbs->tail = t;
 	tbs->current_size++;
-
         }else{
   tbs->tail->next=t;        
 	tbs->tail = t;
 	tbs->current_size++;
-
         }
 }
 int modifier(char *identif, int classe, int type,char * value, int complement){
@@ -891,15 +907,11 @@ int modifier(char *identif, int classe, int type,char * value, int complement){
 void affiche_dico() {
 	desc_identif* p;
   
-
-
     if (p == NULL)
     {
         printf("\n this is a printf NULL \n");
     }
-
      p = tbs->root;
-
     while (p != NULL)
     {
         printf("%s |%d |%d | %s |%d" , p->identif ,p->classe , p->type , p->value ,p->complement ) ;
@@ -907,7 +919,6 @@ void affiche_dico() {
     }
     printf ("%i",tbs->current_size);
 }
-
  void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4){
  	strcpy(tbq[index_tbq].premier,p1);
  	strcpy(tbq[index_tbq].deuxieme,p2);

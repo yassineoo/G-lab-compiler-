@@ -115,7 +115,7 @@ union YYSTYPE
   int integer;
   double real;
   char charecter ;
-  char *string;
+  char* string;
   
 
 #line 122 "canlyse.tab.h" /* yacc.c:1909  */
