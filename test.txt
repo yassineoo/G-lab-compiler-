@@ -1,0 +1,21 @@
+programe glab;
+
+
+main {
+x = 3 + 2 +3 *25-50/2*30/(2**2);
+
+if (!(5 > 10 )) 
+f++;
+
+
+
+for (i= 1 to 6 ) {
+     i++;
+}
+while (5>2) {d--;}
+if("scsc"=="scsklcs") h=2*3;
+
+
+}
+
+
