@@ -3,7 +3,7 @@
 	#include <string.h>
 	#include "canlyse.tab.h"
 
-	int line_count = 0; 
+	int line_count = 1; 
 	
 	
 	#include <stdlib.h>
@@ -146,7 +146,7 @@ false  					{ return FALSEBOOL;}
 
 		/* skip new lines and blank spaces */
 [ \t]                   { /* printf( "BLANK: %s\n", yytext );*/}
-[\n]					{ }
+[\n]					{line_count++;}
 		/* everything not defined before is caught here, considered an error */
 .						{ printf( "ERROR : not recognized Word  : %s\n", yytext );}	
 
@@ -157,7 +157,6 @@ false  					{ return FALSEBOOL;}
 int yywrap(){
     return 1;
 }
-
 
 
 

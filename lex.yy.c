@@ -561,13 +561,13 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "cScan.l"
-#line 2 "cScan.l"
+#line 1 "cscan.l"
+#line 2 "cscan.l"
 
 	#include <string.h>
 	#include "canlyse.tab.h"
 
-	int line_count = 0; 
+	int line_count = 1; 
 	
 	
 	#include <stdlib.h>
@@ -795,10 +795,10 @@ YY_DECL
 		}
 
 	{
-#line 19 "cScan.l"
+#line 19 "cscan.l"
 
 
-#line 22 "cScan.l"
+#line 22 "cscan.l"
 		/* comments in G-LAB! */
 			/* multi line */
 #line 805 "lex.yy.c"
@@ -861,136 +861,136 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 24 "cScan.l"
+#line 24 "cscan.l"
 { printf( "COMMENT: %s\n", yytext );}
 	YY_BREAK
 /* single line */
 case 2:
 YY_RULE_SETUP
-#line 30 "cScan.l"
+#line 30 "cscan.l"
 { printf( "COMMENT: %s\n", yytext );}
 	YY_BREAK
 /*	reserved keywords */
 case 3:
 YY_RULE_SETUP
-#line 36 "cScan.l"
+#line 36 "cscan.l"
 { return BOOL;} 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 37 "cScan.l"
-{ return DOUBLE;} //
+#line 37 "cscan.l"
+{ return DOUBLE;} 
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 38 "cScan.l"
-{ return INT;} //
+#line 38 "cscan.l"
+{ return INT;} 
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 39 "cScan.l"
-{ return READ;} //
+#line 39 "cscan.l"
+{ return READ;} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 40 "cScan.l"
-{ return RETURN;} //
+#line 40 "cscan.l"
+{ return RETURN;} 
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 41 "cScan.l"
-{ return ELSE;} //
+#line 41 "cscan.l"
+{ return ELSE;} 
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 42 "cScan.l"
-{ return STRUCT;} //
+#line 42 "cscan.l"
+{ return STRUCT;} 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 43 "cScan.l"
-{ return STRINGTYPE;} //
+#line 43 "cscan.l"
+{ return STRINGTYPE;} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 44 "cScan.l"
-{ return CHAR ;} //
+#line 44 "cscan.l"
+{ return CHAR ;} 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 45 "cScan.l"
+#line 45 "cscan.l"
 { return CONST;} 
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 46 "cScan.l"
-{ return FOR;} //
+#line 46 "cscan.l"
+{ return FOR;} 
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 47 "cScan.l"
-{ return FUNCTIONS;} //
+#line 47 "cscan.l"
+{ return FUNCTIONS;} 
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 48 "cScan.l"
-{ return MAIN;} //
+#line 48 "cscan.l"
+{ return MAIN;} 
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 49 "cScan.l"
-{ return IF; } //
+#line 49 "cscan.l"
+{ return IF; } 
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 50 "cScan.l"
-{ return PROGRAME ;} //
+#line 50 "cscan.l"
+{ return PROGRAME ;} 
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 51 "cScan.l"
-{ return VOID ; } //
+#line 51 "cscan.l"
+{ return VOID ; } 
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 52 "cScan.l"
-{ return TYPE;} //
+#line 52 "cscan.l"
+{ return TYPE;} 
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 53 "cScan.l"
-{ return VAR;} //
+#line 53 "cscan.l"
+{ return VAR;} 
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 54 "cScan.l"
-{ return WHILE;} //
+#line 54 "cscan.l"
+{ return WHILE;} 
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 55 "cScan.l"
-{ return WRITE;} //
+#line 55 "cscan.l"
+{ return WRITE;} 
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 56 "cScan.l"
-{ return TO;} // 
+#line 56 "cscan.l"
+{ return TO;}  
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 57 "cScan.l"
+#line 57 "cscan.l"
 { return TRUEBOOL;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 58 "cScan.l"
+#line 58 "cscan.l"
 { return FALSEBOOL;}
 	YY_BREAK
 /* constants */
 /* decimal */
 case 26:
 YY_RULE_SETUP
-#line 66 "cScan.l"
+#line 66 "cscan.l"
 { 
 				yylval.integer = atoi(yytext);
 				return NUMBER;
@@ -999,7 +999,7 @@ YY_RULE_SETUP
 /* real(fractional) */
 case 27:
 YY_RULE_SETUP
-#line 72 "cScan.l"
+#line 72 "cscan.l"
 {
 						yylval.real = atoi(yytext);
 						return REAL;
@@ -1008,7 +1008,7 @@ YY_RULE_SETUP
 /* single character */
 case 28:
 YY_RULE_SETUP
-#line 79 "cScan.l"
+#line 79 "cscan.l"
 {
 						yylval.charecter=yytext;
 						return CHAR;
@@ -1018,7 +1018,7 @@ YY_RULE_SETUP
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 84 "cScan.l"
+#line 84 "cscan.l"
 { 
 						return CONSTSTRING;
 
@@ -1027,7 +1027,7 @@ YY_RULE_SETUP
 /* Identifier (variable names) */
 case 30:
 YY_RULE_SETUP
-#line 92 "cScan.l"
+#line 92 "cscan.l"
 { 
 
 				yylval.string=(char *)malloc((yyleng+1)*(sizeof(char)));
@@ -1043,7 +1043,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 105 "cScan.l"
+#line 105 "cscan.l"
 { 
 	printf( "ERROR identificateur too long: %s\n", yytext );
 	 }
@@ -1052,163 +1052,163 @@ YY_RULE_SETUP
 /* arithmetic */
 case 32:
 YY_RULE_SETUP
-#line 112 "cScan.l"
+#line 112 "cscan.l"
 { return OPERATOR_PLUS;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 113 "cScan.l"
+#line 113 "cscan.l"
 { return OPERATOR_MINUS;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 114 "cScan.l"
+#line 114 "cscan.l"
 { return OPERATOR_MULTIPLICATION;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 115 "cScan.l"
+#line 115 "cscan.l"
 { return OPERATOR_POWER;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 116 "cScan.l"
+#line 116 "cscan.l"
 { return OPERATOR_DEVISION;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 117 "cScan.l"
+#line 117 "cscan.l"
 { return OPERATOR_MOD;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 118 "cScan.l"
+#line 118 "cscan.l"
 { return OPERATOR_INCREMENTATION;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 119 "cScan.l"
+#line 119 "cscan.l"
 { return OPERATOR_DECREMENTATION;}
 	YY_BREAK
 /* relational */						
 case 40:
 YY_RULE_SETUP
-#line 122 "cScan.l"
+#line 122 "cscan.l"
 { return OPERATOR_EQUALS; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 123 "cScan.l"
+#line 123 "cscan.l"
 { return OPERATOR_DEFFRENT; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 124 "cScan.l"
+#line 124 "cscan.l"
 { return OPERATOR_SUPERIER; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 125 "cScan.l"
+#line 125 "cscan.l"
 { return OPERATOR_INFERIER; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 126 "cScan.l"
+#line 126 "cscan.l"
 { return OPERATOR_SUPERIEROREQUALS; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 127 "cScan.l"
+#line 127 "cscan.l"
 { return OPERATOR_INFERIEROREQUALS; }
 	YY_BREAK
 /* logical */						
 case 46:
 YY_RULE_SETUP
-#line 129 "cScan.l"
+#line 129 "cscan.l"
 { return OPERATOR_AND; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 130 "cScan.l"
+#line 130 "cscan.l"
 { return OPERATOR_OR; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 131 "cScan.l"
+#line 131 "cscan.l"
 { return OPERATOR_NOT; }
 	YY_BREAK
 /* punctuators */
 case 49:
 YY_RULE_SETUP
-#line 136 "cScan.l"
+#line 136 "cscan.l"
 { return PUNCTUATOR_OPEN_PARENTHESIS; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 137 "cScan.l"
+#line 137 "cscan.l"
 { return PUNCTUATOR_CLOSE_PARENTHESIS; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 138 "cScan.l"
+#line 138 "cscan.l"
 { return PUNCTUATOR_OPEN_CURLY; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 139 "cScan.l"
+#line 139 "cscan.l"
 { return PUNCTUATOR_CLOSE_CURLY; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 140 "cScan.l"
+#line 140 "cscan.l"
 { return PUNCTUATOR_OPEN_BRACKET; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 141 "cScan.l"
+#line 141 "cscan.l"
 { return PUNCTUATOR_CLOSE_BRACKET; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 142 "cScan.l"
+#line 142 "cscan.l"
 { return PUNCTUATOR_COMMA; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 143 "cScan.l"
+#line 143 "cscan.l"
 { return PUNCTUATOR_COLON; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 144 "cScan.l"
+#line 144 "cscan.l"
 { return PUNCTUATOR_SEMICOLON; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 145 "cScan.l"
+#line 145 "cscan.l"
 { return PUNCTUATOR_ASSIGN; }
 	YY_BREAK
 /* skip new lines and blank spaces */
 case 59:
 YY_RULE_SETUP
-#line 149 "cScan.l"
+#line 149 "cscan.l"
 { /* printf( "BLANK: %s\n", yytext );*/}
 	YY_BREAK
 case 60:
 /* rule 60 can match eol */
 YY_RULE_SETUP
-#line 150 "cScan.l"
-{ }
+#line 150 "cscan.l"
+{line_count++;}
 	YY_BREAK
 /* everything not defined before is caught here, considered an error */
 case 61:
 YY_RULE_SETUP
-#line 152 "cScan.l"
+#line 152 "cscan.l"
 { printf( "ERROR : not recognized Word  : %s\n", yytext );}	
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 154 "cScan.l"
+#line 154 "cscan.l"
 ECHO;
 	YY_BREAK
 #line 1215 "lex.yy.c"
@@ -2216,7 +2216,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 154 "cScan.l"
+#line 154 "cscan.l"
 
 
 
@@ -2224,7 +2224,6 @@ void yyfree (void * ptr )
 int yywrap(){
     return 1;
 }
-
 
 
 

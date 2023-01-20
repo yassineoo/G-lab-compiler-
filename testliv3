@@ -1,44 +1,13 @@
 programe glab;
 
-type{
-struct strc{
-int i ;
-double f ;	
-};
-}
 
 var{
-int c,v=2,b;
-char c,v,r='v';
-double c,i =50.3,c;
-string c,v="hello",b;
-double x, c=2.356;
-bool skks = 5>2;
-int tab[5];
-int tab[]=[2,4];
-bool tab[]=[true, false, true, true];
-string tab[8];
-}
+int c=2*2;
 
-functions{
-   int add(){
-   	int i ;
-	return 2;   
-   }
-   int add(a,b){
-   	int i ;
-	return 5;   
-   }
-   string add(a){
-   	int i ;
-	return "hello";   
-   }
 }
 
 main{
-if(2==2) h=2*3;
 
-if(2<4)if(2>2)f=2;else g=2; 
 return 0;
 }
 
