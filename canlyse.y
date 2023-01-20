@@ -469,36 +469,48 @@ Parmeter  : NUMBER | CONSTSTRING | REAL | CHAR | IDENTIFIER |
 Expression:
    
   Expression OPERATOR_PLUS Term {
-    $$="r";
-    ajouter_quadruplet("+",$1,$3,"r");
-    printf("|%s,------,%s|",$1,$3);
-    afficher_tbq();
+  	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("+",$1,$3,$$);
+    	afficher_tbq();
    }
   |Expression OPERATOR_MINUS Term {
-     $$="r";
-    ajouter_quadruplet("-",$1,$3,"r");
+     	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("-",$1,$3,$$);
       }
-  | Term {$$ = $1;
-  printf("/n term: %s ",$$);} 
+  | Term {$$ = $1;}
   ;
 Term: 
   Term OPERATOR_MULTIPLICATION Fact  {
-    $$="r";
-    ajouter_quadruplet("*",$1,$3,"r");
+    	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("*",$1,$3,$$);
   
    }
   |Term OPERATOR_DEVISION Fact  { 
-    $$= "r";
-    ajouter_quadruplet("/",$1,$3,"r");
+	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("/",$1,$3,$$);
    }
   | Fact {$$ = $1;
-  printf("/n fact: %s ",$$);
   }
   ;
 Fact : 
   Fact OPERATOR_POWER Fact2 {
-      $$="r"; 
-      ajouter_quadruplet("**",$1,$3,"r");
+      	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+      	ajouter_quadruplet("**",$1,$3,$$);
      }
   | Fact2 {$$ = $1;}
   ;
@@ -507,13 +519,11 @@ Fact2 :
       char str[50];
       sprintf(str,"%f",$1);
        $$ = strdup(str);
-       printf("/n real: %s ",$$);
       } 
   |NUMBER      {
       char str[50];
       sprintf(str,"%d",$1);
       $$ = strdup(str);
-      printf("/n number: %s ",$$);
       }
   |PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS  {
       $$=$2;
