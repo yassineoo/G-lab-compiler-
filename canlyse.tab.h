@@ -110,7 +110,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 89 "canlyse.y" /* yacc.c:1909  */
+#line 106 "canlyse.y" /* yacc.c:1909  */
 
   int integer;
   double real;

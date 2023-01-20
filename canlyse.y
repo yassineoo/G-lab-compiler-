@@ -258,6 +258,7 @@ declaration_entier :
 | declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
 {   if (recherche($3) !=NULL) {
     printf (" variable deja declarie");
+    
     // ajouter une qdp  (,,,) -------------- ? a confirmer 
   }
   else { 
@@ -401,8 +402,69 @@ instList : instList   inst
 | inst  
 ;
 inst :
- IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON  { printf("Assign %f \n " , $3); }
-|IDENTIFIER PUNCTUATOR_ASSIGN IntExpression PUNCTUATOR_SEMICOLON  { printf("Assign %d \n " , $3); }
+ IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON  { 
+   
+   printf("Assign %f \n " , $3);
+
+
+  if (recherche($1) ==NULL) {
+    printf (" variable non decalrie");
+  }
+  else { 
+    desc_identif* var  =  recherche($1) ;
+    if (var->type == 2){
+
+         char  str[20]; 
+     sprintf(str,"%f",$3);
+
+     modifier($1,0,1,str,0);
+
+     ajouter_quadruplet(":=" , $1 , "",str);
+       
+     afficher_tbq();    
+     affiche_dico();
+      
+    }
+    else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
+ 
+  }
+
+
+
+    }
+|IDENTIFIER PUNCTUATOR_ASSIGN IntExpression PUNCTUATOR_SEMICOLON 
+{ 
+   
+   printf("Assign %d \n " , $3);
+
+
+  if (recherche($1) ==NULL) {
+    printf (" variable non decalrie");
+  }
+  else { 
+    desc_identif* var  =  recherche($1) ;
+    if (var->type == 1){
+
+         char  str[20]; 
+     sprintf(str,"%d",$3);
+    modifier($1,0,1,str,0);
+
+
+    
+     ajouter_quadruplet(":=" , $1 , "",str);
+       
+     afficher_tbq();    
+     affiche_dico();
+      
+    }
+    else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
+ 
+  }
+
+
+
+    }
+
 | IDENTIFIER OPERATOR_INCREMENTATION PUNCTUATOR_SEMICOLON  { printf("Inc\n "); }
 | IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  { printf("Dec\n "); }
 | READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  { printf("READ \n"); }

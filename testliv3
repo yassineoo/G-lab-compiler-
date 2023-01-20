@@ -2,11 +2,13 @@ programe glab;
 
 
 var{
-int c=9+6,m=6+99,n;
+int c,m,n;
 
 }
 
 main{
+m=9*6;
+n=25;
 
 return 0;
 }
