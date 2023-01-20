@@ -124,16 +124,16 @@ char* identif;
 %type  <string> Term
 %type  <string> Fact
 
-%type  <integer> LogicExpression
-%type  <integer> LogicExpression1
-%type  <integer> LogicExpression2
-%type  <integer> LogicExpression3
+%type  <string> LogicExpression
+%type  <string> LogicExpression1
+%type  <string> LogicExpression2
+%type  <string> LogicExpression3
 
 
 
 
 %token  BOOL DOUBLE INT RETURN ELSE STRUCT STRINGTYPE  CHARTYPE  CONST  READ 
-%token  <string>TRUEBOOL <string>FALSEBOOL 
+%token  TRUEBOOL FALSEBOOL 
 %token  TYPE VAR WHILE WRITE TO FOR FUNCTIONS MAIN IF  PROGRAME VOID 
 %token  OPERATOR_PLUS OPERATOR_MINUS OPERATOR_MULTIPLICATION  OPERATOR_DEVISION	 OPERATOR_POWER OPERATOR_MOD	 OPERATOR_INCREMENTATION	 OPERATOR_DECREMENTATION
 
@@ -237,8 +237,6 @@ inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON {printf("Déclaration d'e
 
 ;
 
-
-
 declaration_entier :
  declaration_entier PUNCTUATOR_COMMA IDENTIFIER 
  {
@@ -258,6 +256,7 @@ declaration_entier :
 | declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
 {   if (recherche($3) !=NULL) {
     printf (" variable deja declarie");
+    
     // ajouter une qdp  (,,,) -------------- ? a confirmer 
   }
   else { 
@@ -303,326 +302,40 @@ declaration_entier :
 // | IDENTIFIER PUNCTUATOR_ASSIGN Expression
 ;
 declaration_char : 
-declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
-{   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-     sprintf(str,"%d",$5);
-    ajouter($3,0,3,str,0);
-    
-    affiche_dico();
-  }
-}
+declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR  
 | declaration_char PUNCTUATOR_COMMA IDENTIFIER 
-{
-   if (recherche($3) !=NULL) {
-    printf (" variable deja declaré");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    ajouter($3,0,3,"null",0);
-
-    printf ("  ajout avec secuus ");
-    affiche_dico();
-  }
- } 
 | IDENTIFIER PUNCTUATOR_ASSIGN CHAR 
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-     sprintf(str,"%d",$3);
-    ajouter($1,0,3,str,0);
-    
-    affiche_dico();
-  }
-}
+| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 | IDENTIFIER 
-{
-   if (recherche($1) !=NULL) {
-    printf (" variable deja declaré");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    ajouter($1,0,3,"null",0);
-
-    printf ("  ajout avec secuus ");
-    affiche_dico();
-  }
- } 
 ;
 declaration_real : 
  declaration_real PUNCTUATOR_COMMA IDENTIFIER 
- {
-   if (recherche($3) !=NULL) {
-    printf (" variable deja declaré");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    ajouter($3,0,2,"null",0);
-
-    printf ("  ajout avec secuus ");
-    affiche_dico();
-  }
- } 
 | declaration_real PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
-{   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-     sprintf(str,"%d",$5);
-    ajouter($3,0,2,str,0);
-    
-    affiche_dico();
-  }
-}
 | IDENTIFIER 
-{
-   if (recherche($1) !=NULL) {
-    printf (" variable deja declaré");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    ajouter($1,0,2,"null",0);
-
-    printf ("  ajout avec secuus ");
-    affiche_dico();
-  }
- }
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-     sprintf(str,"%d",$3);
-    ajouter($1,0,2,str,0);
-    
-    affiche_dico();
-  }
-}
+| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 ;
 declaration_string :
   declaration_string PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING  
-  {   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-     sprintf(str,"%d",$5);
-    ajouter($3,0,4,str,0);
-    
-    affiche_dico();
-  }
-}
 | declaration_string PUNCTUATOR_COMMA IDENTIFIER 
-{   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    ajouter($3,0,4,"null",0);
-    
-    affiche_dico();
-  }
-}
 | IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-     sprintf(str,"%d",$3);
-    ajouter($1,0,4,str,0);
-    
-    affiche_dico();
-  }
-}
+| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 | IDENTIFIER 
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    ajouter($1,0,4,"null",0);
-    
-    affiche_dico();
-  }
-}
 ;
-boolvalues : TRUEBOOL {strcpy($$, "true")} | FALSEBOOL  {strcpy($$, "false")} ;
+boolvalues : TRUEBOOL | FALSEBOOL ;
 declaration_bool : declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN boolvalues
-{   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$5);
-    ajouter($3,0,5,str,0)
-    
-    affiche_dico();
-  }
-}
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER 
-{   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$3);
-    ajouter($3,0,5,"null",0);
-    
-    affiche_dico();
-  }
-}
 | IDENTIFIER PUNCTUATOR_ASSIGN boolvalues 
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else {
-    char  str[20]; 
-    sprintf(str,"%d",$3); 
-    ajouter($1,0,5,str,0);
-    
-    affiche_dico();
-  }
-}
-| IDENTIFIER
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    ajouter($1,0,5,"null",0);
-    
-    affiche_dico();
-  }
-} 
+| IDENTIFIER 
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
-{   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$5);
-    ajouter($3,0,5,"null",0);
-    
-    affiche_dico();
-  }
-}
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$3);
-    ajouter($1,0,5,str,0);
-    
-    affiche_dico();
-  }
-}
+| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 ;
 declaration_const : 
  declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression 
- {   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$5);
-    ajouter($3,0,5,str,0);
-    
-    affiche_dico();
-  }
-}
 | declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$5);
-    ajouter($3,0,4,"null",0);
-    
-    affiche_dico();
-  }
-}
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$3);
-    ajouter($1,0,4,"null",0);
-    
-    affiche_dico();
-  }
-}
-| IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$3);
-    ajouter($1,0,1,"null",0);
-    
-    affiche_dico();
-  }
-}
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
-{   
-  if (recherche($1) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
-    char  str[20]; 
-    sprintf(str,"%d",$3);
-    ajouter($1,0,5,"null",0);
-    
-    affiche_dico();
-  }
-}
 ;
 //Structures utilisés dans les tableaux
 declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
@@ -698,7 +411,7 @@ inst :
   }
   else { 
     desc_identif* var  =  recherche($1) ;
-    if (var->type == 2){
+    if ((var->type == 2) || (var->type == 1)){
          char  str[20]; 
      sprintf(str,"%s",$3);
      modifier($1,0,1,str,0);
@@ -820,36 +533,128 @@ Fact2 :
   
 LogicExpression :
    LogicExpression1  {
+     printf("jojojo");
+    afficher_tbq();
+     printf("jojojo2-");
+
+
      $$ = $1; 
-   printf(" the resuluts is %d ",$$ );} | OPERATOR_NOT LogicExpression1 {$$ = 1-$2; 
-    printf(" the resuluts is ------------------ %d ",$$ );}
+   printf(" the resuluts is %d ",$$ );
+
+   } | OPERATOR_NOT LogicExpression1 {
+
+          char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",$2,"",str);
+    afficher_tbq();
+}
 ;
 LogicExpression1  :
-    LogicExpression1 OPERATOR_AND LogicExpression2 {  if (($1==1) && ($3==1)) {$$=1;} else $$=0;   }
-  | LogicExpression1 OPERATOR_OR LogicExpression2 {  if (($1==0) && ($3==0)) {$$=0;} else $$=1 ;}
-  | LogicExpression2 { $$ = $1;  }
+    LogicExpression1 OPERATOR_AND LogicExpression2 {  
+          char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",$1,"",str);
+    ajouter_quadruplet("b?","","","");
+    char str2[20]="r";
+  	sprintf(str_index,"%d",index_tbq);
+    $$=strdup(strcat(str2,str_index));
+    ajouter_quadruplet(":=",$3,"",str2);
+       }
+  | LogicExpression1 OPERATOR_OR LogicExpression2 {  
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",$1,"",str);
+    ajouter_quadruplet("b?","","","");
+    char str2[20]="r";
+  	sprintf(str_index,"%d",index_tbq);
+    $$=strdup(strcat(str2,str_index));
+    ajouter_quadruplet(":=",$3,"",str2);
+    }
+  | LogicExpression2 { $$ = $1; 
+   }
 ;
 LogicExpression2 : 
   LogicExpression3  {$$ = $1;} | PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS {$$ = $2;} 
 ;
 LogicExpression3 :
    CHAR OPERATOR_EQUALS  CHAR { 
-    if ($1 == $3 ) $$ = 1; else $$ = 0 ;
-    // ajouter_quadruplet(""); 
+      char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
      }
-  | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
+  | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { 
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
   | Expression OPERATOR_EQUALS  Expression { 
-    //ajouter_quadruplet("-",$1,$2,"r"+index_tbq);
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
     }
   
-  | CHAR OPERATOR_DEFFRENT  CHAR {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
-  | CONSTSTRING OPERATOR_DEFFRENT  CONSTSTRING {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_DEFFRENT Expression {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
+  | CHAR OPERATOR_DEFFRENT  CHAR {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | CONSTSTRING OPERATOR_DEFFRENT  CONSTSTRING {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_DEFFRENT Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
   
-  | Expression OPERATOR_INFERIER Expression {if ($1 < $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_INFERIEROREQUALS Expression {if ($1 <= $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_SUPERIER Expression {if ($1 > $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_SUPERIEROREQUALS Expression {if ($1 >= $3 ) $$ = 1;  else $$ = 0 ;}
+  | Expression OPERATOR_INFERIER Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_INFERIEROREQUALS Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_SUPERIER Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_SUPERIEROREQUALS Expression { 
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
   
 ;
 %%
