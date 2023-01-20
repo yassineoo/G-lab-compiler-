@@ -89,7 +89,10 @@ char* identif;
 
 
 
-
+  	
+  int suite;
+  int Lesle;
+  int Lif;
 
 
 
@@ -454,9 +457,13 @@ inst :
 | IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  { printf("Dec\n "); }
 | READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  { printf("READ \n"); }
 | WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  {printf("WRITE \n"); }
-| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression   PUNCTUATOR_CLOSE_PARENTHESIS Action  
-  { printf("IF \n"); }
-| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action  ELSE Action {printf("IF ELSE \n");}
+| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression {Lif=index_tbq;ajouter_quadruplet("bne","","","");}  PUNCTUATOR_CLOSE_PARENTHESIS Action  
+  { printf("IF \n");
+    char str[20];
+    sprintf(str,"%d",index_tbq);
+    modifier_quadruplet(Lif,"bne","","",str);
+  }
+//| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action  ELSE Action {printf("IF ELSE \n");}
 | WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS  Action        { printf("WHILE \n") ;}
 | FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { printf("FOR\n");}
 | return_statement {printf("Return\n");}
@@ -536,13 +543,9 @@ LogicExpression :
      printf("jojojo");
     afficher_tbq();
      printf("jojojo2-");
-
-
      $$ = $1; 
    printf(" the resuluts is %d ",$$ );
-
    } | OPERATOR_NOT LogicExpression1 {
-
           char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
   	char str[20]="r";
@@ -668,6 +671,7 @@ int yyerror(const char *s) {
 int main(void) {
   init();
   yyparse();
+  afficher_tbq();
 }
 void init(){
 	tbs=(table_des_symboles*)malloc(sizeof(table_des_symboles));
@@ -738,7 +742,7 @@ void affiche_dico() {
  	strcpy(tbq[pos].quatrieme,p4);
  }
  void afficher_quadruplet(int i){
-  	printf("(%s,%s,%s,%s)\n",tbq[i].premier,tbq[i].deuxieme,tbq[i].troisieme,tbq[i].quatrieme);
+  	printf("%d - (%s,%s,%s,%s)\n",i,tbq[i].premier,tbq[i].deuxieme,tbq[i].troisieme,tbq[i].quatrieme);
  }
  void afficher_tbq(){
  	int i;
