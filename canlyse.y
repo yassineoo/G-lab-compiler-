@@ -67,7 +67,24 @@ char* identif;
 	int modifier(char *identif, int classe, int type,char* value, int complement); //modifie un entrée 
 	void affiche_dico(void); //affiche toute les entrées
 	
-	
+
+// Table des Quadruplets
+  typedef struct Quadruplet Quadruplet;
+  struct Quadruplet{
+	char premier[20];
+	char deuxieme[20];
+	char troisieme[20];
+	char quatrieme[20];
+  };
+  
+  Quadruplet tbq[200];
+  int index_tbq = 0 ;
+  
+  // Fonctions
+  void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4); 
+  void afficher_quadruplet(int i);
+  void afficher_tbq();
+  void modifier_quadruplet(int pos, char* p1, char* p2, char* p3, char* p4);
 
 
 
@@ -541,7 +558,28 @@ void affiche_dico() {
         p=p->next;
     }
     printf ("%i",tbs->current_size);
-    
-
-	
 }
+
+ void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4){
+ 	strcpy(tbq[index_tbq].premier,p1);
+ 	strcpy(tbq[index_tbq].deuxieme,p2);
+ 	strcpy(tbq[index_tbq].troisieme,p3);
+ 	strcpy(tbq[index_tbq].quatrieme,p4);
+ 	index_tbq++;
+ }
+ void modifier_quadruplet(int pos, char* p1, char* p2, char* p3, char* p4){
+ 	strcpy(tbq[pos].premier,p1);
+ 	strcpy(tbq[pos].deuxieme,p2);
+ 	strcpy(tbq[pos].troisieme,p3);
+ 	strcpy(tbq[pos].quatrieme,p4);
+ }
+ void afficher_quadruplet(int i){
+  	printf("(%s,%s,%s,%s)\n",tbq[i].premier,tbq[i].deuxieme,tbq[i].troisieme,tbq[i].quatrieme);
+ }
+ void afficher_tbq(){
+ 	int i;
+ 	printf("Les quadruplets : \n");
+ 	for(i=0;i<index_tbq;i++){
+ 		afficher_quadruplet(i);
+ 	}
+ }
