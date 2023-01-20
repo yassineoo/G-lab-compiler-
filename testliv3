@@ -3,13 +3,16 @@ programe glab;
 
 var{
 int c;
-int n=50+1003;
+bool j;
+int n=50+1003*4/6+3-2;
 
 }
 
 main{
 
-
+while( (2>2) && (12<>4)) {
+    i++;
+}
 return 0;
 }
 

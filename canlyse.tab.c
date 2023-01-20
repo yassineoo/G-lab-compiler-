@@ -586,12 +586,12 @@ static const yytype_uint16 yyrline[] =
      364,   365,   366,   368,   369,   370,   372,   373,   374,   377,
      377,   378,   378,   380,   381,   383,   383,   384,   384,   385,
      385,   386,   386,   387,   387,   389,   390,   392,   392,   394,
-     395,   396,   397,   400,   400,   401,   403,   404,   407,   470,
-     471,   472,   473,   474,   476,   477,   478,   479,   483,   483,
-     484,   484,   484,   484,   484,   484,   488,   495,   500,   504,
-     509,   514,   519,   524,   527,   532,   537,   545,   547,   551,
-     552,   553,   556,   556,   559,   563,   564,   570,   571,   572,
-     574,   575,   576,   577
+     395,   396,   397,   400,   400,   401,   403,   404,   407,   453,
+     454,   455,   456,   457,   459,   460,   461,   462,   466,   466,
+     467,   467,   467,   467,   467,   467,   471,   479,   486,   489,
+     497,   504,   508,   515,   518,   523,   528,   535,   544,   555,
+     567,   579,   583,   583,   586,   593,   600,   608,   615,   622,
+     630,   637,   644,   651
 };
 #endif
 
@@ -1900,20 +1900,15 @@ yyreduce:
 #line 407 "canlyse.y" /* yacc.c:1646  */
     { 
    
-
-
   if (recherche((yyvsp[-3].string)) ==NULL) {
     printf (" variable non decalrie");
   }
   else { 
     desc_identif* var  =  recherche((yyvsp[-3].string)) ;
-    if (var->type == 2){
-
+    if ((var->type == 2) || (var->type == 1)){
          char  str[20]; 
      sprintf(str,"%s",(yyvsp[-1].string));
-
      modifier((yyvsp[-3].string),0,1,str,0);
-
      ajouter_quadruplet(":=" , (yyvsp[-3].string) , "",str);
        
      afficher_tbq();    
@@ -1923,162 +1918,167 @@ yyreduce:
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
-
-
-
     }
-#line 1931 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1923 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 470 "canlyse.y" /* yacc.c:1646  */
+#line 453 "canlyse.y" /* yacc.c:1646  */
     { printf("Inc\n "); }
-#line 1937 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1929 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 130:
-#line 471 "canlyse.y" /* yacc.c:1646  */
+#line 454 "canlyse.y" /* yacc.c:1646  */
     { printf("Dec\n "); }
-#line 1943 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1935 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 472 "canlyse.y" /* yacc.c:1646  */
+#line 455 "canlyse.y" /* yacc.c:1646  */
     { printf("READ \n"); }
-#line 1949 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1941 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 473 "canlyse.y" /* yacc.c:1646  */
+#line 456 "canlyse.y" /* yacc.c:1646  */
     {printf("WRITE \n"); }
-#line 1955 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1947 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 133:
-#line 475 "canlyse.y" /* yacc.c:1646  */
+#line 458 "canlyse.y" /* yacc.c:1646  */
     { printf("IF \n"); }
-#line 1961 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1953 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 476 "canlyse.y" /* yacc.c:1646  */
+#line 459 "canlyse.y" /* yacc.c:1646  */
     {printf("IF ELSE \n");}
-#line 1967 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1959 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 477 "canlyse.y" /* yacc.c:1646  */
+#line 460 "canlyse.y" /* yacc.c:1646  */
     { printf("WHILE \n") ;}
-#line 1973 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1965 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 136:
-#line 478 "canlyse.y" /* yacc.c:1646  */
+#line 461 "canlyse.y" /* yacc.c:1646  */
     { printf("FOR\n");}
-#line 1979 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1971 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 137:
-#line 479 "canlyse.y" /* yacc.c:1646  */
+#line 462 "canlyse.y" /* yacc.c:1646  */
     {printf("Return\n");}
-#line 1985 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1977 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 488 "canlyse.y" /* yacc.c:1646  */
+#line 471 "canlyse.y" /* yacc.c:1646  */
     {
-    (yyval.string)="r";
-    ajouter_quadruplet("+",(yyvsp[-2].string),(yyvsp[0].string),"r");
-    printf("|%s,------,%s|",(yyvsp[-2].string),(yyvsp[0].string));
-    afficher_tbq();
-
+  	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	(yyval.string)=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("+",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
+    	afficher_tbq();
    }
-#line 1997 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1990 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 495 "canlyse.y" /* yacc.c:1646  */
+#line 479 "canlyse.y" /* yacc.c:1646  */
     {
-     (yyval.string)="r";
-    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),"r");
-
+     	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	(yyval.string)=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
       }
-#line 2007 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2002 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 148:
-#line 500 "canlyse.y" /* yacc.c:1646  */
-    {(yyval.string) = (yyvsp[0].string);
-  printf("/n term: %s ",(yyval.string));}
-#line 2014 "canlyse.tab.c" /* yacc.c:1646  */
+#line 486 "canlyse.y" /* yacc.c:1646  */
+    {(yyval.string) = (yyvsp[0].string);}
+#line 2008 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 504 "canlyse.y" /* yacc.c:1646  */
+#line 489 "canlyse.y" /* yacc.c:1646  */
     {
-    (yyval.string)="r";
-    ajouter_quadruplet("*",(yyvsp[-2].string),(yyvsp[0].string),"r");
+    	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	(yyval.string)=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("*",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
   
    }
-#line 2024 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2021 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 509 "canlyse.y" /* yacc.c:1646  */
+#line 497 "canlyse.y" /* yacc.c:1646  */
     { 
-    (yyval.string)= "r";
-    ajouter_quadruplet("/",(yyvsp[-2].string),(yyvsp[0].string),"r");
-
+	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	(yyval.string)=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("/",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
    }
-#line 2034 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2033 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 151:
-#line 514 "canlyse.y" /* yacc.c:1646  */
+#line 504 "canlyse.y" /* yacc.c:1646  */
     {(yyval.string) = (yyvsp[0].string);
-  
   }
-#line 2042 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2040 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 152:
-#line 519 "canlyse.y" /* yacc.c:1646  */
+#line 508 "canlyse.y" /* yacc.c:1646  */
     {
-      (yyval.string)="r"; 
-      ajouter_quadruplet("**",(yyvsp[-2].string),(yyvsp[0].string),"r");
-
+      	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	(yyval.string)=strdup(strcat(str,str_index));
+      	ajouter_quadruplet("**",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
      }
 #line 2052 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 153:
-#line 524 "canlyse.y" /* yacc.c:1646  */
+#line 515 "canlyse.y" /* yacc.c:1646  */
     {(yyval.string) = (yyvsp[0].string);}
 #line 2058 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 154:
-#line 527 "canlyse.y" /* yacc.c:1646  */
+#line 518 "canlyse.y" /* yacc.c:1646  */
     {
       char str[50];
       sprintf(str,"%f",(yyvsp[0].real));
-       (yyval.string) = str;
+       (yyval.string) = strdup(str);
       }
 #line 2068 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 155:
-#line 532 "canlyse.y" /* yacc.c:1646  */
+#line 523 "canlyse.y" /* yacc.c:1646  */
     {
       char str[50];
       sprintf(str,"%d",(yyvsp[0].integer));
-       (yyval.string) = str;
+      (yyval.string) = strdup(str);
       }
 #line 2078 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 156:
-#line 537 "canlyse.y" /* yacc.c:1646  */
+#line 528 "canlyse.y" /* yacc.c:1646  */
     {
       (yyval.string)=(yyvsp[-1].string);
       }
@@ -2086,119 +2086,209 @@ yyreduce:
     break;
 
   case 157:
-#line 545 "canlyse.y" /* yacc.c:1646  */
+#line 535 "canlyse.y" /* yacc.c:1646  */
     {
-     (yyval.integer) = (yyvsp[0].integer); 
-   printf(" the resuluts is %d ",(yyval.integer) );}
-#line 2094 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
+     printf("jojojo");
+    afficher_tbq();
+     printf("jojojo2-");
 
-  case 158:
-#line 547 "canlyse.y" /* yacc.c:1646  */
-    {(yyval.integer) = 1-(yyvsp[0].integer); 
-    printf(" the resuluts is ------------------ %d ",(yyval.integer) );}
+
+     (yyval.string) = (yyvsp[0].string); 
+   printf(" the resuluts is %d ",(yyval.string) );
+
+   }
 #line 2101 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
+  case 158:
+#line 544 "canlyse.y" /* yacc.c:1646  */
+    {
+
+          char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",(yyvsp[0].string),"",str);
+    afficher_tbq();
+}
+#line 2115 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
   case 159:
-#line 551 "canlyse.y" /* yacc.c:1646  */
-    {  if (((yyvsp[-2].integer)==1) && ((yyvsp[0].integer)==1)) {(yyval.integer)=1;} else (yyval.integer)=0;   }
-#line 2107 "canlyse.tab.c" /* yacc.c:1646  */
+#line 555 "canlyse.y" /* yacc.c:1646  */
+    {  
+          char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",(yyvsp[-2].string),"",str);
+    ajouter_quadruplet("b?","","","");
+    char str2[20]="r";
+  	sprintf(str_index,"%d",index_tbq);
+    (yyval.string)=strdup(strcat(str2,str_index));
+    ajouter_quadruplet(":=",(yyvsp[0].string),"",str2);
+       }
+#line 2132 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 160:
-#line 552 "canlyse.y" /* yacc.c:1646  */
-    {  if (((yyvsp[-2].integer)==0) && ((yyvsp[0].integer)==0)) {(yyval.integer)=0;} else (yyval.integer)=1 ;}
-#line 2113 "canlyse.tab.c" /* yacc.c:1646  */
+#line 567 "canlyse.y" /* yacc.c:1646  */
+    {  
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",(yyvsp[-2].string),"",str);
+    ajouter_quadruplet("b?","","","");
+    char str2[20]="r";
+  	sprintf(str_index,"%d",index_tbq);
+    (yyval.string)=strdup(strcat(str2,str_index));
+    ajouter_quadruplet(":=",(yyvsp[0].string),"",str2);
+    }
+#line 2149 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 161:
-#line 553 "canlyse.y" /* yacc.c:1646  */
-    { (yyval.integer) = (yyvsp[0].integer);  }
-#line 2119 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 162:
-#line 556 "canlyse.y" /* yacc.c:1646  */
-    {(yyval.integer) = (yyvsp[0].integer);}
-#line 2125 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 163:
-#line 556 "canlyse.y" /* yacc.c:1646  */
-    {(yyval.integer) = (yyvsp[-1].integer);}
-#line 2131 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 164:
-#line 559 "canlyse.y" /* yacc.c:1646  */
-    { 
-    if ((yyvsp[-2].charecter) == (yyvsp[0].charecter) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;
-    // ajouter_quadruplet(""); 
-     }
-#line 2140 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 165:
-#line 563 "canlyse.y" /* yacc.c:1646  */
-    { if ((yyvsp[-2].string) == (yyvsp[0].string) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;}
-#line 2146 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 166:
-#line 564 "canlyse.y" /* yacc.c:1646  */
-    { 
-    //ajouter_quadruplet("-",$1,$2,"r"+index_tbq);
-
-
-    }
+#line 579 "canlyse.y" /* yacc.c:1646  */
+    { (yyval.string) = (yyvsp[0].string); 
+   }
 #line 2156 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
-  case 167:
-#line 570 "canlyse.y" /* yacc.c:1646  */
-    {if ((yyvsp[-2].charecter) != (yyvsp[0].charecter) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;}
+  case 162:
+#line 583 "canlyse.y" /* yacc.c:1646  */
+    {(yyval.string) = (yyvsp[0].string);}
 #line 2162 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
-  case 168:
-#line 571 "canlyse.y" /* yacc.c:1646  */
-    {if ((yyvsp[-2].string) != (yyvsp[0].string) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;}
+  case 163:
+#line 583 "canlyse.y" /* yacc.c:1646  */
+    {(yyval.string) = (yyvsp[-1].string);}
 #line 2168 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
-  case 169:
-#line 572 "canlyse.y" /* yacc.c:1646  */
-    {if ((yyvsp[-2].string) != (yyvsp[0].string) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;}
-#line 2174 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 170:
-#line 574 "canlyse.y" /* yacc.c:1646  */
-    {if ((yyvsp[-2].string) < (yyvsp[0].string) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;}
+  case 164:
+#line 586 "canlyse.y" /* yacc.c:1646  */
+    { 
+      char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].charecter),(yyvsp[0].charecter),str);
+     }
 #line 2180 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
-  case 171:
-#line 575 "canlyse.y" /* yacc.c:1646  */
-    {if ((yyvsp[-2].string) <= (yyvsp[0].string) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;}
-#line 2186 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 172:
-#line 576 "canlyse.y" /* yacc.c:1646  */
-    {if ((yyvsp[-2].string) > (yyvsp[0].string) ) (yyval.integer) = 1; else (yyval.integer) = 0 ;}
+  case 165:
+#line 593 "canlyse.y" /* yacc.c:1646  */
+    { 
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+  }
 #line 2192 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
+  case 166:
+#line 600 "canlyse.y" /* yacc.c:1646  */
+    { 
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+    }
+#line 2204 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 167:
+#line 608 "canlyse.y" /* yacc.c:1646  */
+    {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].charecter),(yyvsp[0].charecter),str);
+  }
+#line 2216 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 168:
+#line 615 "canlyse.y" /* yacc.c:1646  */
+    {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+  }
+#line 2228 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 169:
+#line 622 "canlyse.y" /* yacc.c:1646  */
+    {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+  }
+#line 2240 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 170:
+#line 630 "canlyse.y" /* yacc.c:1646  */
+    {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+  }
+#line 2252 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 171:
+#line 637 "canlyse.y" /* yacc.c:1646  */
+    {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+  }
+#line 2264 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 172:
+#line 644 "canlyse.y" /* yacc.c:1646  */
+    {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+  }
+#line 2276 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
   case 173:
-#line 577 "canlyse.y" /* yacc.c:1646  */
-    {if ((yyvsp[-2].string) >= (yyvsp[0].string) ) (yyval.integer) = 1;  else (yyval.integer) = 0 ;}
-#line 2198 "canlyse.tab.c" /* yacc.c:1646  */
+#line 651 "canlyse.y" /* yacc.c:1646  */
+    { 
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  (yyval.string)=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
+  }
+#line 2288 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2202 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2292 "canlyse.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2426,7 +2516,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 580 "canlyse.y" /* yacc.c:1906  */
+#line 660 "canlyse.y" /* yacc.c:1906  */
 
 /*int yyerror( char const *s) {
   /*fprintf(stderr,"File test.txt | Line: %d %s\n",line_num,s);
@@ -2464,12 +2554,10 @@ void ajouter(char *identif, int classe, int type,char * value, int complement){
          tbs->root = t;
 tbs->tail = t;
 	tbs->current_size++;
-
         }else{
   tbs->tail->next=t;        
 	tbs->tail = t;
 	tbs->current_size++;
-
         }
 }
 int modifier(char *identif, int classe, int type,char * value, int complement){
@@ -2484,15 +2572,11 @@ int modifier(char *identif, int classe, int type,char * value, int complement){
 void affiche_dico() {
 	desc_identif* p;
   
-
-
     if (p == NULL)
     {
         printf("\n this is a printf NULL \n");
     }
-
      p = tbs->root;
-
     while (p != NULL)
     {
         printf("%s |%d |%d | %s |%d" , p->identif ,p->classe , p->type , p->value ,p->complement ) ;
@@ -2500,7 +2584,6 @@ void affiche_dico() {
     }
     printf ("%i",tbs->current_size);
 }
-
  void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4){
  	strcpy(tbq[index_tbq].premier,p1);
  	strcpy(tbq[index_tbq].deuxieme,p2);

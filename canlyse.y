@@ -124,10 +124,10 @@ char* identif;
 %type  <string> Term
 %type  <string> Fact
 
-%type  <integer> LogicExpression
-%type  <integer> LogicExpression1
-%type  <integer> LogicExpression2
-%type  <integer> LogicExpression3
+%type  <string> LogicExpression
+%type  <string> LogicExpression1
+%type  <string> LogicExpression2
+%type  <string> LogicExpression3
 
 
 
@@ -406,20 +406,15 @@ instList : instList   inst
 inst :
  IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON  { 
    
-
-
   if (recherche($1) ==NULL) {
     printf (" variable non decalrie");
   }
   else { 
     desc_identif* var  =  recherche($1) ;
-    if (var->type == 2){
-
+    if ((var->type == 2) || (var->type == 1)){
          char  str[20]; 
      sprintf(str,"%s",$3);
-
      modifier($1,0,1,str,0);
-
      ajouter_quadruplet(":=" , $1 , "",str);
        
      afficher_tbq();    
@@ -429,29 +424,20 @@ inst :
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
-
-
-
     }
-
     /*
 |IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON 
 { 
    
-
-
   if (recherche($1) ==NULL) {
     printf (" variable non decalrie");
   }
   else { 
     desc_identif* var  =  recherche($1) ;
     if (var->type == 1){
-
          char  str[20]; 
      sprintf(str,"%d",$3);
     modifier($1,0,1,str,0);
-
-
     
      ajouter_quadruplet(":=" , $1 , "",str);
        
@@ -462,9 +448,6 @@ inst :
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
-
-
-
     }
 */
 | IDENTIFIER OPERATOR_INCREMENTATION PUNCTUATOR_SEMICOLON  { printf("Inc\n "); }
@@ -486,40 +469,48 @@ Parmeter  : NUMBER | CONSTSTRING | REAL | CHAR | IDENTIFIER |
 Expression:
    
   Expression OPERATOR_PLUS Term {
-    $$="r";
-    ajouter_quadruplet("+",$1,$3,"r");
-    printf("|%s,------,%s|",$1,$3);
-    afficher_tbq();
-
+  	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("+",$1,$3,$$);
+    	afficher_tbq();
    }
   |Expression OPERATOR_MINUS Term {
-     $$="r";
-    ajouter_quadruplet("-",$1,$3,"r");
-
+     	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("-",$1,$3,$$);
       }
-  | Term {$$ = $1;
-  printf("/n term: %s ",$$);} 
+  | Term {$$ = $1;}
   ;
 Term: 
   Term OPERATOR_MULTIPLICATION Fact  {
-    $$="r";
-    ajouter_quadruplet("*",$1,$3,"r");
+    	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("*",$1,$3,$$);
   
    }
   |Term OPERATOR_DEVISION Fact  { 
-    $$= "r";
-    ajouter_quadruplet("/",$1,$3,"r");
-
+	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+    	ajouter_quadruplet("/",$1,$3,$$);
    }
   | Fact {$$ = $1;
-  
   }
   ;
 Fact : 
   Fact OPERATOR_POWER Fact2 {
-      $$="r"; 
-      ajouter_quadruplet("**",$1,$3,"r");
-
+      	char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	$$=strdup(strcat(str,str_index));
+      	ajouter_quadruplet("**",$1,$3,$$);
      }
   | Fact2 {$$ = $1;}
   ;
@@ -527,54 +518,143 @@ Fact2 :
    REAL      {
       char str[50];
       sprintf(str,"%f",$1);
-       $$ = str;
+       $$ = strdup(str);
       } 
   |NUMBER      {
       char str[50];
       sprintf(str,"%d",$1);
-      $$ = str;
+      $$ = strdup(str);
       }
   |PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS  {
       $$=$2;
       }
   ;  
  
-
   
 LogicExpression :
    LogicExpression1  {
+     printf("jojojo");
+    afficher_tbq();
+     printf("jojojo2-");
+
+
      $$ = $1; 
-   printf(" the resuluts is %d ",$$ );} | OPERATOR_NOT LogicExpression1 {$$ = 1-$2; 
-    printf(" the resuluts is ------------------ %d ",$$ );}
+   printf(" the resuluts is %d ",$$ );
+
+   } | OPERATOR_NOT LogicExpression1 {
+
+          char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",$2,"",str);
+    afficher_tbq();
+}
 ;
 LogicExpression1  :
-    LogicExpression1 OPERATOR_AND LogicExpression2 {  if (($1==1) && ($3==1)) {$$=1;} else $$=0;   }
-  | LogicExpression1 OPERATOR_OR LogicExpression2 {  if (($1==0) && ($3==0)) {$$=0;} else $$=1 ;}
-  | LogicExpression2 { $$ = $1;  }
+    LogicExpression1 OPERATOR_AND LogicExpression2 {  
+          char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",$1,"",str);
+    ajouter_quadruplet("b?","","","");
+    char str2[20]="r";
+  	sprintf(str_index,"%d",index_tbq);
+    $$=strdup(strcat(str2,str_index));
+    ajouter_quadruplet(":=",$3,"",str2);
+       }
+  | LogicExpression1 OPERATOR_OR LogicExpression2 {  
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet(":=",$1,"",str);
+    ajouter_quadruplet("b?","","","");
+    char str2[20]="r";
+  	sprintf(str_index,"%d",index_tbq);
+    $$=strdup(strcat(str2,str_index));
+    ajouter_quadruplet(":=",$3,"",str2);
+    }
+  | LogicExpression2 { $$ = $1; 
+   }
 ;
 LogicExpression2 : 
   LogicExpression3  {$$ = $1;} | PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS {$$ = $2;} 
 ;
 LogicExpression3 :
    CHAR OPERATOR_EQUALS  CHAR { 
-    if ($1 == $3 ) $$ = 1; else $$ = 0 ;
-    // ajouter_quadruplet(""); 
+      char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
      }
-  | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
+  | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { 
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
   | Expression OPERATOR_EQUALS  Expression { 
-    //ajouter_quadruplet("-",$1,$2,"r"+index_tbq);
-
-
+    char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
     }
   
-  | CHAR OPERATOR_DEFFRENT  CHAR {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
-  | CONSTSTRING OPERATOR_DEFFRENT  CONSTSTRING {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_DEFFRENT Expression {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
+  | CHAR OPERATOR_DEFFRENT  CHAR {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | CONSTSTRING OPERATOR_DEFFRENT  CONSTSTRING {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_DEFFRENT Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
   
-  | Expression OPERATOR_INFERIER Expression {if ($1 < $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_INFERIEROREQUALS Expression {if ($1 <= $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_SUPERIER Expression {if ($1 > $3 ) $$ = 1; else $$ = 0 ;}
-  | Expression OPERATOR_SUPERIEROREQUALS Expression {if ($1 >= $3 ) $$ = 1;  else $$ = 0 ;}
+  | Expression OPERATOR_INFERIER Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_INFERIEROREQUALS Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_SUPERIER Expression {
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
+  | Expression OPERATOR_SUPERIEROREQUALS Expression { 
+        char str_index[20];
+  	sprintf(str_index,"%d",index_tbq);
+  	char str[20]="r";
+	  $$=strdup(strcat(str,str_index));
+    ajouter_quadruplet("-",$1,$3,str);
+  }
   
 ;
 %%
@@ -614,12 +694,10 @@ void ajouter(char *identif, int classe, int type,char * value, int complement){
          tbs->root = t;
 tbs->tail = t;
 	tbs->current_size++;
-
         }else{
   tbs->tail->next=t;        
 	tbs->tail = t;
 	tbs->current_size++;
-
         }
 }
 int modifier(char *identif, int classe, int type,char * value, int complement){
@@ -634,15 +712,11 @@ int modifier(char *identif, int classe, int type,char * value, int complement){
 void affiche_dico() {
 	desc_identif* p;
   
-
-
     if (p == NULL)
     {
         printf("\n this is a printf NULL \n");
     }
-
      p = tbs->root;
-
     while (p != NULL)
     {
         printf("%s |%d |%d | %s |%d" , p->identif ,p->classe , p->type , p->value ,p->complement ) ;
@@ -650,7 +724,6 @@ void affiche_dico() {
     }
     printf ("%i",tbs->current_size);
 }
-
  void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4){
  	strcpy(tbq[index_tbq].premier,p1);
  	strcpy(tbq[index_tbq].deuxieme,p2);
