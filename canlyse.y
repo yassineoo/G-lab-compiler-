@@ -108,7 +108,7 @@ char* identif;
   double real;
   char charecter ;
   char *string;
-  
+  int boolean;
 }
 
 
@@ -137,7 +137,7 @@ char* identif;
 
 
 %token  BOOL DOUBLE INT RETURN ELSE STRUCT STRINGTYPE  CHARTYPE  CONST  READ 
-%token  TRUEBOOL FALSEBOOL 
+%token  <string>TRUEBOOL <string>FALSEBOOL 
 %token  TYPE VAR WHILE WRITE TO FOR FUNCTIONS MAIN IF  PROGRAME VOID 
 %token  OPERATOR_PLUS OPERATOR_MINUS OPERATOR_MULTIPLICATION  OPERATOR_DEVISION	 OPERATOR_POWER OPERATOR_MOD	 OPERATOR_INCREMENTATION	 OPERATOR_DECREMENTATION
 
@@ -241,6 +241,8 @@ inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON {printf("Déclaration d'e
 
 ;
 
+
+
 declaration_entier :
  declaration_entier PUNCTUATOR_COMMA IDENTIFIER 
  {
@@ -258,7 +260,6 @@ declaration_entier :
 | declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
 {   if (recherche($3) !=NULL) {
     printf (" variable deja declarie");
-    
     // ajouter une qdp  (,,,) -------------- ? a confirmer 
   }
   else { 
@@ -299,41 +300,326 @@ declaration_entier :
 // | IDENTIFIER PUNCTUATOR_ASSIGN Expression
 ;
 declaration_char : 
-declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR  
+declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$5);
+    ajouter($3,0,3,str,0);
+    
+    affiche_dico();
+  }
+}
 | declaration_char PUNCTUATOR_COMMA IDENTIFIER 
+{
+   if (recherche($3) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,3,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ } 
 | IDENTIFIER PUNCTUATOR_ASSIGN CHAR 
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$3);
+    ajouter($1,0,3,str,0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER 
+{
+   if (recherche($1) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,3,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ } 
 ;
 declaration_real : 
  declaration_real PUNCTUATOR_COMMA IDENTIFIER 
+ {
+   if (recherche($3) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,2,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ } 
 | declaration_real PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$5);
+    ajouter($3,0,2,str,0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER 
+{
+   if (recherche($1) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,2,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ }
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$3);
+    ajouter($1,0,2,str,0);
+    
+    affiche_dico();
+  }
+}
 ;
 declaration_string :
   declaration_string PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING  
+  {   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$5);
+    ajouter($3,0,4,str,0);
+    
+    affiche_dico();
+  }
+}
 | declaration_string PUNCTUATOR_COMMA IDENTIFIER 
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,4,"null",0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$3);
+    ajouter($1,0,4,str,0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER 
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,4,"null",0);
+    
+    affiche_dico();
+  }
+}
 ;
-boolvalues : TRUEBOOL | FALSEBOOL ;
+boolvalues : TRUEBOOL {strcpy($$, "true")} | FALSEBOOL  {strcpy($$, "false")} ;
 declaration_bool : declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN boolvalues
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$5);
+    ajouter($3,0,5,str,0)
+    
+    affiche_dico();
+  }
+}
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER 
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$3);
+    ajouter($3,0,5,"null",0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN boolvalues 
-| IDENTIFIER 
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else {
+    char  str[20]; 
+    sprintf(str,"%d",$3); 
+    ajouter($1,0,5,str,0);
+    
+    affiche_dico();
+  }
+}
+| IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,5,"null",0);
+    
+    affiche_dico();
+  }
+} 
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$5);
+    ajouter($3,0,5,"null",0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$3);
+    ajouter($1,0,5,str,0);
+    
+    affiche_dico();
+  }
+}
 ;
 declaration_const : 
  declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression 
+ {   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$5);
+    ajouter($3,0,5,str,0);
+    
+    affiche_dico();
+  }
+}
 | declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$5);
+    ajouter($3,0,4,"null",0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$3);
+    ajouter($1,0,4,"null",0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$3);
+    ajouter($1,0,1,"null",0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+    sprintf(str,"%d",$3);
+    ajouter($1,0,5,"null",0);
+    
+    affiche_dico();
+  }
+}
 ;
 //Structures utilisés dans les tableaux
 declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
