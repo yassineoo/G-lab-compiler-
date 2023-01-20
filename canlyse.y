@@ -406,20 +406,15 @@ instList : instList   inst
 inst :
  IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON  { 
    
-
-
   if (recherche($1) ==NULL) {
     printf (" variable non decalrie");
   }
   else { 
     desc_identif* var  =  recherche($1) ;
     if (var->type == 2){
-
          char  str[20]; 
      sprintf(str,"%s",$3);
-
      modifier($1,0,1,str,0);
-
      ajouter_quadruplet(":=" , $1 , "",str);
        
      afficher_tbq();    
@@ -429,29 +424,20 @@ inst :
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
-
-
-
     }
-
     /*
 |IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON 
 { 
    
-
-
   if (recherche($1) ==NULL) {
     printf (" variable non decalrie");
   }
   else { 
     desc_identif* var  =  recherche($1) ;
     if (var->type == 1){
-
          char  str[20]; 
      sprintf(str,"%d",$3);
     modifier($1,0,1,str,0);
-
-
     
      ajouter_quadruplet(":=" , $1 , "",str);
        
@@ -462,9 +448,6 @@ inst :
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
-
-
-
     }
 */
 | IDENTIFIER OPERATOR_INCREMENTATION PUNCTUATOR_SEMICOLON  { printf("Inc\n "); }
@@ -490,12 +473,10 @@ Expression:
     ajouter_quadruplet("+",$1,$3,"r");
     printf("|%s,------,%s|",$1,$3);
     afficher_tbq();
-
    }
   |Expression OPERATOR_MINUS Term {
      $$="r";
     ajouter_quadruplet("-",$1,$3,"r");
-
       }
   | Term {$$ = $1;
   printf("/n term: %s ",$$);} 
@@ -509,17 +490,15 @@ Term:
   |Term OPERATOR_DEVISION Fact  { 
     $$= "r";
     ajouter_quadruplet("/",$1,$3,"r");
-
    }
   | Fact {$$ = $1;
-  
+  printf("/n fact: %s ",$$);
   }
   ;
 Fact : 
   Fact OPERATOR_POWER Fact2 {
       $$="r"; 
       ajouter_quadruplet("**",$1,$3,"r");
-
      }
   | Fact2 {$$ = $1;}
   ;
@@ -527,19 +506,20 @@ Fact2 :
    REAL      {
       char str[50];
       sprintf(str,"%f",$1);
-       $$ = str;
+       $$ = strdup(str);
+       printf("/n real: %s ",$$);
       } 
   |NUMBER      {
       char str[50];
       sprintf(str,"%d",$1);
-      $$ = str;
+      $$ = strdup(str);
+      printf("/n number: %s ",$$);
       }
   |PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS  {
       $$=$2;
       }
   ;  
  
-
   
 LogicExpression :
    LogicExpression1  {
@@ -563,8 +543,6 @@ LogicExpression3 :
   | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
   | Expression OPERATOR_EQUALS  Expression { 
     //ajouter_quadruplet("-",$1,$2,"r"+index_tbq);
-
-
     }
   
   | CHAR OPERATOR_DEFFRENT  CHAR {if ($1 != $3 ) $$ = 1; else $$ = 0 ;}
@@ -614,12 +592,10 @@ void ajouter(char *identif, int classe, int type,char * value, int complement){
          tbs->root = t;
 tbs->tail = t;
 	tbs->current_size++;
-
         }else{
   tbs->tail->next=t;        
 	tbs->tail = t;
 	tbs->current_size++;
-
         }
 }
 int modifier(char *identif, int classe, int type,char * value, int complement){
@@ -634,15 +610,11 @@ int modifier(char *identif, int classe, int type,char * value, int complement){
 void affiche_dico() {
 	desc_identif* p;
   
-
-
     if (p == NULL)
     {
         printf("\n this is a printf NULL \n");
     }
-
      p = tbs->root;
-
     while (p != NULL)
     {
         printf("%s |%d |%d | %s |%d" , p->identif ,p->classe , p->type , p->value ,p->complement ) ;
@@ -650,7 +622,6 @@ void affiche_dico() {
     }
     printf ("%i",tbs->current_size);
 }
-
  void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4){
  	strcpy(tbq[index_tbq].premier,p1);
  	strcpy(tbq[index_tbq].deuxieme,p2);
