@@ -30,10 +30,65 @@ Third part
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 int yylex();
+extern int line_count;
 int yyerror(const char *s);
+
+
+
+
+
+
+//Définition d'une entrée dans la tables des symboles
+
+typedef struct desc_identif desc_identif;
+struct  desc_identif {
+char* identif;
+	int classe; // -  or glob or arg or loc
+	int type;  // int ... || fun || struct || table ||
+	char* value; 
+	int complement; /* taille des tableaux, nb de param des fct */
+	desc_identif* next;
+	};
+   
+        //définition de la table des symboles : listes chainées des entrées
+  typedef struct table_des_symboles table_des_symboles;
+  struct table_des_symboles{
+	desc_identif* root; //1er entrée
+	desc_identif* tail; //derniere entrée
+	int current_size; //taille de la table
+   };
+
+   //variable globale de la table des symboles
+
+   table_des_symboles* tbs;
+
+   //entetes des fonction pour la manipulation de la table des symboles
+   
+  	void init(); //initialise la table 
+	desc_identif* recherche(char *identif); //retourn l'adresse de lentrée dans la table
+	void ajouter(char *identif, int classe, int type,char* value, int complement); //ajoute une entrée en fin de table
+	int modifier(char *identif, int classe, int type,char* value, int complement); //modifie un entrée 
+	void affiche_dico(void); //affiche toute les entrées
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 %}
 
 
@@ -49,7 +104,7 @@ int yyerror(const char *s);
 
 
 %token  <integer>NUMBER    <real>REAL <charecter>CHAR  <string>CONSTSTRING <string>IDENTIFIER  
-%token   PLUS  MOINS FOIS   DIVISE  PUISSANCE
+
 %token  PARENTHESE_GAUCHE PARENTHESE_DROITE
 
 %type  <integer> IntExpression
@@ -114,7 +169,7 @@ Programe: PROGRAME IDENTIFIER PUNCTUATOR_SEMICOLON main_struct   {printf("\n----
 ;
 
 //------------------------------- MAIN ----------------------------------------
-main_struct : {printf("\n---------- Main ----------\n\n");}MAIN Action_main  ;
+main_struct : MAIN Action_main;
 Action_main : PUNCTUATOR_OPEN_CURLY  instList  PUNCTUATOR_CLOSE_CURLY | inst ;
 return_statement : return_statement_int|
 return_statement_double |
@@ -122,22 +177,27 @@ return_statement_string |
 return_statement_char
 ;
 //------------------------------- TYPE ----------------------------------------
-type_struct : {printf("\n---------- Type ----------\n\n");}TYPE Action_type;
+type_struct : TYPE Action_type;
 Action_type : PUNCTUATOR_OPEN_CURLY  instList_type  PUNCTUATOR_CLOSE_CURLY | inst_type ;
 ;
 instList_type : instList_type inst_type
 | inst_type 
 ;
 
-inst_type : {printf("**** Définition d'une Structure ****\n");}STRUCT IDENTIFIER PUNCTUATOR_OPEN_CURLY instList_var PUNCTUATOR_CLOSE_CURLY PUNCTUATOR_SEMICOLON {printf("************************************\n");}
+inst_type : STRUCT IDENTIFIER PUNCTUATOR_OPEN_CURLY instList_var PUNCTUATOR_CLOSE_CURLY PUNCTUATOR_SEMICOLON {printf("Structure définie\n\n");}
 ;
 
 //------------------------------- VAR ----------------------------------------
-var_struct : {printf("\n---------- Var ----------\n\n");} VAR Action_var;
+var_struct : VAR Action_var;
 Action_var : PUNCTUATOR_OPEN_CURLY  instList_var  PUNCTUATOR_CLOSE_CURLY | inst_var ;
 instList_var : instList_var inst_var 
 | inst_var
 ;
+
+
+
+
+
 
 inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON {printf("Déclaration d'entiers\n");}
 
@@ -147,9 +207,11 @@ inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON {printf("Déclaration d'e
 
 | STRINGTYPE declaration_string PUNCTUATOR_SEMICOLON {printf("Déclaration de strings\n");}
 
+
 | BOOL declaration_bool PUNCTUATOR_SEMICOLON {printf("Déclaration de booléens\n");}
 
 | CONST declaration_const PUNCTUATOR_SEMICOLON {printf("Déclaration de constantes\n");}
+
 
 //Tableaux
 | INT declaration_tabint PUNCTUATOR_SEMICOLON {printf("Déclaration de tableau d'entiers\n");}
@@ -163,10 +225,27 @@ inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON {printf("Déclaration d'e
 | BOOL declaration_tabbool PUNCTUATOR_SEMICOLON {printf("Déclaration de tableau de booléens\n");}
 ;
 
+
+
+
+
+;
+
 declaration_entier :
  declaration_entier PUNCTUATOR_COMMA IDENTIFIER 
 | declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
-| IDENTIFIER 
+| IDENTIFIER {
+  // serch in TB  if is it existe or not  and genearate erore;
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,1,0,0);
+    printf ("  ajout avec secuus ");
+  //  affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
 | IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 
@@ -195,7 +274,7 @@ declaration_real :
 declaration_string :
   declaration_string PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING  
 | declaration_string PUNCTUATOR_COMMA IDENTIFIER 
-| IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING 
+| IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING
 | IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 | IDENTIFIER 
 ;
@@ -217,59 +296,66 @@ declaration_const :
  declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression 
 | declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression
+| IDENTIFIER PUNCTUATOR_ASSIGN IntExpression
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
 ;
 
-declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabint PUNCTUATOR_CLOSE_BRACKET
-;
+
+
 
 //Structures utilisés dans les tableaux
+
+declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabint PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+;
+
+
 declaration_tabreal : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabreal PUNCTUATOR_CLOSE_BRACKET
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabreal PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
 ;
 
 declaration_tabstring : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabstring PUNCTUATOR_CLOSE_BRACKET
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabstring PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
 ;
 
 declaration_tabchar : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabchar PUNCTUATOR_CLOSE_BRACKET
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabchar PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
 ;
 
 declaration_tabbool : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabbool PUNCTUATOR_CLOSE_BRACKET
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabbool PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
 ;
 
 element_tabint : element_tabint PUNCTUATOR_COMMA NUMBER
 | element_tabint PUNCTUATOR_COMMA IDENTIFIER
 | NUMBER
-| IDENTIFIER
 ;
 
 element_tabreal : element_tabreal PUNCTUATOR_COMMA REAL
 | element_tabreal PUNCTUATOR_COMMA IDENTIFIER
 | REAL
-| IDENTIFIER
 ;
 
 element_tabstring : element_tabstring PUNCTUATOR_COMMA CONSTSTRING
 | element_tabstring PUNCTUATOR_COMMA IDENTIFIER
 | CONSTSTRING
-| IDENTIFIER
+
 ;
 
 element_tabchar : element_tabchar PUNCTUATOR_COMMA CHAR
 | element_tabchar PUNCTUATOR_COMMA IDENTIFIER
 | CHAR
-| IDENTIFIER
+
 ;
 
 element_tabbool : element_tabbool PUNCTUATOR_COMMA boolvalues
 | element_tabbool PUNCTUATOR_COMMA IDENTIFIER
 | boolvalues
-| IDENTIFIER
+
 ;
+
+
+
 
 //------------------------------- FUNCTIONS ----------------------------------------
 functions_struct : {printf("\n---------- Functions ----------\n\n");} FUNCTIONS Action_function;
@@ -296,7 +382,6 @@ return_statement_int :  RETURN IntExpression PUNCTUATOR_SEMICOLON;
 return_statement_double :  RETURN Expression PUNCTUATOR_SEMICOLON;
 return_statement_string : RETURN CONSTSTRING PUNCTUATOR_SEMICOLON ;
 return_statement_char : RETURN CHAR PUNCTUATOR_SEMICOLON ;
-
 //-------------------------------ACTION-------------------------------------
 // Ation is a block or a single Instruction 
 Action : PUNCTUATOR_OPEN_CURLY  instList   PUNCTUATOR_CLOSE_CURLY | inst ;
@@ -318,8 +403,8 @@ inst :
 |IDENTIFIER PUNCTUATOR_ASSIGN IntExpression PUNCTUATOR_SEMICOLON  { printf("Assign %d \n " , $3); }
 | IDENTIFIER OPERATOR_INCREMENTATION PUNCTUATOR_SEMICOLON  { printf("Inc\n "); }
 | IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  { printf("Dec\n "); }
-| READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS { printf("READ \n"); }
-| WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS  {printf("WRITE \n"); }
+| READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  { printf("READ \n"); }
+| WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  {printf("WRITE \n"); }
 | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression   PUNCTUATOR_CLOSE_PARENTHESIS Action    { printf("IF \n"); }
 | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action  ELSE Action {printf("IF ELSE \n");}
 | WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS  Action        { printf("WHILE \n") ;}
@@ -372,7 +457,7 @@ IntFact :
   |IntFact OPERATOR_MOD IntFact2 { $$=$1%$3; }
   | IntFact2
 IntFact2 : 
-   NUMBER      { $$=$1; } 
+   NUMBER      { $$=$1; }  
   |PUNCTUATOR_OPEN_PARENTHESIS IntExpression PUNCTUATOR_CLOSE_PARENTHESIS  { $$=$2; }
   ;  
 
@@ -396,7 +481,7 @@ LogicExpression2 :
 
 LogicExpression3 :
    CHAR OPERATOR_EQUALS  CHAR { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
-  | CONSTSTRING OPERATOR_EQUALS  CONSTSTRING { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
+  | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
   | Expression OPERATOR_EQUALS  Expression { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
   | IntExpression OPERATOR_EQUALS  IntExpression { if ($1 == $3 ) $$ = 1; else $$ = 0 ;}
   
@@ -419,14 +504,129 @@ LogicExpression3 :
 ;
 
 
+
 %%
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*int yyerror( char const *s) {
+  /*fprintf(stderr,"File test.txt | Line: %d %s\n",line_num,s);
+   printf("%d %s\n",line,s);
+}*/
+
 int yyerror(const char *s) {
-  printf("%s\n",s);
+  printf("File='test.text' line %d %s\n",line_count,s);
 }
 
+
+
 int main(void) {
+  init();
   yyparse();
 }
+
+
+
+
+
+
+void init(){
+	tbs=(table_des_symboles*)malloc(sizeof(table_des_symboles));
+	tbs->current_size=0;
+	tbs->root=NULL;
+	tbs->tail=NULL;
+}
+
+desc_identif* recherche(char* identif){
+	desc_identif* p = tbs->root; 
+	while ((p!= NULL)&&(strcmp(p->identif,identif)!=0)){
+	p=p->next;
+	}
+}
+void ajouter(char *identif, int classe, int type,char * value, int complement){
+	desc_identif* t= (desc_identif*)malloc(sizeof(desc_identif));
+	strcpy(t->identif=identif,identif);
+	t->classe=classe;
+	t->type=type;
+	t->value=value;
+	t->complement=complement;
+	t->next=NULL;
+	desc_identif* p = tbs->tail;
+	p->next=t;
+	tbs->current_size++;
+}
+
+
+
+int modifier(char *identif, int classe, int type,char * value, int complement){
+	desc_identif* p = recherche(identif);
+	if(p!=NULL){
+		p->classe=classe;
+		p->type=type;
+		p->value=value;
+		p->complement=complement;
+	}
+}
+
+
+void affiche_dico() {
+	desc_identif* p;
+
+		for(p=tbs->root;p!=NULL;p=p->next){
+		
+
+            printf("%s |%d |%d | %s |%d" , p->identif ,p->classe , p->type , p->value ,p->complement ) ;      
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

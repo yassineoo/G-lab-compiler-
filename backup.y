@@ -34,6 +34,13 @@ Third part
 
 int yylex();
 int yyerror(const char *s);
+
+
+
+  
+
+
+
 %}
 
 
