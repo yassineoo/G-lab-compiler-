@@ -53,8 +53,14 @@ var						{ return VAR;}
 while					{ return WHILE;} 
 write					{ return WRITE;} 
 to				     	{ return TO;}  
-true  					{ return TRUEBOOL;}
-false  					{ return FALSEBOOL;}
+true  					{
+				yylval.integer = 1;
+	 return TRUEBOOL;
+}
+false  					{ 
+
+	yylval.integer = 0;
+	return FALSEBOOL;}
 
 
 

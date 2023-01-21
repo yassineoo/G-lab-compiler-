@@ -8,7 +8,7 @@ Terminaux inutilisés dans la grammaire
 
 
 État 72 conflits: 1 décalage/réduction
-État 281 conflits: 1 décalage/réduction
+État 309 conflits: 1 décalage/réduction
 
 
 Grammaire
@@ -198,78 +198,89 @@ Grammaire
   129     | IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON
   130     | READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON
   131     | WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON
-  132     | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action
-  133     | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action ELSE Action
-  134     | WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action
-  135     | FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action
-  136     | return_statement
 
-  137 ParmetersList: ParmetersList PUNCTUATOR_COMMA Parmeter
-  138              | Parmeter
+  132 $@7: %empty
 
-  139 Parmeter: NUMBER
-  140         | CONSTSTRING
-  141         | REAL
-  142         | CHAR
-  143         | IDENTIFIER
-  144         | %empty
+  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression $@7 PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
 
-  145 Expression: Expression OPERATOR_PLUS Term
-  146           | Expression OPERATOR_MINUS Term
-  147           | Term
+  134 $@8: %empty
 
-  148 Term: Term OPERATOR_MULTIPLICATION Fact
-  149     | Term OPERATOR_DEVISION Fact
-  150     | Fact
+  135 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS $@8 Action
+  136     | FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action
+  137     | return_statement
 
-  151 Fact: Fact OPERATOR_POWER Fact2
-  152     | Fact2
+  138 ifSuite: %empty
 
-  153 Fact2: REAL
-  154      | NUMBER
-  155      | PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS
+  139 $@9: %empty
 
-  156 LogicExpression: LogicExpression1
-  157                | OPERATOR_NOT LogicExpression1
+  140 ifSuite: ELSE $@9 Action
 
-  158 LogicExpression1: LogicExpression1 OPERATOR_AND LogicExpression2
-  159                 | LogicExpression1 OPERATOR_OR LogicExpression2
-  160                 | LogicExpression2
+  141 ParmetersList: ParmetersList PUNCTUATOR_COMMA Parmeter
+  142              | Parmeter
 
-  161 LogicExpression2: LogicExpression3
-  162                 | PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS
+  143 Parmeter: NUMBER
+  144         | CONSTSTRING
+  145         | REAL
+  146         | CHAR
+  147         | IDENTIFIER
+  148         | %empty
 
-  163 LogicExpression3: CHAR OPERATOR_EQUALS CHAR
-  164                 | CONSTSTRING OPERATOR_EQUALS CONSTSTRING
-  165                 | Expression OPERATOR_EQUALS Expression
-  166                 | CHAR OPERATOR_DEFFRENT CHAR
-  167                 | CONSTSTRING OPERATOR_DEFFRENT CONSTSTRING
-  168                 | Expression OPERATOR_DEFFRENT Expression
-  169                 | Expression OPERATOR_INFERIER Expression
-  170                 | Expression OPERATOR_INFERIEROREQUALS Expression
-  171                 | Expression OPERATOR_SUPERIER Expression
-  172                 | Expression OPERATOR_SUPERIEROREQUALS Expression
+  149 Expression: Expression OPERATOR_PLUS Term
+  150           | Expression OPERATOR_MINUS Term
+  151           | Term
+
+  152 Term: Term OPERATOR_MULTIPLICATION Fact
+  153     | Term OPERATOR_DEVISION Fact
+  154     | Fact
+
+  155 Fact: Fact OPERATOR_POWER Fact2
+  156     | Fact2
+
+  157 Fact2: REAL
+  158      | NUMBER
+  159      | PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS
+
+  160 LogicExpression: LogicExpression1
+  161                | OPERATOR_NOT LogicExpression1
+
+  162 LogicExpression1: LogicExpression1 OPERATOR_AND LogicExpression2
+  163                 | LogicExpression1 OPERATOR_OR LogicExpression2
+  164                 | LogicExpression2
+
+  165 LogicExpression2: LogicExpression3
+  166                 | PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS
+
+  167 LogicExpression3: CHAR OPERATOR_EQUALS CHAR
+  168                 | CONSTSTRING OPERATOR_EQUALS CONSTSTRING
+  169                 | Expression OPERATOR_EQUALS Expression
+  170                 | CHAR OPERATOR_DEFFRENT CHAR
+  171                 | CONSTSTRING OPERATOR_DEFFRENT CONSTSTRING
+  172                 | Expression OPERATOR_DEFFRENT Expression
+  173                 | Expression OPERATOR_INFERIER Expression
+  174                 | Expression OPERATOR_INFERIEROREQUALS Expression
+  175                 | Expression OPERATOR_SUPERIER Expression
+  176                 | Expression OPERATOR_SUPERIEROREQUALS Expression
 
 
 Terminaux, suivis des règles où ils apparaissent
 
 $end (0) 0
 error (256)
-NUMBER (258) 68 70 71 73 74 76 77 79 80 82 83 85 118 124 139 154
-REAL (259) 86 88 141 153
-CHAR (260) 26 34 40 42 92 94 111 121 142 163 166
-CONSTSTRING (261) 50 52 89 91 120 140 164 167
+NUMBER (258) 68 70 71 73 74 76 77 79 80 82 83 85 118 124 143 158
+REAL (259) 86 88 145 157
+CHAR (260) 26 34 40 42 92 94 111 121 146 167 170
+CONSTSTRING (261) 50 52 89 91 120 144 168 171
 IDENTIFIER (262) 1 2 3 4 5 6 19 36 37 38 39 40 41 42 43 44 45 46 47
     48 49 50 51 52 53 54 57 58 59 60 61 62 63 64 65 66 67 68 69 70
     71 72 73 74 75 76 77 78 79 80 81 82 84 87 90 93 96 105 107 109
-    111 113 124 127 128 129 130 143
+    111 113 124 127 128 129 130 147
 PARENTHESE_GAUCHE (263)
 PARENTHESE_DROITE (264)
 BOOL (265) 29 35
 DOUBLE (266) 27 32 107
 INT (267) 25 31 105
 RETURN (268) 118 119 120 121
-ELSE (269) 133
+ELSE (269) 140
 STRUCT (270) 19
 STRINGTYPE (271) 28 33 109
 CHARTYPE (272)
@@ -279,36 +290,36 @@ TRUEBOOL (275) 55
 FALSEBOOL (276) 56
 TYPE (277) 14
 VAR (278) 20
-WHILE (279) 134
+WHILE (279) 135
 WRITE (280) 131
 TO (281) 124
-FOR (282) 135
+FOR (282) 136
 FUNCTIONS (283) 99
 MAIN (284) 7
-IF (285) 132 133
+IF (285) 133
 PROGRAME (286) 1 2 3 4 5 6
 VOID (287) 113
-OPERATOR_PLUS (288) 145
-OPERATOR_MINUS (289) 146
-OPERATOR_MULTIPLICATION (290) 148
-OPERATOR_DEVISION (291) 149
-OPERATOR_POWER (292) 151
+OPERATOR_PLUS (288) 149
+OPERATOR_MINUS (289) 150
+OPERATOR_MULTIPLICATION (290) 152
+OPERATOR_DEVISION (291) 153
+OPERATOR_POWER (292) 155
 OPERATOR_MOD (293)
 OPERATOR_INCREMENTATION (294) 128
 OPERATOR_DECREMENTATION (295) 129
-OPERATOR_EQUALS (296) 163 164 165
-OPERATOR_DEFFRENT (297) 166 167 168
-OPERATOR_SUPERIER (298) 171
-OPERATOR_INFERIER (299) 169
-OPERATOR_SUPERIEROREQUALS (300) 172
-OPERATOR_INFERIEROREQUALS (301) 170
-OPERATOR_AND (302) 158
-OPERATOR_OR (303) 159
-OPERATOR_NOT (304) 157
-PUNCTUATOR_OPEN_PARENTHESIS (305) 105 107 109 111 113 130 131 132 133
-    134 135 155 162
-PUNCTUATOR_CLOSE_PARENTHESIS (306) 105 107 109 111 113 130 131 132
-    133 134 135 155 162
+OPERATOR_EQUALS (296) 167 168 169
+OPERATOR_DEFFRENT (297) 170 171 172
+OPERATOR_SUPERIER (298) 175
+OPERATOR_INFERIER (299) 173
+OPERATOR_SUPERIEROREQUALS (300) 176
+OPERATOR_INFERIEROREQUALS (301) 174
+OPERATOR_AND (302) 162
+OPERATOR_OR (303) 163
+OPERATOR_NOT (304) 161
+PUNCTUATOR_OPEN_PARENTHESIS (305) 105 107 109 111 113 130 131 133 135
+    136 159 166
+PUNCTUATOR_CLOSE_PARENTHESIS (306) 105 107 109 111 113 130 131 133
+    135 136 159 166
 PUNCTUATOR_OPEN_CURLY (307) 8 15 19 21 100 105 107 109 111 113 122
 PUNCTUATOR_CLOSE_CURLY (308) 8 15 19 21 100 105 107 109 111 113 122
 PUNCTUATOR_OPEN_BRACKET (309) 68 69 70 71 72 73 74 75 76 77 78 79 80
@@ -316,7 +327,7 @@ PUNCTUATOR_OPEN_BRACKET (309) 68 69 70 71 72 73 74 75 76 77 78 79 80
 PUNCTUATOR_CLOSE_BRACKET (310) 68 69 70 71 72 73 74 75 76 77 78 79
     80 81 82
 PUNCTUATOR_COMMA (311) 36 37 40 41 45 46 50 51 57 58 61 64 65 83 84
-    86 87 89 90 92 93 95 96 137
+    86 87 89 90 92 93 95 96 141
 PUNCTUATOR_COLON (312)
 PUNCTUATOR_SEMICOLON (313) 1 2 3 4 5 6 19 25 26 27 28 29 30 31 32 33
     34 35 118 119 120 121 127 128 129 130 131
@@ -335,7 +346,7 @@ main_struct (62)
 Action_main (63)
     à gauche: 8 9, à droite: 7
 return_statement (64)
-    à gauche: 10 11 12 13, à droite: 136
+    à gauche: 10 11 12 13, à droite: 137
 type_struct (65)
     à gauche: 14, à droite: 2 5
 Action_type (66)
@@ -420,36 +431,44 @@ return_statement_string (104)
 return_statement_char (105)
     à gauche: 121, à droite: 13 111
 Action (106)
-    à gauche: 122 123, à droite: 132 133 134 135
+    à gauche: 122 123, à droite: 133 135 136 140
 FORDecalartion (107)
-    à gauche: 124, à droite: 135
+    à gauche: 124, à droite: 136
 instList (108)
     à gauche: 125 126, à droite: 8 122 125
 inst (109)
-    à gauche: 127 128 129 130 131 132 133 134 135 136, à droite:
-    9 116 123 125 126
-ParmetersList (110)
-    à gauche: 137 138, à droite: 105 107 109 111 113 131 137
-Parmeter (111)
-    à gauche: 139 140 141 142 143 144, à droite: 137 138
-Expression (112)
-    à gauche: 145 146 147, à droite: 37 39 46 48 65 66 119 127 145
-    146 155 165 168 169 170 171 172
-Term (113)
-    à gauche: 148 149 150, à droite: 145 146 147 148 149
-Fact (114)
-    à gauche: 151 152, à droite: 148 149 150 151
-Fact2 (115)
-    à gauche: 153 154 155, à droite: 151 152
-LogicExpression (116)
-    à gauche: 156 157, à droite: 61 62 64 67 132 133 134 162
-LogicExpression1 (117)
-    à gauche: 158 159 160, à droite: 156 157 158 159
-LogicExpression2 (118)
-    à gauche: 161 162, à droite: 158 159 160
-LogicExpression3 (119)
-    à gauche: 163 164 165 166 167 168 169 170 171 172, à droite:
-    161
+    à gauche: 127 128 129 130 131 133 135 136 137, à droite: 9 116
+    123 125 126
+$@7 (110)
+    à gauche: 132, à droite: 133
+$@8 (111)
+    à gauche: 134, à droite: 135
+ifSuite (112)
+    à gauche: 138 140, à droite: 133
+$@9 (113)
+    à gauche: 139, à droite: 140
+ParmetersList (114)
+    à gauche: 141 142, à droite: 105 107 109 111 113 131 141
+Parmeter (115)
+    à gauche: 143 144 145 146 147 148, à droite: 141 142
+Expression (116)
+    à gauche: 149 150 151, à droite: 37 39 46 48 65 66 119 127 149
+    150 159 169 172 173 174 175 176
+Term (117)
+    à gauche: 152 153 154, à droite: 149 150 151 152 153
+Fact (118)
+    à gauche: 155 156, à droite: 152 153 154 155
+Fact2 (119)
+    à gauche: 157 158 159, à droite: 155 156
+LogicExpression (120)
+    à gauche: 160 161, à droite: 61 62 64 67 133 135 166
+LogicExpression1 (121)
+    à gauche: 162 163 164, à droite: 160 161 162 163
+LogicExpression2 (122)
+    à gauche: 165 166, à droite: 162 163 164
+LogicExpression3 (123)
+    à gauche: 167 168 169 170 171 172 173 174 175 176, à droite:
+    165
 
 
 État 0
@@ -780,7 +799,7 @@ LogicExpression3 (119)
 
 État 30
 
-  134 inst: WHILE . PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action
+  135 inst: WHILE . PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS $@8 Action
 
     PUNCTUATOR_OPEN_PARENTHESIS  décalage et aller à l'état 82
 
@@ -794,15 +813,14 @@ LogicExpression3 (119)
 
 État 32
 
-  135 inst: FOR . PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action
+  136 inst: FOR . PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action
 
     PUNCTUATOR_OPEN_PARENTHESIS  décalage et aller à l'état 84
 
 
 État 33
 
-  132 inst: IF . PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action
-  133     | IF . PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action ELSE Action
+  133 inst: IF . PUNCTUATOR_OPEN_PARENTHESIS LogicExpression $@7 PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
 
     PUNCTUATOR_OPEN_PARENTHESIS  décalage et aller à l'état 85
 
@@ -837,9 +855,9 @@ LogicExpression3 (119)
 
 État 36
 
-  136 inst: return_statement .
+  137 inst: return_statement .
 
-    $défaut  réduction par utilisation de la règle 136 (inst)
+    $défaut  réduction par utilisation de la règle 137 (inst)
 
 
 État 37
@@ -1193,19 +1211,19 @@ LogicExpression3 (119)
 État 72
 
   118 return_statement_int: RETURN NUMBER . PUNCTUATOR_SEMICOLON
-  154 Fact2: NUMBER .
+  158 Fact2: NUMBER .
 
     PUNCTUATOR_SEMICOLON  décalage et aller à l'état 136
 
-    PUNCTUATOR_SEMICOLON  [réduction par utilisation de la règle 154 (Fact2)]
-    $défaut              réduction par utilisation de la règle 154 (Fact2)
+    PUNCTUATOR_SEMICOLON  [réduction par utilisation de la règle 158 (Fact2)]
+    $défaut              réduction par utilisation de la règle 158 (Fact2)
 
 
 État 73
 
-  153 Fact2: REAL .
+  157 Fact2: REAL .
 
-    $défaut  réduction par utilisation de la règle 153 (Fact2)
+    $défaut  réduction par utilisation de la règle 157 (Fact2)
 
 
 État 74
@@ -1224,7 +1242,7 @@ LogicExpression3 (119)
 
 État 76
 
-  155 Fact2: PUNCTUATOR_OPEN_PARENTHESIS . Expression PUNCTUATOR_CLOSE_PARENTHESIS
+  159 Fact2: PUNCTUATOR_OPEN_PARENTHESIS . Expression PUNCTUATOR_CLOSE_PARENTHESIS
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1239,8 +1257,8 @@ LogicExpression3 (119)
 État 77
 
   119 return_statement_double: RETURN Expression . PUNCTUATOR_SEMICOLON
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
 
     OPERATOR_PLUS         décalage et aller à l'état 140
     OPERATOR_MINUS        décalage et aller à l'état 141
@@ -1249,31 +1267,31 @@ LogicExpression3 (119)
 
 État 78
 
-  147 Expression: Term .
-  148 Term: Term . OPERATOR_MULTIPLICATION Fact
-  149     | Term . OPERATOR_DEVISION Fact
+  151 Expression: Term .
+  152 Term: Term . OPERATOR_MULTIPLICATION Fact
+  153     | Term . OPERATOR_DEVISION Fact
 
     OPERATOR_MULTIPLICATION  décalage et aller à l'état 143
     OPERATOR_DEVISION        décalage et aller à l'état 144
 
-    $défaut  réduction par utilisation de la règle 147 (Expression)
+    $défaut  réduction par utilisation de la règle 151 (Expression)
 
 
 État 79
 
-  150 Term: Fact .
-  151 Fact: Fact . OPERATOR_POWER Fact2
+  154 Term: Fact .
+  155 Fact: Fact . OPERATOR_POWER Fact2
 
     OPERATOR_POWER  décalage et aller à l'état 145
 
-    $défaut  réduction par utilisation de la règle 150 (Term)
+    $défaut  réduction par utilisation de la règle 154 (Term)
 
 
 État 80
 
-  152 Fact: Fact2 .
+  156 Fact: Fact2 .
 
-    $défaut  réduction par utilisation de la règle 152 (Fact)
+    $défaut  réduction par utilisation de la règle 156 (Fact)
 
 
 État 81
@@ -1285,7 +1303,7 @@ LogicExpression3 (119)
 
 État 82
 
-  134 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS . LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action
+  135 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS . LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS $@8 Action
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1314,7 +1332,7 @@ LogicExpression3 (119)
     CONSTSTRING  décalage et aller à l'état 159
     IDENTIFIER   décalage et aller à l'état 160
 
-    $défaut  réduction par utilisation de la règle 144 (Parmeter)
+    $défaut  réduction par utilisation de la règle 148 (Parmeter)
 
     ParmetersList  aller à l'état 161
     Parmeter       aller à l'état 162
@@ -1322,7 +1340,7 @@ LogicExpression3 (119)
 
 État 84
 
-  135 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS . FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action
+  136 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS . FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action
 
     IDENTIFIER  décalage et aller à l'état 163
 
@@ -1331,8 +1349,7 @@ LogicExpression3 (119)
 
 État 85
 
-  132 inst: IF PUNCTUATOR_OPEN_PARENTHESIS . LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action
-  133     | IF PUNCTUATOR_OPEN_PARENTHESIS . LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action ELSE Action
+  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS . LogicExpression $@7 PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1803,16 +1820,16 @@ LogicExpression3 (119)
 
 État 134
 
-  154 Fact2: NUMBER .
+  158 Fact2: NUMBER .
 
-    $défaut  réduction par utilisation de la règle 154 (Fact2)
+    $défaut  réduction par utilisation de la règle 158 (Fact2)
 
 
 État 135
 
   127 inst: IDENTIFIER PUNCTUATOR_ASSIGN Expression . PUNCTUATOR_SEMICOLON
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
 
     OPERATOR_PLUS         décalage et aller à l'état 140
     OPERATOR_MINUS        décalage et aller à l'état 141
@@ -1842,9 +1859,9 @@ LogicExpression3 (119)
 
 État 139
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  155 Fact2: PUNCTUATOR_OPEN_PARENTHESIS Expression . PUNCTUATOR_CLOSE_PARENTHESIS
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  159 Fact2: PUNCTUATOR_OPEN_PARENTHESIS Expression . PUNCTUATOR_CLOSE_PARENTHESIS
 
     OPERATOR_PLUS                 décalage et aller à l'état 140
     OPERATOR_MINUS                décalage et aller à l'état 141
@@ -1853,7 +1870,7 @@ LogicExpression3 (119)
 
 État 140
 
-  145 Expression: Expression OPERATOR_PLUS . Term
+  149 Expression: Expression OPERATOR_PLUS . Term
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1866,7 +1883,7 @@ LogicExpression3 (119)
 
 État 141
 
-  146 Expression: Expression OPERATOR_MINUS . Term
+  150 Expression: Expression OPERATOR_MINUS . Term
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1886,7 +1903,7 @@ LogicExpression3 (119)
 
 État 143
 
-  148 Term: Term OPERATOR_MULTIPLICATION . Fact
+  152 Term: Term OPERATOR_MULTIPLICATION . Fact
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1898,7 +1915,7 @@ LogicExpression3 (119)
 
 État 144
 
-  149 Term: Term OPERATOR_DEVISION . Fact
+  153 Term: Term OPERATOR_DEVISION . Fact
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1910,7 +1927,7 @@ LogicExpression3 (119)
 
 État 145
 
-  151 Fact: Fact OPERATOR_POWER . Fact2
+  155 Fact: Fact OPERATOR_POWER . Fact2
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1928,8 +1945,8 @@ LogicExpression3 (119)
 
 État 147
 
-  163 LogicExpression3: CHAR . OPERATOR_EQUALS CHAR
-  166                 | CHAR . OPERATOR_DEFFRENT CHAR
+  167 LogicExpression3: CHAR . OPERATOR_EQUALS CHAR
+  170                 | CHAR . OPERATOR_DEFFRENT CHAR
 
     OPERATOR_EQUALS    décalage et aller à l'état 215
     OPERATOR_DEFFRENT  décalage et aller à l'état 216
@@ -1937,8 +1954,8 @@ LogicExpression3 (119)
 
 État 148
 
-  164 LogicExpression3: CONSTSTRING . OPERATOR_EQUALS CONSTSTRING
-  167                 | CONSTSTRING . OPERATOR_DEFFRENT CONSTSTRING
+  168 LogicExpression3: CONSTSTRING . OPERATOR_EQUALS CONSTSTRING
+  171                 | CONSTSTRING . OPERATOR_DEFFRENT CONSTSTRING
 
     OPERATOR_EQUALS    décalage et aller à l'état 217
     OPERATOR_DEFFRENT  décalage et aller à l'état 218
@@ -1946,7 +1963,7 @@ LogicExpression3 (119)
 
 État 149
 
-  157 LogicExpression: OPERATOR_NOT . LogicExpression1
+  161 LogicExpression: OPERATOR_NOT . LogicExpression1
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1965,8 +1982,8 @@ LogicExpression3 (119)
 
 État 150
 
-  155 Fact2: PUNCTUATOR_OPEN_PARENTHESIS . Expression PUNCTUATOR_CLOSE_PARENTHESIS
-  162 LogicExpression2: PUNCTUATOR_OPEN_PARENTHESIS . LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS
+  159 Fact2: PUNCTUATOR_OPEN_PARENTHESIS . Expression PUNCTUATOR_CLOSE_PARENTHESIS
+  166 LogicExpression2: PUNCTUATOR_OPEN_PARENTHESIS . LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -1987,14 +2004,14 @@ LogicExpression3 (119)
 
 État 151
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  165 LogicExpression3: Expression . OPERATOR_EQUALS Expression
-  168                 | Expression . OPERATOR_DEFFRENT Expression
-  169                 | Expression . OPERATOR_INFERIER Expression
-  170                 | Expression . OPERATOR_INFERIEROREQUALS Expression
-  171                 | Expression . OPERATOR_SUPERIER Expression
-  172                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  169 LogicExpression3: Expression . OPERATOR_EQUALS Expression
+  172                 | Expression . OPERATOR_DEFFRENT Expression
+  173                 | Expression . OPERATOR_INFERIER Expression
+  174                 | Expression . OPERATOR_INFERIEROREQUALS Expression
+  175                 | Expression . OPERATOR_SUPERIER Expression
+  176                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
 
     OPERATOR_PLUS              décalage et aller à l'état 140
     OPERATOR_MINUS             décalage et aller à l'état 141
@@ -2008,76 +2025,76 @@ LogicExpression3 (119)
 
 État 152
 
-  134 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression . PUNCTUATOR_CLOSE_PARENTHESIS Action
+  135 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression . PUNCTUATOR_CLOSE_PARENTHESIS $@8 Action
 
     PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 228
 
 
 État 153
 
-  156 LogicExpression: LogicExpression1 .
-  158 LogicExpression1: LogicExpression1 . OPERATOR_AND LogicExpression2
-  159                 | LogicExpression1 . OPERATOR_OR LogicExpression2
+  160 LogicExpression: LogicExpression1 .
+  162 LogicExpression1: LogicExpression1 . OPERATOR_AND LogicExpression2
+  163                 | LogicExpression1 . OPERATOR_OR LogicExpression2
 
     OPERATOR_AND  décalage et aller à l'état 229
     OPERATOR_OR   décalage et aller à l'état 230
 
-    $défaut  réduction par utilisation de la règle 156 (LogicExpression)
+    $défaut  réduction par utilisation de la règle 160 (LogicExpression)
 
 
 État 154
 
-  160 LogicExpression1: LogicExpression2 .
+  164 LogicExpression1: LogicExpression2 .
 
-    $défaut  réduction par utilisation de la règle 160 (LogicExpression1)
+    $défaut  réduction par utilisation de la règle 164 (LogicExpression1)
 
 
 État 155
 
-  161 LogicExpression2: LogicExpression3 .
+  165 LogicExpression2: LogicExpression3 .
 
-    $défaut  réduction par utilisation de la règle 161 (LogicExpression2)
+    $défaut  réduction par utilisation de la règle 165 (LogicExpression2)
 
 
 État 156
 
-  139 Parmeter: NUMBER .
+  143 Parmeter: NUMBER .
 
-    $défaut  réduction par utilisation de la règle 139 (Parmeter)
+    $défaut  réduction par utilisation de la règle 143 (Parmeter)
 
 
 État 157
 
-  141 Parmeter: REAL .
+  145 Parmeter: REAL .
 
-    $défaut  réduction par utilisation de la règle 141 (Parmeter)
+    $défaut  réduction par utilisation de la règle 145 (Parmeter)
 
 
 État 158
 
-  142 Parmeter: CHAR .
+  146 Parmeter: CHAR .
 
-    $défaut  réduction par utilisation de la règle 142 (Parmeter)
+    $défaut  réduction par utilisation de la règle 146 (Parmeter)
 
 
 État 159
 
-  140 Parmeter: CONSTSTRING .
+  144 Parmeter: CONSTSTRING .
 
-    $défaut  réduction par utilisation de la règle 140 (Parmeter)
+    $défaut  réduction par utilisation de la règle 144 (Parmeter)
 
 
 État 160
 
-  143 Parmeter: IDENTIFIER .
+  147 Parmeter: IDENTIFIER .
 
-    $défaut  réduction par utilisation de la règle 143 (Parmeter)
+    $défaut  réduction par utilisation de la règle 147 (Parmeter)
 
 
 État 161
 
   131 inst: WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON
-  137 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
+  141 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
 
     PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 231
     PUNCTUATOR_COMMA              décalage et aller à l'état 232
@@ -2085,9 +2102,9 @@ LogicExpression3 (119)
 
 État 162
 
-  138 ParmetersList: Parmeter .
+  142 ParmetersList: Parmeter .
 
-    $défaut  réduction par utilisation de la règle 138 (ParmetersList)
+    $défaut  réduction par utilisation de la règle 142 (ParmetersList)
 
 
 État 163
@@ -2099,17 +2116,18 @@ LogicExpression3 (119)
 
 État 164
 
-  135 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion . PUNCTUATOR_CLOSE_PARENTHESIS Action
+  136 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion . PUNCTUATOR_CLOSE_PARENTHESIS Action
 
     PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 234
 
 
 État 165
 
-  132 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression . PUNCTUATOR_CLOSE_PARENTHESIS Action
-  133     | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression . PUNCTUATOR_CLOSE_PARENTHESIS Action ELSE Action
+  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression . $@7 PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
 
-    PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 235
+    $défaut  réduction par utilisation de la règle 132 ($@7)
+
+    $@7  aller à l'état 235
 
 
 État 166
@@ -2337,8 +2355,8 @@ LogicExpression3 (119)
 État 193
 
    48 declaration_real: IDENTIFIER PUNCTUATOR_ASSIGN Expression .
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
 
     OPERATOR_PLUS   décalage et aller à l'état 140
     OPERATOR_MINUS  décalage et aller à l'état 141
@@ -2374,8 +2392,8 @@ LogicExpression3 (119)
 État 197
 
    39 declaration_entier: IDENTIFIER PUNCTUATOR_ASSIGN Expression .
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
 
     OPERATOR_PLUS   décalage et aller à l'état 140
     OPERATOR_MINUS  décalage et aller à l'état 141
@@ -2435,14 +2453,14 @@ LogicExpression3 (119)
 État 204
 
    66 declaration_const: IDENTIFIER PUNCTUATOR_ASSIGN Expression .
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  165 LogicExpression3: Expression . OPERATOR_EQUALS Expression
-  168                 | Expression . OPERATOR_DEFFRENT Expression
-  169                 | Expression . OPERATOR_INFERIER Expression
-  170                 | Expression . OPERATOR_INFERIEROREQUALS Expression
-  171                 | Expression . OPERATOR_SUPERIER Expression
-  172                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  169 LogicExpression3: Expression . OPERATOR_EQUALS Expression
+  172                 | Expression . OPERATOR_DEFFRENT Expression
+  173                 | Expression . OPERATOR_INFERIER Expression
+  174                 | Expression . OPERATOR_INFERIEROREQUALS Expression
+  175                 | Expression . OPERATOR_SUPERIER Expression
+  176                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
 
     OPERATOR_PLUS              décalage et aller à l'état 140
     OPERATOR_MINUS             décalage et aller à l'état 141
@@ -2480,60 +2498,60 @@ LogicExpression3 (119)
 
 État 208
 
-  155 Fact2: PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS .
+  159 Fact2: PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS .
 
-    $défaut  réduction par utilisation de la règle 155 (Fact2)
+    $défaut  réduction par utilisation de la règle 159 (Fact2)
 
 
 État 209
 
-  145 Expression: Expression OPERATOR_PLUS Term .
-  148 Term: Term . OPERATOR_MULTIPLICATION Fact
-  149     | Term . OPERATOR_DEVISION Fact
+  149 Expression: Expression OPERATOR_PLUS Term .
+  152 Term: Term . OPERATOR_MULTIPLICATION Fact
+  153     | Term . OPERATOR_DEVISION Fact
 
     OPERATOR_MULTIPLICATION  décalage et aller à l'état 143
     OPERATOR_DEVISION        décalage et aller à l'état 144
 
-    $défaut  réduction par utilisation de la règle 145 (Expression)
+    $défaut  réduction par utilisation de la règle 149 (Expression)
 
 
 État 210
 
-  146 Expression: Expression OPERATOR_MINUS Term .
-  148 Term: Term . OPERATOR_MULTIPLICATION Fact
-  149     | Term . OPERATOR_DEVISION Fact
+  150 Expression: Expression OPERATOR_MINUS Term .
+  152 Term: Term . OPERATOR_MULTIPLICATION Fact
+  153     | Term . OPERATOR_DEVISION Fact
 
     OPERATOR_MULTIPLICATION  décalage et aller à l'état 143
     OPERATOR_DEVISION        décalage et aller à l'état 144
 
-    $défaut  réduction par utilisation de la règle 146 (Expression)
+    $défaut  réduction par utilisation de la règle 150 (Expression)
 
 
 État 211
 
-  148 Term: Term OPERATOR_MULTIPLICATION Fact .
-  151 Fact: Fact . OPERATOR_POWER Fact2
+  152 Term: Term OPERATOR_MULTIPLICATION Fact .
+  155 Fact: Fact . OPERATOR_POWER Fact2
 
     OPERATOR_POWER  décalage et aller à l'état 145
 
-    $défaut  réduction par utilisation de la règle 148 (Term)
+    $défaut  réduction par utilisation de la règle 152 (Term)
 
 
 État 212
 
-  149 Term: Term OPERATOR_DEVISION Fact .
-  151 Fact: Fact . OPERATOR_POWER Fact2
+  153 Term: Term OPERATOR_DEVISION Fact .
+  155 Fact: Fact . OPERATOR_POWER Fact2
 
     OPERATOR_POWER  décalage et aller à l'état 145
 
-    $défaut  réduction par utilisation de la règle 149 (Term)
+    $défaut  réduction par utilisation de la règle 153 (Term)
 
 
 État 213
 
-  151 Fact: Fact OPERATOR_POWER Fact2 .
+  155 Fact: Fact OPERATOR_POWER Fact2 .
 
-    $défaut  réduction par utilisation de la règle 151 (Fact)
+    $défaut  réduction par utilisation de la règle 155 (Fact)
 
 
 État 214
@@ -2545,55 +2563,55 @@ LogicExpression3 (119)
 
 État 215
 
-  163 LogicExpression3: CHAR OPERATOR_EQUALS . CHAR
+  167 LogicExpression3: CHAR OPERATOR_EQUALS . CHAR
 
     CHAR  décalage et aller à l'état 261
 
 
 État 216
 
-  166 LogicExpression3: CHAR OPERATOR_DEFFRENT . CHAR
+  170 LogicExpression3: CHAR OPERATOR_DEFFRENT . CHAR
 
     CHAR  décalage et aller à l'état 262
 
 
 État 217
 
-  164 LogicExpression3: CONSTSTRING OPERATOR_EQUALS . CONSTSTRING
+  168 LogicExpression3: CONSTSTRING OPERATOR_EQUALS . CONSTSTRING
 
     CONSTSTRING  décalage et aller à l'état 263
 
 
 État 218
 
-  167 LogicExpression3: CONSTSTRING OPERATOR_DEFFRENT . CONSTSTRING
+  171 LogicExpression3: CONSTSTRING OPERATOR_DEFFRENT . CONSTSTRING
 
     CONSTSTRING  décalage et aller à l'état 264
 
 
 État 219
 
-  157 LogicExpression: OPERATOR_NOT LogicExpression1 .
-  158 LogicExpression1: LogicExpression1 . OPERATOR_AND LogicExpression2
-  159                 | LogicExpression1 . OPERATOR_OR LogicExpression2
+  161 LogicExpression: OPERATOR_NOT LogicExpression1 .
+  162 LogicExpression1: LogicExpression1 . OPERATOR_AND LogicExpression2
+  163                 | LogicExpression1 . OPERATOR_OR LogicExpression2
 
     OPERATOR_AND  décalage et aller à l'état 229
     OPERATOR_OR   décalage et aller à l'état 230
 
-    $défaut  réduction par utilisation de la règle 157 (LogicExpression)
+    $défaut  réduction par utilisation de la règle 161 (LogicExpression)
 
 
 État 220
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  155 Fact2: PUNCTUATOR_OPEN_PARENTHESIS Expression . PUNCTUATOR_CLOSE_PARENTHESIS
-  165 LogicExpression3: Expression . OPERATOR_EQUALS Expression
-  168                 | Expression . OPERATOR_DEFFRENT Expression
-  169                 | Expression . OPERATOR_INFERIER Expression
-  170                 | Expression . OPERATOR_INFERIEROREQUALS Expression
-  171                 | Expression . OPERATOR_SUPERIER Expression
-  172                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  159 Fact2: PUNCTUATOR_OPEN_PARENTHESIS Expression . PUNCTUATOR_CLOSE_PARENTHESIS
+  169 LogicExpression3: Expression . OPERATOR_EQUALS Expression
+  172                 | Expression . OPERATOR_DEFFRENT Expression
+  173                 | Expression . OPERATOR_INFERIER Expression
+  174                 | Expression . OPERATOR_INFERIEROREQUALS Expression
+  175                 | Expression . OPERATOR_SUPERIER Expression
+  176                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
 
     OPERATOR_PLUS                 décalage et aller à l'état 140
     OPERATOR_MINUS                décalage et aller à l'état 141
@@ -2608,14 +2626,14 @@ LogicExpression3 (119)
 
 État 221
 
-  162 LogicExpression2: PUNCTUATOR_OPEN_PARENTHESIS LogicExpression . PUNCTUATOR_CLOSE_PARENTHESIS
+  166 LogicExpression2: PUNCTUATOR_OPEN_PARENTHESIS LogicExpression . PUNCTUATOR_CLOSE_PARENTHESIS
 
     PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 265
 
 
 État 222
 
-  165 LogicExpression3: Expression OPERATOR_EQUALS . Expression
+  169 LogicExpression3: Expression OPERATOR_EQUALS . Expression
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2629,7 +2647,7 @@ LogicExpression3 (119)
 
 État 223
 
-  168 LogicExpression3: Expression OPERATOR_DEFFRENT . Expression
+  172 LogicExpression3: Expression OPERATOR_DEFFRENT . Expression
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2643,7 +2661,7 @@ LogicExpression3 (119)
 
 État 224
 
-  171 LogicExpression3: Expression OPERATOR_SUPERIER . Expression
+  175 LogicExpression3: Expression OPERATOR_SUPERIER . Expression
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2657,7 +2675,7 @@ LogicExpression3 (119)
 
 État 225
 
-  169 LogicExpression3: Expression OPERATOR_INFERIER . Expression
+  173 LogicExpression3: Expression OPERATOR_INFERIER . Expression
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2671,7 +2689,7 @@ LogicExpression3 (119)
 
 État 226
 
-  172 LogicExpression3: Expression OPERATOR_SUPERIEROREQUALS . Expression
+  176 LogicExpression3: Expression OPERATOR_SUPERIEROREQUALS . Expression
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2685,7 +2703,7 @@ LogicExpression3 (119)
 
 État 227
 
-  170 LogicExpression3: Expression OPERATOR_INFERIEROREQUALS . Expression
+  174 LogicExpression3: Expression OPERATOR_INFERIEROREQUALS . Expression
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2699,29 +2717,16 @@ LogicExpression3 (119)
 
 État 228
 
-  134 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS . Action
+  135 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS . $@8 Action
 
-    IDENTIFIER             décalage et aller à l'état 27
-    RETURN                 décalage et aller à l'état 28
-    READ                   décalage et aller à l'état 29
-    WHILE                  décalage et aller à l'état 30
-    WRITE                  décalage et aller à l'état 31
-    FOR                    décalage et aller à l'état 32
-    IF                     décalage et aller à l'état 33
-    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 272
+    $défaut  réduction par utilisation de la règle 134 ($@8)
 
-    return_statement         aller à l'état 36
-    return_statement_int     aller à l'état 37
-    return_statement_double  aller à l'état 38
-    return_statement_string  aller à l'état 39
-    return_statement_char    aller à l'état 40
-    Action                   aller à l'état 273
-    inst                     aller à l'état 274
+    $@8  aller à l'état 272
 
 
 État 229
 
-  158 LogicExpression1: LogicExpression1 OPERATOR_AND . LogicExpression2
+  162 LogicExpression1: LogicExpression1 OPERATOR_AND . LogicExpression2
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2733,13 +2738,13 @@ LogicExpression3 (119)
     Term              aller à l'état 78
     Fact              aller à l'état 79
     Fact2             aller à l'état 80
-    LogicExpression2  aller à l'état 275
+    LogicExpression2  aller à l'état 273
     LogicExpression3  aller à l'état 155
 
 
 État 230
 
-  159 LogicExpression1: LogicExpression1 OPERATOR_OR . LogicExpression2
+  163 LogicExpression1: LogicExpression1 OPERATOR_OR . LogicExpression2
 
     NUMBER                       décalage et aller à l'état 134
     REAL                         décalage et aller à l'état 73
@@ -2751,7 +2756,7 @@ LogicExpression3 (119)
     Term              aller à l'état 78
     Fact              aller à l'état 79
     Fact2             aller à l'état 80
-    LogicExpression2  aller à l'état 276
+    LogicExpression2  aller à l'état 274
     LogicExpression3  aller à l'état 155
 
 
@@ -2759,12 +2764,12 @@ LogicExpression3 (119)
 
   131 inst: WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_SEMICOLON
 
-    PUNCTUATOR_SEMICOLON  décalage et aller à l'état 277
+    PUNCTUATOR_SEMICOLON  décalage et aller à l'état 275
 
 
 État 232
 
-  137 ParmetersList: ParmetersList PUNCTUATOR_COMMA . Parmeter
+  141 ParmetersList: ParmetersList PUNCTUATOR_COMMA . Parmeter
 
     NUMBER       décalage et aller à l'état 156
     REAL         décalage et aller à l'état 157
@@ -2772,21 +2777,21 @@ LogicExpression3 (119)
     CONSTSTRING  décalage et aller à l'état 159
     IDENTIFIER   décalage et aller à l'état 160
 
-    $défaut  réduction par utilisation de la règle 144 (Parmeter)
+    $défaut  réduction par utilisation de la règle 148 (Parmeter)
 
-    Parmeter  aller à l'état 278
+    Parmeter  aller à l'état 276
 
 
 État 233
 
   124 FORDecalartion: IDENTIFIER PUNCTUATOR_ASSIGN . NUMBER TO NUMBER
 
-    NUMBER  décalage et aller à l'état 279
+    NUMBER  décalage et aller à l'état 277
 
 
 État 234
 
-  135 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS . Action
+  136 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS . Action
 
     IDENTIFIER             décalage et aller à l'état 27
     RETURN                 décalage et aller à l'état 28
@@ -2795,38 +2800,22 @@ LogicExpression3 (119)
     WRITE                  décalage et aller à l'état 31
     FOR                    décalage et aller à l'état 32
     IF                     décalage et aller à l'état 33
-    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 272
+    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 278
 
     return_statement         aller à l'état 36
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    Action                   aller à l'état 280
-    inst                     aller à l'état 274
+    Action                   aller à l'état 279
+    inst                     aller à l'état 280
 
 
 État 235
 
-  132 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS . Action
-  133     | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS . Action ELSE Action
+  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression $@7 . PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
 
-    IDENTIFIER             décalage et aller à l'état 27
-    RETURN                 décalage et aller à l'état 28
-    READ                   décalage et aller à l'état 29
-    WHILE                  décalage et aller à l'état 30
-    WRITE                  décalage et aller à l'état 31
-    FOR                    décalage et aller à l'état 32
-    IF                     décalage et aller à l'état 33
-    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 272
-
-    return_statement         aller à l'état 36
-    return_statement_int     aller à l'état 37
-    return_statement_double  aller à l'état 38
-    return_statement_string  aller à l'état 39
-    return_statement_char    aller à l'état 40
-    Action                   aller à l'état 281
-    inst                     aller à l'état 274
+    PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 281
 
 
 État 236
@@ -3068,80 +3057,44 @@ LogicExpression3 (119)
 
 État 261
 
-  163 LogicExpression3: CHAR OPERATOR_EQUALS CHAR .
-
-    $défaut  réduction par utilisation de la règle 163 (LogicExpression3)
-
-
-État 262
-
-  166 LogicExpression3: CHAR OPERATOR_DEFFRENT CHAR .
-
-    $défaut  réduction par utilisation de la règle 166 (LogicExpression3)
-
-
-État 263
-
-  164 LogicExpression3: CONSTSTRING OPERATOR_EQUALS CONSTSTRING .
-
-    $défaut  réduction par utilisation de la règle 164 (LogicExpression3)
-
-
-État 264
-
-  167 LogicExpression3: CONSTSTRING OPERATOR_DEFFRENT CONSTSTRING .
+  167 LogicExpression3: CHAR OPERATOR_EQUALS CHAR .
 
     $défaut  réduction par utilisation de la règle 167 (LogicExpression3)
 
 
-État 265
+État 262
 
-  162 LogicExpression2: PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS .
+  170 LogicExpression3: CHAR OPERATOR_DEFFRENT CHAR .
 
-    $défaut  réduction par utilisation de la règle 162 (LogicExpression2)
-
-
-État 266
-
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  165 LogicExpression3: Expression OPERATOR_EQUALS Expression .
-
-    OPERATOR_PLUS   décalage et aller à l'état 140
-    OPERATOR_MINUS  décalage et aller à l'état 141
-
-    $défaut  réduction par utilisation de la règle 165 (LogicExpression3)
+    $défaut  réduction par utilisation de la règle 170 (LogicExpression3)
 
 
-État 267
+État 263
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  168 LogicExpression3: Expression OPERATOR_DEFFRENT Expression .
-
-    OPERATOR_PLUS   décalage et aller à l'état 140
-    OPERATOR_MINUS  décalage et aller à l'état 141
+  168 LogicExpression3: CONSTSTRING OPERATOR_EQUALS CONSTSTRING .
 
     $défaut  réduction par utilisation de la règle 168 (LogicExpression3)
 
 
-État 268
+État 264
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  171 LogicExpression3: Expression OPERATOR_SUPERIER Expression .
-
-    OPERATOR_PLUS   décalage et aller à l'état 140
-    OPERATOR_MINUS  décalage et aller à l'état 141
+  171 LogicExpression3: CONSTSTRING OPERATOR_DEFFRENT CONSTSTRING .
 
     $défaut  réduction par utilisation de la règle 171 (LogicExpression3)
 
 
-État 269
+État 265
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  169 LogicExpression3: Expression OPERATOR_INFERIER Expression .
+  166 LogicExpression2: PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS .
+
+    $défaut  réduction par utilisation de la règle 166 (LogicExpression2)
+
+
+État 266
+
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  169 LogicExpression3: Expression OPERATOR_EQUALS Expression .
 
     OPERATOR_PLUS   décalage et aller à l'état 140
     OPERATOR_MINUS  décalage et aller à l'état 141
@@ -3149,11 +3102,11 @@ LogicExpression3 (119)
     $défaut  réduction par utilisation de la règle 169 (LogicExpression3)
 
 
-État 270
+État 267
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  172 LogicExpression3: Expression OPERATOR_SUPERIEROREQUALS Expression .
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  172 LogicExpression3: Expression OPERATOR_DEFFRENT Expression .
 
     OPERATOR_PLUS   décalage et aller à l'état 140
     OPERATOR_MINUS  décalage et aller à l'état 141
@@ -3161,19 +3114,112 @@ LogicExpression3 (119)
     $défaut  réduction par utilisation de la règle 172 (LogicExpression3)
 
 
-État 271
+État 268
 
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  170 LogicExpression3: Expression OPERATOR_INFERIEROREQUALS Expression .
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  175 LogicExpression3: Expression OPERATOR_SUPERIER Expression .
 
     OPERATOR_PLUS   décalage et aller à l'état 140
     OPERATOR_MINUS  décalage et aller à l'état 141
 
-    $défaut  réduction par utilisation de la règle 170 (LogicExpression3)
+    $défaut  réduction par utilisation de la règle 175 (LogicExpression3)
+
+
+État 269
+
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  173 LogicExpression3: Expression OPERATOR_INFERIER Expression .
+
+    OPERATOR_PLUS   décalage et aller à l'état 140
+    OPERATOR_MINUS  décalage et aller à l'état 141
+
+    $défaut  réduction par utilisation de la règle 173 (LogicExpression3)
+
+
+État 270
+
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  176 LogicExpression3: Expression OPERATOR_SUPERIEROREQUALS Expression .
+
+    OPERATOR_PLUS   décalage et aller à l'état 140
+    OPERATOR_MINUS  décalage et aller à l'état 141
+
+    $défaut  réduction par utilisation de la règle 176 (LogicExpression3)
+
+
+État 271
+
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  174 LogicExpression3: Expression OPERATOR_INFERIEROREQUALS Expression .
+
+    OPERATOR_PLUS   décalage et aller à l'état 140
+    OPERATOR_MINUS  décalage et aller à l'état 141
+
+    $défaut  réduction par utilisation de la règle 174 (LogicExpression3)
 
 
 État 272
+
+  135 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS $@8 . Action
+
+    IDENTIFIER             décalage et aller à l'état 27
+    RETURN                 décalage et aller à l'état 28
+    READ                   décalage et aller à l'état 29
+    WHILE                  décalage et aller à l'état 30
+    WRITE                  décalage et aller à l'état 31
+    FOR                    décalage et aller à l'état 32
+    IF                     décalage et aller à l'état 33
+    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 278
+
+    return_statement         aller à l'état 36
+    return_statement_int     aller à l'état 37
+    return_statement_double  aller à l'état 38
+    return_statement_string  aller à l'état 39
+    return_statement_char    aller à l'état 40
+    Action                   aller à l'état 306
+    inst                     aller à l'état 280
+
+
+État 273
+
+  162 LogicExpression1: LogicExpression1 OPERATOR_AND LogicExpression2 .
+
+    $défaut  réduction par utilisation de la règle 162 (LogicExpression1)
+
+
+État 274
+
+  163 LogicExpression1: LogicExpression1 OPERATOR_OR LogicExpression2 .
+
+    $défaut  réduction par utilisation de la règle 163 (LogicExpression1)
+
+
+État 275
+
+  131 inst: WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON .
+
+    $défaut  réduction par utilisation de la règle 131 (inst)
+
+
+État 276
+
+  141 ParmetersList: ParmetersList PUNCTUATOR_COMMA Parmeter .
+
+    $défaut  réduction par utilisation de la règle 141 (ParmetersList)
+
+
+État 277
+
+  124 FORDecalartion: IDENTIFIER PUNCTUATOR_ASSIGN NUMBER . TO NUMBER
+
+    TO  décalage et aller à l'état 307
+
+
+État 278
 
   122 Action: PUNCTUATOR_OPEN_CURLY . instList PUNCTUATOR_CLOSE_CURLY
 
@@ -3190,75 +3236,44 @@ LogicExpression3 (119)
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    instList                 aller à l'état 306
+    instList                 aller à l'état 308
     inst                     aller à l'état 87
 
 
-État 273
+État 279
 
-  134 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action .
+  136 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action .
 
-    $défaut  réduction par utilisation de la règle 134 (inst)
+    $défaut  réduction par utilisation de la règle 136 (inst)
 
 
-État 274
+État 280
 
   123 Action: inst .
 
     $défaut  réduction par utilisation de la règle 123 (Action)
 
 
-État 275
-
-  158 LogicExpression1: LogicExpression1 OPERATOR_AND LogicExpression2 .
-
-    $défaut  réduction par utilisation de la règle 158 (LogicExpression1)
-
-
-État 276
-
-  159 LogicExpression1: LogicExpression1 OPERATOR_OR LogicExpression2 .
-
-    $défaut  réduction par utilisation de la règle 159 (LogicExpression1)
-
-
-État 277
-
-  131 inst: WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON .
-
-    $défaut  réduction par utilisation de la règle 131 (inst)
-
-
-État 278
-
-  137 ParmetersList: ParmetersList PUNCTUATOR_COMMA Parmeter .
-
-    $défaut  réduction par utilisation de la règle 137 (ParmetersList)
-
-
-État 279
-
-  124 FORDecalartion: IDENTIFIER PUNCTUATOR_ASSIGN NUMBER . TO NUMBER
-
-    TO  décalage et aller à l'état 307
-
-
-État 280
-
-  135 inst: FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action .
-
-    $défaut  réduction par utilisation de la règle 135 (inst)
-
-
 État 281
 
-  132 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action .
-  133     | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action . ELSE Action
+  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression $@7 PUNCTUATOR_CLOSE_PARENTHESIS . Action ifSuite
 
-    ELSE  décalage et aller à l'état 308
+    IDENTIFIER             décalage et aller à l'état 27
+    RETURN                 décalage et aller à l'état 28
+    READ                   décalage et aller à l'état 29
+    WHILE                  décalage et aller à l'état 30
+    WRITE                  décalage et aller à l'état 31
+    FOR                    décalage et aller à l'état 32
+    IF                     décalage et aller à l'état 33
+    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 278
 
-    ELSE      [réduction par utilisation de la règle 132 (inst)]
-    $défaut  réduction par utilisation de la règle 132 (inst)
+    return_statement         aller à l'état 36
+    return_statement_int     aller à l'état 37
+    return_statement_double  aller à l'état 38
+    return_statement_string  aller à l'état 39
+    return_statement_char    aller à l'état 40
+    Action                   aller à l'état 309
+    inst                     aller à l'état 280
 
 
 État 282
@@ -3271,9 +3286,9 @@ LogicExpression3 (119)
     CONSTSTRING  décalage et aller à l'état 159
     IDENTIFIER   décalage et aller à l'état 160
 
-    $défaut  réduction par utilisation de la règle 144 (Parmeter)
+    $défaut  réduction par utilisation de la règle 148 (Parmeter)
 
-    ParmetersList  aller à l'état 309
+    ParmetersList  aller à l'état 310
     Parmeter       aller à l'état 162
 
 
@@ -3287,9 +3302,9 @@ LogicExpression3 (119)
     CONSTSTRING  décalage et aller à l'état 159
     IDENTIFIER   décalage et aller à l'état 160
 
-    $défaut  réduction par utilisation de la règle 144 (Parmeter)
+    $défaut  réduction par utilisation de la règle 148 (Parmeter)
 
-    ParmetersList  aller à l'état 310
+    ParmetersList  aller à l'état 311
     Parmeter       aller à l'état 162
 
 
@@ -3303,9 +3318,9 @@ LogicExpression3 (119)
     CONSTSTRING  décalage et aller à l'état 159
     IDENTIFIER   décalage et aller à l'état 160
 
-    $défaut  réduction par utilisation de la règle 144 (Parmeter)
+    $défaut  réduction par utilisation de la règle 148 (Parmeter)
 
-    ParmetersList  aller à l'état 311
+    ParmetersList  aller à l'état 312
     Parmeter       aller à l'état 162
 
 
@@ -3319,9 +3334,9 @@ LogicExpression3 (119)
     CONSTSTRING  décalage et aller à l'état 159
     IDENTIFIER   décalage et aller à l'état 160
 
-    $défaut  réduction par utilisation de la règle 144 (Parmeter)
+    $défaut  réduction par utilisation de la règle 148 (Parmeter)
 
-    ParmetersList  aller à l'état 312
+    ParmetersList  aller à l'état 313
     Parmeter       aller à l'état 162
 
 
@@ -3335,9 +3350,9 @@ LogicExpression3 (119)
     CONSTSTRING  décalage et aller à l'état 159
     IDENTIFIER   décalage et aller à l'état 160
 
-    $défaut  réduction par utilisation de la règle 144 (Parmeter)
+    $défaut  réduction par utilisation de la règle 148 (Parmeter)
 
-    ParmetersList  aller à l'état 313
+    ParmetersList  aller à l'état 314
     Parmeter       aller à l'état 162
 
 
@@ -3352,16 +3367,16 @@ LogicExpression3 (119)
 
    79 declaration_tabchar: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET . NUMBER PUNCTUATOR_CLOSE_BRACKET
 
-    NUMBER  décalage et aller à l'état 314
+    NUMBER  décalage et aller à l'état 315
 
 
 État 289
 
    78 declaration_tabchar: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET . element_tabchar PUNCTUATOR_CLOSE_BRACKET
 
-    CHAR  décalage et aller à l'état 315
+    CHAR  décalage et aller à l'état 316
 
-    element_tabchar  aller à l'état 316
+    element_tabchar  aller à l'état 317
 
 
 État 290
@@ -3375,7 +3390,7 @@ LogicExpression3 (119)
 
    82 declaration_tabbool: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET . NUMBER PUNCTUATOR_CLOSE_BRACKET
 
-    NUMBER  décalage et aller à l'état 317
+    NUMBER  décalage et aller à l'état 318
 
 
 État 292
@@ -3385,8 +3400,8 @@ LogicExpression3 (119)
     TRUEBOOL   décalage et aller à l'état 185
     FALSEBOOL  décalage et aller à l'état 186
 
-    boolvalues       aller à l'état 318
-    element_tabbool  aller à l'état 319
+    boolvalues       aller à l'état 319
+    element_tabbool  aller à l'état 320
 
 
 État 293
@@ -3407,23 +3422,23 @@ LogicExpression3 (119)
 
    73 declaration_tabreal: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET . NUMBER PUNCTUATOR_CLOSE_BRACKET
 
-    NUMBER  décalage et aller à l'état 320
+    NUMBER  décalage et aller à l'état 321
 
 
 État 296
 
    72 declaration_tabreal: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET . element_tabreal PUNCTUATOR_CLOSE_BRACKET
 
-    REAL  décalage et aller à l'état 321
+    REAL  décalage et aller à l'état 322
 
-    element_tabreal  aller à l'état 322
+    element_tabreal  aller à l'état 323
 
 
 État 297
 
    46 declaration_real: declaration_real PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression .
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
 
     OPERATOR_PLUS   décalage et aller à l'état 140
     OPERATOR_MINUS  décalage et aller à l'état 141
@@ -3435,23 +3450,23 @@ LogicExpression3 (119)
 
    70 declaration_tabint: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET . NUMBER PUNCTUATOR_CLOSE_BRACKET
 
-    NUMBER  décalage et aller à l'état 323
+    NUMBER  décalage et aller à l'état 324
 
 
 État 299
 
    69 declaration_tabint: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET . element_tabint PUNCTUATOR_CLOSE_BRACKET
 
-    NUMBER  décalage et aller à l'état 324
+    NUMBER  décalage et aller à l'état 325
 
-    element_tabint  aller à l'état 325
+    element_tabint  aller à l'état 326
 
 
 État 300
 
    37 declaration_entier: declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression .
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
 
     OPERATOR_PLUS   décalage et aller à l'état 140
     OPERATOR_MINUS  décalage et aller à l'état 141
@@ -3463,16 +3478,16 @@ LogicExpression3 (119)
 
    76 declaration_tabstring: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET . NUMBER PUNCTUATOR_CLOSE_BRACKET
 
-    NUMBER  décalage et aller à l'état 326
+    NUMBER  décalage et aller à l'état 327
 
 
 État 302
 
    75 declaration_tabstring: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET . element_tabstring PUNCTUATOR_CLOSE_BRACKET
 
-    CONSTSTRING  décalage et aller à l'état 327
+    CONSTSTRING  décalage et aller à l'état 328
 
-    element_tabstring  aller à l'état 328
+    element_tabstring  aller à l'état 329
 
 
 État 303
@@ -3485,14 +3500,14 @@ LogicExpression3 (119)
 État 304
 
    65 declaration_const: declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression .
-  145 Expression: Expression . OPERATOR_PLUS Term
-  146           | Expression . OPERATOR_MINUS Term
-  165 LogicExpression3: Expression . OPERATOR_EQUALS Expression
-  168                 | Expression . OPERATOR_DEFFRENT Expression
-  169                 | Expression . OPERATOR_INFERIER Expression
-  170                 | Expression . OPERATOR_INFERIEROREQUALS Expression
-  171                 | Expression . OPERATOR_SUPERIER Expression
-  172                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
+  149 Expression: Expression . OPERATOR_PLUS Term
+  150           | Expression . OPERATOR_MINUS Term
+  169 LogicExpression3: Expression . OPERATOR_EQUALS Expression
+  172                 | Expression . OPERATOR_DEFFRENT Expression
+  173                 | Expression . OPERATOR_INFERIER Expression
+  174                 | Expression . OPERATOR_INFERIEROREQUALS Expression
+  175                 | Expression . OPERATOR_SUPERIER Expression
+  176                 | Expression . OPERATOR_SUPERIEROREQUALS Expression
 
     OPERATOR_PLUS              décalage et aller à l'état 140
     OPERATOR_MINUS             décalage et aller à l'état 141
@@ -3515,24 +3530,9 @@ LogicExpression3 (119)
 
 État 306
 
-  122 Action: PUNCTUATOR_OPEN_CURLY instList . PUNCTUATOR_CLOSE_CURLY
-  125 instList: instList . inst
+  135 inst: WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS $@8 Action .
 
-    IDENTIFIER              décalage et aller à l'état 27
-    RETURN                  décalage et aller à l'état 28
-    READ                    décalage et aller à l'état 29
-    WHILE                   décalage et aller à l'état 30
-    WRITE                   décalage et aller à l'état 31
-    FOR                     décalage et aller à l'état 32
-    IF                      décalage et aller à l'état 33
-    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 329
-
-    return_statement         aller à l'état 36
-    return_statement_int     aller à l'état 37
-    return_statement_double  aller à l'état 38
-    return_statement_string  aller à l'état 39
-    return_statement_char    aller à l'état 40
-    inst                     aller à l'état 167
+    $défaut  réduction par utilisation de la règle 135 (inst)
 
 
 État 307
@@ -3544,196 +3544,201 @@ LogicExpression3 (119)
 
 État 308
 
-  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action ELSE . Action
+  122 Action: PUNCTUATOR_OPEN_CURLY instList . PUNCTUATOR_CLOSE_CURLY
+  125 instList: instList . inst
 
-    IDENTIFIER             décalage et aller à l'état 27
-    RETURN                 décalage et aller à l'état 28
-    READ                   décalage et aller à l'état 29
-    WHILE                  décalage et aller à l'état 30
-    WRITE                  décalage et aller à l'état 31
-    FOR                    décalage et aller à l'état 32
-    IF                     décalage et aller à l'état 33
-    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 272
+    IDENTIFIER              décalage et aller à l'état 27
+    RETURN                  décalage et aller à l'état 28
+    READ                    décalage et aller à l'état 29
+    WHILE                   décalage et aller à l'état 30
+    WRITE                   décalage et aller à l'état 31
+    FOR                     décalage et aller à l'état 32
+    IF                      décalage et aller à l'état 33
+    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 331
 
     return_statement         aller à l'état 36
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    Action                   aller à l'état 331
-    inst                     aller à l'état 274
+    inst                     aller à l'état 167
 
 
 État 309
 
-  105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_int PUNCTUATOR_CLOSE_CURLY
-  137 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
+  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression $@7 PUNCTUATOR_CLOSE_PARENTHESIS Action . ifSuite
 
-    PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 332
-    PUNCTUATOR_COMMA              décalage et aller à l'état 232
+    ELSE  décalage et aller à l'état 332
+
+    ELSE      [réduction par utilisation de la règle 138 (ifSuite)]
+    $défaut  réduction par utilisation de la règle 138 (ifSuite)
+
+    ifSuite  aller à l'état 333
 
 
 État 310
 
-  107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_double PUNCTUATOR_CLOSE_CURLY
-  137 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
-
-    PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 333
-    PUNCTUATOR_COMMA              décalage et aller à l'état 232
-
-
-État 311
-
-  109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_string PUNCTUATOR_CLOSE_CURLY
-  137 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
+  105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_int PUNCTUATOR_CLOSE_CURLY
+  141 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
 
     PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 334
     PUNCTUATOR_COMMA              décalage et aller à l'état 232
 
 
-État 312
+État 311
 
-  111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_char PUNCTUATOR_CLOSE_CURLY
-  137 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
+  107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_double PUNCTUATOR_CLOSE_CURLY
+  141 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
 
     PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 335
     PUNCTUATOR_COMMA              décalage et aller à l'état 232
 
 
-État 313
+État 312
 
-  113 function: $@6 VOID IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function PUNCTUATOR_CLOSE_CURLY
-  137 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
+  109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_string PUNCTUATOR_CLOSE_CURLY
+  141 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
 
     PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 336
     PUNCTUATOR_COMMA              décalage et aller à l'état 232
 
 
+État 313
+
+  111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_char PUNCTUATOR_CLOSE_CURLY
+  141 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
+
+    PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 337
+    PUNCTUATOR_COMMA              décalage et aller à l'état 232
+
+
 État 314
 
-   79 declaration_tabchar: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
+  113 function: $@6 VOID IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList . PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function PUNCTUATOR_CLOSE_CURLY
+  141 ParmetersList: ParmetersList . PUNCTUATOR_COMMA Parmeter
 
-    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 337
+    PUNCTUATOR_CLOSE_PARENTHESIS  décalage et aller à l'état 338
+    PUNCTUATOR_COMMA              décalage et aller à l'état 232
 
 
 État 315
+
+   79 declaration_tabchar: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
+
+    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 339
+
+
+État 316
 
    94 element_tabchar: CHAR .
 
     $défaut  réduction par utilisation de la règle 94 (element_tabchar)
 
 
-État 316
+État 317
 
    78 declaration_tabchar: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabchar . PUNCTUATOR_CLOSE_BRACKET
    92 element_tabchar: element_tabchar . PUNCTUATOR_COMMA CHAR
    93                | element_tabchar . PUNCTUATOR_COMMA IDENTIFIER
 
-    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 338
-    PUNCTUATOR_COMMA          décalage et aller à l'état 339
-
-
-État 317
-
-   82 declaration_tabbool: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
-
     PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 340
+    PUNCTUATOR_COMMA          décalage et aller à l'état 341
 
 
 État 318
+
+   82 declaration_tabbool: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
+
+    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 342
+
+
+État 319
 
    97 element_tabbool: boolvalues .
 
     $défaut  réduction par utilisation de la règle 97 (element_tabbool)
 
 
-État 319
+État 320
 
    81 declaration_tabbool: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabbool . PUNCTUATOR_CLOSE_BRACKET
    95 element_tabbool: element_tabbool . PUNCTUATOR_COMMA boolvalues
    96                | element_tabbool . PUNCTUATOR_COMMA IDENTIFIER
 
-    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 341
-    PUNCTUATOR_COMMA          décalage et aller à l'état 342
-
-
-État 320
-
-   73 declaration_tabreal: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
-
     PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 343
+    PUNCTUATOR_COMMA          décalage et aller à l'état 344
 
 
 État 321
+
+   73 declaration_tabreal: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
+
+    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 345
+
+
+État 322
 
    88 element_tabreal: REAL .
 
     $défaut  réduction par utilisation de la règle 88 (element_tabreal)
 
 
-État 322
+État 323
 
    72 declaration_tabreal: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabreal . PUNCTUATOR_CLOSE_BRACKET
    86 element_tabreal: element_tabreal . PUNCTUATOR_COMMA REAL
    87                | element_tabreal . PUNCTUATOR_COMMA IDENTIFIER
 
-    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 344
-    PUNCTUATOR_COMMA          décalage et aller à l'état 345
-
-
-État 323
-
-   70 declaration_tabint: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
-
     PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 346
+    PUNCTUATOR_COMMA          décalage et aller à l'état 347
 
 
 État 324
+
+   70 declaration_tabint: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
+
+    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 348
+
+
+État 325
 
    85 element_tabint: NUMBER .
 
     $défaut  réduction par utilisation de la règle 85 (element_tabint)
 
 
-État 325
+État 326
 
    69 declaration_tabint: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabint . PUNCTUATOR_CLOSE_BRACKET
    83 element_tabint: element_tabint . PUNCTUATOR_COMMA NUMBER
    84               | element_tabint . PUNCTUATOR_COMMA IDENTIFIER
 
-    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 347
-    PUNCTUATOR_COMMA          décalage et aller à l'état 348
-
-
-État 326
-
-   76 declaration_tabstring: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
-
     PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 349
+    PUNCTUATOR_COMMA          décalage et aller à l'état 350
 
 
 État 327
+
+   76 declaration_tabstring: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER . PUNCTUATOR_CLOSE_BRACKET
+
+    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 351
+
+
+État 328
 
    91 element_tabstring: CONSTSTRING .
 
     $défaut  réduction par utilisation de la règle 91 (element_tabstring)
 
 
-État 328
+État 329
 
    75 declaration_tabstring: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabstring . PUNCTUATOR_CLOSE_BRACKET
    89 element_tabstring: element_tabstring . PUNCTUATOR_COMMA CONSTSTRING
    90                  | element_tabstring . PUNCTUATOR_COMMA IDENTIFIER
 
-    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 350
-    PUNCTUATOR_COMMA          décalage et aller à l'état 351
-
-
-État 329
-
-  122 Action: PUNCTUATOR_OPEN_CURLY instList PUNCTUATOR_CLOSE_CURLY .
-
-    $défaut  réduction par utilisation de la règle 122 (Action)
+    PUNCTUATOR_CLOSE_BRACKET  décalage et aller à l'état 352
+    PUNCTUATOR_COMMA          décalage et aller à l'état 353
 
 
 État 330
@@ -3745,165 +3750,203 @@ LogicExpression3 (119)
 
 État 331
 
-  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action ELSE Action .
+  122 Action: PUNCTUATOR_OPEN_CURLY instList PUNCTUATOR_CLOSE_CURLY .
 
-    $défaut  réduction par utilisation de la règle 133 (inst)
+    $défaut  réduction par utilisation de la règle 122 (Action)
 
 
 État 332
 
-  105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_int PUNCTUATOR_CLOSE_CURLY
+  140 ifSuite: ELSE . $@9 Action
 
-    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 352
+    $défaut  réduction par utilisation de la règle 139 ($@9)
+
+    $@9  aller à l'état 354
 
 
 État 333
 
-  107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_double PUNCTUATOR_CLOSE_CURLY
+  133 inst: IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression $@7 PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite .
 
-    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 353
+    $défaut  réduction par utilisation de la règle 133 (inst)
 
 
 État 334
 
-  109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_string PUNCTUATOR_CLOSE_CURLY
-
-    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 354
-
-
-État 335
-
-  111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_char PUNCTUATOR_CLOSE_CURLY
+  105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_int PUNCTUATOR_CLOSE_CURLY
 
     PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 355
 
 
-État 336
+État 335
 
-  113 function: $@6 VOID IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function PUNCTUATOR_CLOSE_CURLY
+  107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_double PUNCTUATOR_CLOSE_CURLY
 
     PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 356
 
 
+État 336
+
+  109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_string PUNCTUATOR_CLOSE_CURLY
+
+    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 357
+
+
 État 337
+
+  111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function return_statement_char PUNCTUATOR_CLOSE_CURLY
+
+    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 358
+
+
+État 338
+
+  113 function: $@6 VOID IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS . PUNCTUATOR_OPEN_CURLY instList_function PUNCTUATOR_CLOSE_CURLY
+
+    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 359
+
+
+État 339
 
    79 declaration_tabchar: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 79 (declaration_tabchar)
 
 
-État 338
+État 340
 
    78 declaration_tabchar: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabchar PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 78 (declaration_tabchar)
 
 
-État 339
+État 341
 
    92 element_tabchar: element_tabchar PUNCTUATOR_COMMA . CHAR
    93                | element_tabchar PUNCTUATOR_COMMA . IDENTIFIER
 
-    CHAR        décalage et aller à l'état 357
-    IDENTIFIER  décalage et aller à l'état 358
+    CHAR        décalage et aller à l'état 360
+    IDENTIFIER  décalage et aller à l'état 361
 
 
-État 340
+État 342
 
    82 declaration_tabbool: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 82 (declaration_tabbool)
 
 
-État 341
+État 343
 
    81 declaration_tabbool: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabbool PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 81 (declaration_tabbool)
 
 
-État 342
+État 344
 
    95 element_tabbool: element_tabbool PUNCTUATOR_COMMA . boolvalues
    96                | element_tabbool PUNCTUATOR_COMMA . IDENTIFIER
 
-    IDENTIFIER  décalage et aller à l'état 359
+    IDENTIFIER  décalage et aller à l'état 362
     TRUEBOOL    décalage et aller à l'état 185
     FALSEBOOL   décalage et aller à l'état 186
 
-    boolvalues  aller à l'état 360
+    boolvalues  aller à l'état 363
 
 
-État 343
+État 345
 
    73 declaration_tabreal: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 73 (declaration_tabreal)
 
 
-État 344
+État 346
 
    72 declaration_tabreal: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabreal PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 72 (declaration_tabreal)
 
 
-État 345
+État 347
 
    86 element_tabreal: element_tabreal PUNCTUATOR_COMMA . REAL
    87                | element_tabreal PUNCTUATOR_COMMA . IDENTIFIER
 
-    REAL        décalage et aller à l'état 361
-    IDENTIFIER  décalage et aller à l'état 362
+    REAL        décalage et aller à l'état 364
+    IDENTIFIER  décalage et aller à l'état 365
 
 
-État 346
+État 348
 
    70 declaration_tabint: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 70 (declaration_tabint)
 
 
-État 347
+État 349
 
    69 declaration_tabint: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabint PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 69 (declaration_tabint)
 
 
-État 348
+État 350
 
    83 element_tabint: element_tabint PUNCTUATOR_COMMA . NUMBER
    84               | element_tabint PUNCTUATOR_COMMA . IDENTIFIER
 
-    NUMBER      décalage et aller à l'état 363
-    IDENTIFIER  décalage et aller à l'état 364
+    NUMBER      décalage et aller à l'état 366
+    IDENTIFIER  décalage et aller à l'état 367
 
 
-État 349
+État 351
 
    76 declaration_tabstring: IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 76 (declaration_tabstring)
 
 
-État 350
+État 352
 
    75 declaration_tabstring: IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabstring PUNCTUATOR_CLOSE_BRACKET .
 
     $défaut  réduction par utilisation de la règle 75 (declaration_tabstring)
 
 
-État 351
+État 353
 
    89 element_tabstring: element_tabstring PUNCTUATOR_COMMA . CONSTSTRING
    90                  | element_tabstring PUNCTUATOR_COMMA . IDENTIFIER
 
-    CONSTSTRING  décalage et aller à l'état 365
-    IDENTIFIER   décalage et aller à l'état 366
+    CONSTSTRING  décalage et aller à l'état 368
+    IDENTIFIER   décalage et aller à l'état 369
 
 
-État 352
+État 354
+
+  140 ifSuite: ELSE $@9 . Action
+
+    IDENTIFIER             décalage et aller à l'état 27
+    RETURN                 décalage et aller à l'état 28
+    READ                   décalage et aller à l'état 29
+    WHILE                  décalage et aller à l'état 30
+    WRITE                  décalage et aller à l'état 31
+    FOR                    décalage et aller à l'état 32
+    IF                     décalage et aller à l'état 33
+    PUNCTUATOR_OPEN_CURLY  décalage et aller à l'état 278
+
+    return_statement         aller à l'état 36
+    return_statement_int     aller à l'état 37
+    return_statement_double  aller à l'état 38
+    return_statement_string  aller à l'état 39
+    return_statement_char    aller à l'état 40
+    Action                   aller à l'état 370
+    inst                     aller à l'état 280
+
+
+État 355
 
   105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY . instList_function return_statement_int PUNCTUATOR_CLOSE_CURLY
 
@@ -3922,17 +3965,17 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    instList_function        aller à l'état 368
-    inst_function            aller à l'état 369
+    inst_var                 aller à l'état 371
+    instList_function        aller à l'état 372
+    inst_function            aller à l'état 373
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 353
+État 356
 
   107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY . instList_function return_statement_double PUNCTUATOR_CLOSE_CURLY
 
@@ -3951,17 +3994,17 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    instList_function        aller à l'état 371
-    inst_function            aller à l'état 369
+    inst_var                 aller à l'état 371
+    instList_function        aller à l'état 375
+    inst_function            aller à l'état 373
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 354
+État 357
 
   109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY . instList_function return_statement_string PUNCTUATOR_CLOSE_CURLY
 
@@ -3980,17 +4023,17 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    instList_function        aller à l'état 372
-    inst_function            aller à l'état 369
+    inst_var                 aller à l'état 371
+    instList_function        aller à l'état 376
+    inst_function            aller à l'état 373
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 355
+État 358
 
   111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY . instList_function return_statement_char PUNCTUATOR_CLOSE_CURLY
 
@@ -4009,17 +4052,17 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    instList_function        aller à l'état 373
-    inst_function            aller à l'état 369
+    inst_var                 aller à l'état 371
+    instList_function        aller à l'état 377
+    inst_function            aller à l'état 373
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 356
+État 359
 
   113 function: $@6 VOID IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY . instList_function PUNCTUATOR_CLOSE_CURLY
 
@@ -4038,94 +4081,101 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    instList_function        aller à l'état 374
-    inst_function            aller à l'état 369
+    inst_var                 aller à l'état 371
+    instList_function        aller à l'état 378
+    inst_function            aller à l'état 373
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 357
+État 360
 
    92 element_tabchar: element_tabchar PUNCTUATOR_COMMA CHAR .
 
     $défaut  réduction par utilisation de la règle 92 (element_tabchar)
 
 
-État 358
+État 361
 
    93 element_tabchar: element_tabchar PUNCTUATOR_COMMA IDENTIFIER .
 
     $défaut  réduction par utilisation de la règle 93 (element_tabchar)
 
 
-État 359
+État 362
 
    96 element_tabbool: element_tabbool PUNCTUATOR_COMMA IDENTIFIER .
 
     $défaut  réduction par utilisation de la règle 96 (element_tabbool)
 
 
-État 360
+État 363
 
    95 element_tabbool: element_tabbool PUNCTUATOR_COMMA boolvalues .
 
     $défaut  réduction par utilisation de la règle 95 (element_tabbool)
 
 
-État 361
+État 364
 
    86 element_tabreal: element_tabreal PUNCTUATOR_COMMA REAL .
 
     $défaut  réduction par utilisation de la règle 86 (element_tabreal)
 
 
-État 362
+État 365
 
    87 element_tabreal: element_tabreal PUNCTUATOR_COMMA IDENTIFIER .
 
     $défaut  réduction par utilisation de la règle 87 (element_tabreal)
 
 
-État 363
+État 366
 
    83 element_tabint: element_tabint PUNCTUATOR_COMMA NUMBER .
 
     $défaut  réduction par utilisation de la règle 83 (element_tabint)
 
 
-État 364
+État 367
 
    84 element_tabint: element_tabint PUNCTUATOR_COMMA IDENTIFIER .
 
     $défaut  réduction par utilisation de la règle 84 (element_tabint)
 
 
-État 365
+État 368
 
    89 element_tabstring: element_tabstring PUNCTUATOR_COMMA CONSTSTRING .
 
     $défaut  réduction par utilisation de la règle 89 (element_tabstring)
 
 
-État 366
+État 369
 
    90 element_tabstring: element_tabstring PUNCTUATOR_COMMA IDENTIFIER .
 
     $défaut  réduction par utilisation de la règle 90 (element_tabstring)
 
 
-État 367
+État 370
+
+  140 ifSuite: ELSE $@9 Action .
+
+    $défaut  réduction par utilisation de la règle 140 (ifSuite)
+
+
+État 371
 
   117 inst_function: inst_var .
 
     $défaut  réduction par utilisation de la règle 117 (inst_function)
 
 
-État 368
+État 372
 
   105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function . return_statement_int PUNCTUATOR_CLOSE_CURLY
   114 instList_function: instList_function . inst_function
@@ -4145,30 +4195,30 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    inst_function            aller à l'état 375
-    return_statement_int     aller à l'état 376
+    inst_var                 aller à l'état 371
+    inst_function            aller à l'état 379
+    return_statement_int     aller à l'état 380
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 369
+État 373
 
   115 instList_function: inst_function .
 
     $défaut  réduction par utilisation de la règle 115 (instList_function)
 
 
-État 370
+État 374
 
   116 inst_function: inst .
 
     $défaut  réduction par utilisation de la règle 116 (inst_function)
 
 
-État 371
+État 375
 
   107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function . return_statement_double PUNCTUATOR_CLOSE_CURLY
   114 instList_function: instList_function . inst_function
@@ -4188,16 +4238,16 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    inst_function            aller à l'état 375
+    inst_var                 aller à l'état 371
+    inst_function            aller à l'état 379
     return_statement_int     aller à l'état 37
-    return_statement_double  aller à l'état 377
+    return_statement_double  aller à l'état 381
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 372
+État 376
 
   109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function . return_statement_string PUNCTUATOR_CLOSE_CURLY
   114 instList_function: instList_function . inst_function
@@ -4217,16 +4267,16 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    inst_function            aller à l'état 375
+    inst_var                 aller à l'état 371
+    inst_function            aller à l'état 379
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
-    return_statement_string  aller à l'état 378
+    return_statement_string  aller à l'état 382
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 373
+État 377
 
   111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function . return_statement_char PUNCTUATOR_CLOSE_CURLY
   114 instList_function: instList_function . inst_function
@@ -4246,16 +4296,16 @@ LogicExpression3 (119)
     IF          décalage et aller à l'état 33
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    inst_function            aller à l'état 375
+    inst_var                 aller à l'état 371
+    inst_function            aller à l'état 379
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
-    return_statement_char    aller à l'état 379
-    inst                     aller à l'état 370
+    return_statement_char    aller à l'état 383
+    inst                     aller à l'état 374
 
 
-État 374
+État 378
 
   113 function: $@6 VOID IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function . PUNCTUATOR_CLOSE_CURLY
   114 instList_function: instList_function . inst_function
@@ -4273,94 +4323,94 @@ LogicExpression3 (119)
     WRITE                   décalage et aller à l'état 31
     FOR                     décalage et aller à l'état 32
     IF                      décalage et aller à l'état 33
-    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 380
+    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 384
 
     return_statement         aller à l'état 36
-    inst_var                 aller à l'état 367
-    inst_function            aller à l'état 375
+    inst_var                 aller à l'état 371
+    inst_function            aller à l'état 379
     return_statement_int     aller à l'état 37
     return_statement_double  aller à l'état 38
     return_statement_string  aller à l'état 39
     return_statement_char    aller à l'état 40
-    inst                     aller à l'état 370
+    inst                     aller à l'état 374
 
 
-État 375
+État 379
 
   114 instList_function: instList_function inst_function .
 
     $défaut  réduction par utilisation de la règle 114 (instList_function)
 
 
-État 376
+État 380
 
    10 return_statement: return_statement_int .
   105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_int . PUNCTUATOR_CLOSE_CURLY
 
-    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 381
+    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 385
 
     $défaut  réduction par utilisation de la règle 10 (return_statement)
 
 
-État 377
+État 381
 
    11 return_statement: return_statement_double .
   107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_double . PUNCTUATOR_CLOSE_CURLY
 
-    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 382
+    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 386
 
     $défaut  réduction par utilisation de la règle 11 (return_statement)
 
 
-État 378
+État 382
 
    12 return_statement: return_statement_string .
   109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_string . PUNCTUATOR_CLOSE_CURLY
 
-    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 383
+    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 387
 
     $défaut  réduction par utilisation de la règle 12 (return_statement)
 
 
-État 379
+État 383
 
    13 return_statement: return_statement_char .
   111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_char . PUNCTUATOR_CLOSE_CURLY
 
-    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 384
+    PUNCTUATOR_CLOSE_CURLY  décalage et aller à l'état 388
 
     $défaut  réduction par utilisation de la règle 13 (return_statement)
 
 
-État 380
+État 384
 
   113 function: $@6 VOID IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function PUNCTUATOR_CLOSE_CURLY .
 
     $défaut  réduction par utilisation de la règle 113 (function)
 
 
-État 381
+État 385
 
   105 function: $@2 INT IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_int PUNCTUATOR_CLOSE_CURLY .
 
     $défaut  réduction par utilisation de la règle 105 (function)
 
 
-État 382
+État 386
 
   107 function: $@3 DOUBLE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_double PUNCTUATOR_CLOSE_CURLY .
 
     $défaut  réduction par utilisation de la règle 107 (function)
 
 
-État 383
+État 387
 
   109 function: $@4 STRINGTYPE IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_string PUNCTUATOR_CLOSE_CURLY .
 
     $défaut  réduction par utilisation de la règle 109 (function)
 
 
-État 384
+État 388
 
   111 function: $@5 CHAR IDENTIFIER PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_OPEN_CURLY instList_function return_statement_char PUNCTUATOR_CLOSE_CURLY .
 
