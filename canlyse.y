@@ -94,7 +94,8 @@ char* identif;
   int Lesle;
   int Lif;
 
-
+  int fin;
+  int Sif;
 
 
 
@@ -401,7 +402,16 @@ return_statement_char : RETURN CHAR PUNCTUATOR_SEMICOLON ;
 //-------------------------------ACTION-------------------------------------
 // Ation is a block or a single Instruction 
 Action : PUNCTUATOR_OPEN_CURLY  instList   PUNCTUATOR_CLOSE_CURLY | inst ;
-FORDecalartion :  IDENTIFIER PUNCTUATOR_ASSIGN NUMBER TO NUMBER {printf ("\nfooor devalartion");}
+FORDecalartion :  IDENTIFIER PUNCTUATOR_ASSIGN NUMBER TO NUMBER {
+char str1[20];
+char str2[20];
+char str3[20];
+sprintf(str1,"%d",$5);
+sprintf(str2,"%d",$3);
+ajouter_quadruplet(":=",$1,str2,"");
+ajouter_quadruplet("-",str1,$1,"");
+Sif=index_tbq;
+ajouter_quadruplet("bne","","","");}
 ;
 instList : instList   inst 
 | inst  
@@ -480,7 +490,19 @@ inst :
     modifier_quadruplet(Lesle+1,"bne","","",str2);
  }
 | WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS  Action        { printf("WHILE \n") ;}
-| FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { printf("FOR\n");}
+| FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { 
+char str[20];
+sprintf(str,"%d",Sif-2);
+ajouter_quadruplet("+",tbq[Sif-2].deuxieme,"1","r");
+ajouter_quadruplet(":=","r","",tbq[Sif-2].deuxieme);
+ajouter_quadruplet("br","","",str);
+
+char str1[20];
+sprintf(str1,"%d",index_tbq);
+
+modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,str1);
+
+}
 | return_statement {printf("Return\n");}
 ;
 // there is a conflit here in if else but in default (reduice ) is working as we want
