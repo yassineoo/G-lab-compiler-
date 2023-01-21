@@ -93,9 +93,9 @@ char* identif;
   int suite;
   int Lesle;
   int Lif;
+  int LWhile;
 
-  int fin;
-  int Sif;
+
 
 
 
@@ -132,12 +132,12 @@ char* identif;
 %type  <string> LogicExpression1
 %type  <string> LogicExpression2
 %type  <string> LogicExpression3
-
+%type <string> boolvalues
 
 
 
 %token  BOOL DOUBLE INT RETURN ELSE STRUCT STRINGTYPE  CHARTYPE  CONST  READ 
-%token  TRUEBOOL FALSEBOOL 
+%token  <integer>TRUEBOOL <integer>FALSEBOOL 
 %token  TYPE VAR WHILE WRITE TO FOR FUNCTIONS MAIN IF  PROGRAME VOID 
 %token  OPERATOR_PLUS OPERATOR_MINUS OPERATOR_MULTIPLICATION  OPERATOR_DEVISION	 OPERATOR_POWER OPERATOR_MOD	 OPERATOR_INCREMENTATION	 OPERATOR_DECREMENTATION
 
@@ -253,7 +253,7 @@ declaration_entier :
 
     printf ("  ajout avec secuus ");
     affiche_dico();
-    afficher_tbq();
+   // afficher_tbq();
 
   }
  }
@@ -269,7 +269,7 @@ declaration_entier :
     ajouter($3,0,1,str,0);
     
     affiche_dico();
-    afficher_tbq();
+   // afficher_tbq();
   }
 }
 | IDENTIFIER {
@@ -326,14 +326,22 @@ declaration_string :
 | IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 | IDENTIFIER 
 ;
-boolvalues : TRUEBOOL | FALSEBOOL ;
+boolvalues : TRUEBOOL {
+    char str[2];
+      sprintf(str,"%d",$1);
+      $$ = strdup(str);
+  }
+   | FALSEBOOL {
+    char str[2];
+      sprintf(str,"%d",$1);
+      $$ = strdup(str);
+  } ;
 declaration_bool : declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN boolvalues
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER 
 | IDENTIFIER PUNCTUATOR_ASSIGN boolvalues 
 | IDENTIFIER 
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
 ;
 declaration_const : 
  declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression 
@@ -402,16 +410,7 @@ return_statement_char : RETURN CHAR PUNCTUATOR_SEMICOLON ;
 //-------------------------------ACTION-------------------------------------
 // Ation is a block or a single Instruction 
 Action : PUNCTUATOR_OPEN_CURLY  instList   PUNCTUATOR_CLOSE_CURLY | inst ;
-FORDecalartion :  IDENTIFIER PUNCTUATOR_ASSIGN NUMBER TO NUMBER {
-char str1[20];
-char str2[20];
-char str3[20];
-sprintf(str1,"%d",$5);
-sprintf(str2,"%d",$3);
-ajouter_quadruplet(":=",$1,str2,"");
-ajouter_quadruplet("-",str1,$1,"");
-Sif=index_tbq;
-ajouter_quadruplet("bne","","","");}
+FORDecalartion :  IDENTIFIER PUNCTUATOR_ASSIGN NUMBER TO NUMBER {printf ("\nfooor devalartion");}
 ;
 instList : instList   inst 
 | inst  
@@ -438,72 +437,60 @@ inst :
  
   }
     }
-    /*
-|IDENTIFIER PUNCTUATOR_ASSIGN Expression PUNCTUATOR_SEMICOLON 
-{ 
-   
-  if (recherche($1) ==NULL) {
-    printf (" variable non decalrie");
-  }
-  else { 
-    desc_identif* var  =  recherche($1) ;
-    if (var->type == 1){
-         char  str[20]; 
-     sprintf(str,"%d",$3);
-    modifier($1,0,1,str,0);
-    
-     ajouter_quadruplet(":=" , $1 , "",str);
-       
-     afficher_tbq();    
-     affiche_dico();
-      
-    }
-    else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
-  }
+| IDENTIFIER OPERATOR_INCREMENTATION PUNCTUATOR_SEMICOLON  { 
+
+   char str[20];
+    sprintf(str,"%d",index_tbq);
+     ajouter_quadruplet("+" , $1 , 1,str);
+ }
+| IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  {
+    char str[20];
+    sprintf(str,"%d",index_tbq);
+     ajouter_quadruplet("-" , $1 , 1,str);
     }
-*/
-| IDENTIFIER OPERATOR_INCREMENTATION PUNCTUATOR_SEMICOLON  { printf("Inc\n "); }
-| IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  { printf("Dec\n "); }
 | READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  { printf("READ \n"); }
 | WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  {printf("WRITE \n"); }
-
 | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression
 {
   Lif=index_tbq;
-  ajouter_quadruplet("bne","","","");}
- PUNCTUATOR_CLOSE_PARENTHESIS Action {
-     char str[20];
-    sprintf(str,"%d",1+index_tbq);
-    modifier_quadruplet(Lif,"bne","","",str);
-    Lesle=index_tbq;
-
-    ajouter_quadruplet("br","","","");
-    printf(" ^^^^^^^^^^^^^^^^^^ ");
-
- }  ELSE Action {
+  ajouter_quadruplet("bz","","","");
+  }
+ PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
+| WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression  PUNCTUATOR_CLOSE_PARENTHESIS {
+  LWhile=index_tbq;
+  ajouter_quadruplet("bz","","","");}
+ Action        { 
+  { 
     char str[20];
     sprintf(str,"%d",index_tbq);
-    modifier_quadruplet(Lesle,"bne","lplp","",str);
-    char str2[20];
-    sprintf(str2,"%d",index_tbq+1);
-    modifier_quadruplet(Lesle+1,"bne","","",str2);
- }
-| WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS  Action        { printf("WHILE \n") ;}
-| FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { 
-char str[20];
-sprintf(str,"%d",Sif-2);
-ajouter_quadruplet("+",tbq[Sif-2].deuxieme,"1","r");
-ajouter_quadruplet(":=","r","",tbq[Sif-2].deuxieme);
-ajouter_quadruplet("br","","",str);
-
-char str1[20];
-sprintf(str1,"%d",index_tbq);
-
-modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,str1);
+    modifier_quadruplet(LWhile,"bz","","",str);
+  }
 
 }
+| FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { printf("FOR\n");}
 | return_statement {printf("Return\n");}
+;
+
+ifSuite :  { printf("IF \n");
+    char str[20];
+    sprintf(str,"%d",index_tbq);
+    modifier_quadruplet(Lif,"bne","","",str);
+  }
+  | ELSE 
+   {
+    Lesle=index_tbq;
+    ajouter_quadruplet("br","","","");
+    char str[20];
+    sprintf(str,"%d",index_tbq);
+    modifier_quadruplet(Lif,"bz","","",str);
+ 
+ } Action {
+    char str[20];
+    sprintf(str,"%d",index_tbq);
+    modifier_quadruplet(Lesle,"br","","",str);
+
+ }
 ;
 // there is a conflit here in if else but in default (reduice ) is working as we want
 // ParmetersList   ex :  (x,2,3,"djdj") 
@@ -518,7 +505,7 @@ Expression:
   	char str[20]="r";
 	$$=strdup(strcat(str,str_index));
     	ajouter_quadruplet("+",$1,$3,$$);
-    	afficher_tbq();
+    //	afficher_tbq();
    }
   |Expression OPERATOR_MINUS Term {
      	char str_index[20];
@@ -577,9 +564,6 @@ Fact2 :
   
 LogicExpression :
    LogicExpression1  {
-     printf("jojojo");
-    afficher_tbq();
-     printf("jojojo2-");
      $$ = $1; 
    printf(" the resuluts is %d ",$$ );
    } | OPERATOR_NOT LogicExpression1 {
@@ -588,7 +572,6 @@ LogicExpression :
   	char str[20]="r";
 	  $$=strdup(strcat(str,str_index));
     ajouter_quadruplet(":=",$2,"",str);
-    afficher_tbq();
 }
 ;
 LogicExpression1  :
@@ -694,6 +677,9 @@ LogicExpression3 :
   	char str[20]="r";
 	  $$=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",$1,$3,str);
+  | boolvalues   { $$ =$1;
+    
+      } ;
   }
   
 ;
