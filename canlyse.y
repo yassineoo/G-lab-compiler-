@@ -457,13 +457,28 @@ inst :
 | IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  { printf("Dec\n "); }
 | READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  { printf("READ \n"); }
 | WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  {printf("WRITE \n"); }
-| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression {Lif=index_tbq;ajouter_quadruplet("bne","","","");}  PUNCTUATOR_CLOSE_PARENTHESIS Action  
-  { printf("IF \n");
+
+| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression
+{
+  Lif=index_tbq;
+  ajouter_quadruplet("bne","","","");}
+ PUNCTUATOR_CLOSE_PARENTHESIS Action {
+     char str[20];
+    sprintf(str,"%d",1+index_tbq);
+    modifier_quadruplet(Lif,"bne","","",str);
+    Lesle=index_tbq;
+
+    ajouter_quadruplet("br","","","");
+    printf(" ^^^^^^^^^^^^^^^^^^ ");
+
+ }  ELSE Action {
     char str[20];
     sprintf(str,"%d",index_tbq);
-    modifier_quadruplet(Lif,"bne","","",str);
-  }
-//| IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS Action  ELSE Action {printf("IF ELSE \n");}
+    modifier_quadruplet(Lesle,"bne","lplp","",str);
+    char str2[20];
+    sprintf(str2,"%d",index_tbq+1);
+    modifier_quadruplet(Lesle+1,"bne","","",str2);
+ }
 | WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression PUNCTUATOR_CLOSE_PARENTHESIS  Action        { printf("WHILE \n") ;}
 | FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { printf("FOR\n");}
 | return_statement {printf("Return\n");}
