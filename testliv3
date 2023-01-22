@@ -5,6 +5,8 @@ var{
 int c;
 bool j;
 int n=50+1003*4/6+3-2;
+double inc;
+double arr [2][2];
 
 }
 
@@ -14,6 +16,11 @@ while( (2>2) && (12<>4)) {
     c=1*2;
     if (8 < 2) {
         c=1000;
+     if (5<2) {c=55;}
+     c=22;
+    }
+    else {
+        c=5;
     }
    
 

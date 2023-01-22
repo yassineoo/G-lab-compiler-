@@ -68,6 +68,27 @@ char* identif;
 	void affiche_dico(void); //affiche toute les entrées
 	
 
+// ifpile  --------------------------------------------
+
+
+#define size 5
+struct pile
+{
+    int tab[size];
+    int top;
+};
+typedef struct pile PILE;
+PILE ifp;
+void push(int item); 
+int pop() ;
+void afficher();
+
+//----------------------------------------------------
+
+
+
+
+
 // Table des Quadruplets
   typedef struct Quadruplet Quadruplet;
   struct Quadruplet{
@@ -91,11 +112,10 @@ char* identif;
 
   	
   int suite;
-  int Lesle;
-  int Lif;
   int LWhile;
 
-
+  int fin;
+  int Sif;
 
 
 
@@ -179,7 +199,7 @@ Programe: PROGRAME IDENTIFIER PUNCTUATOR_SEMICOLON main_struct   {printf("\n----
 ;
 
 //------------------------------- MAIN ----------------------------------------
-main_struct : MAIN Action_main;
+main_struct : MAIN Action_main  {ajouter_quadruplet("END","","","");}
 Action_main : PUNCTUATOR_OPEN_CURLY  instList  PUNCTUATOR_CLOSE_CURLY | inst ;
 return_statement : return_statement_int|
 return_statement_double |
@@ -253,7 +273,6 @@ declaration_entier :
 
     printf ("  ajout avec secuus ");
     affiche_dico();
-   // afficher_tbq();
 
   }
  }
@@ -269,7 +288,6 @@ declaration_entier :
     ajouter($3,0,1,str,0);
     
     affiche_dico();
-   // afficher_tbq();
   }
 }
 | IDENTIFIER {
@@ -295,7 +313,6 @@ declaration_entier :
      sprintf(str1,"%s",$3);
      ajouter($1,0,1,str1,0);
      affiche_dico();
-    afficher_tbq();
 
   }
 }
@@ -304,27 +321,162 @@ declaration_entier :
 // Ajouter l'expression comme membre droit ex: 8*9 ou a+b
 // | declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
 // | IDENTIFIER PUNCTUATOR_ASSIGN Expression
-;
 declaration_char : 
-declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR  
+declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$5);
+    ajouter($3,0,3,str,0);
+    
+    affiche_dico();
+  }
+}
 | declaration_char PUNCTUATOR_COMMA IDENTIFIER 
+{
+   if (recherche($3) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,3,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ } 
 | IDENTIFIER PUNCTUATOR_ASSIGN CHAR 
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    char  str[20]; 
+     sprintf(str,"%d",$3);
+    ajouter($1,0,3,str,0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER 
+{
+   if (recherche($1) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,3,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ } 
 ;
 declaration_real : 
  declaration_real PUNCTUATOR_COMMA IDENTIFIER 
+ {
+   if (recherche($3) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,2,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ } 
 | declaration_real PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,2,$5,0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER 
+{
+   if (recherche($1) !=NULL) {
+    printf (" variable deja declaré");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,2,"null",0);
+
+    printf ("  ajout avec secuus ");
+    affiche_dico();
+  }
+ }
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,2,$3,0);    
+    affiche_dico();
+  }
+}
 ;
 declaration_string :
   declaration_string PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING  
+  {   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,4,$5,0);
+    
+    affiche_dico();
+  }
+}
 | declaration_string PUNCTUATOR_COMMA IDENTIFIER 
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,4,"null",0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING
-| IDENTIFIER PUNCTUATOR_ASSIGN IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,4,$3,0);
+    
+    affiche_dico();
+  }
+}
 | IDENTIFIER 
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,4,"null",0);
+    
+    affiche_dico();
+  }
+}
 ;
 boolvalues : TRUEBOOL {
     char str[2];
@@ -350,20 +502,135 @@ declaration_const :
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
 ;
 //Structures utilisés dans les tableaux
-declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabint PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CLOSE_BRACKET {
+     ajouter($1,0,7,$1,1);
+     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET {
+     ajouter($1,0,7,$1,1);
+     char str[20];
+      sprintf(str,"%d",$3);
+     ajouter_quadruplet("BOUNDS","0" ,str,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabint PUNCTUATOR_CLOSE_BRACKET 
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CLOSE_BRACKET
+{
+     ajouter($1,0,7,$1,1);
+     char str[20];
+      sprintf(str,"%d",$3);
+     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter_quadruplet("BOUNDS","0" ,$6,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+{
+     ajouter($1,0,7,$1,2);
+     char str3[20];
+     char str6[20];
+      sprintf(str3,"%d",$3);
+      sprintf(str6,"%d",$6);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
+     ajouter_quadruplet("BOUNDS","0" ,str6,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
 ;
 declaration_tabreal : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabreal PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+{
+     ajouter($1,0,8,$1,1);
+     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+}
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabreal PUNCTUATOR_CLOSE_BRACKET |
+ IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+ {
+      ajouter($1,0,8,$1,2);
+     char str3[20];
+     char str6[20];
+      sprintf(str3,"%d",$3);
+      sprintf(str6,"%d",$6);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
+     ajouter_quadruplet("BOUNDS","0" ,str6,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
 ;
 declaration_tabstring : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabstring PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
+{     ajouter($1,0,9,$1,1);
+     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+}
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabstring PUNCTUATOR_CLOSE_BRACKET 
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
+ {
+      ajouter($1,0,9,$1,2);
+     char str3[20];
+     char str6[20];
+      sprintf(str3,"%d",$3);
+      sprintf(str6,"%d",$6);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
+     ajouter_quadruplet("BOUNDS","0" ,str6,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
 ;
-declaration_tabchar : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabchar PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+declaration_tabchar : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
+{     ajouter($1,0,10,$1,1);
+     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+}
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabchar PUNCTUATOR_CLOSE_BRACKET 
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+ {
+      ajouter($1,0,10,$1,2);
+     char str3[20];
+     char str6[20];
+      sprintf(str3,"%d",$3);
+      sprintf(str6,"%d",$6);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
+     ajouter_quadruplet("BOUNDS","0" ,str6,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
 ;
-declaration_tabbool : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabbool PUNCTUATOR_CLOSE_BRACKET | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
+declaration_tabbool : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
+{
+     ajouter($1,0,11,$1,1);
+     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+}
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabbool PUNCTUATOR_CLOSE_BRACKET 
+| IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
+{
+   {
+      ajouter($1,0,11,$1,2);
+     char str3[20];
+     char str6[20];
+      sprintf(str3,"%d",$3);
+      sprintf(str6,"%d",$6);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
+     ajouter_quadruplet("BOUNDS","0" ,str6,"");
+     ajouter_quadruplet("ADEC", $1 ,"","");
+       
+     //affiche_dico();
+}
+}
 ;
 element_tabint : element_tabint PUNCTUATOR_COMMA NUMBER
 | element_tabint PUNCTUATOR_COMMA IDENTIFIER
@@ -410,8 +677,15 @@ return_statement_char : RETURN CHAR PUNCTUATOR_SEMICOLON ;
 //-------------------------------ACTION-------------------------------------
 // Ation is a block or a single Instruction 
 Action : PUNCTUATOR_OPEN_CURLY  instList   PUNCTUATOR_CLOSE_CURLY | inst ;
-FORDecalartion :  IDENTIFIER PUNCTUATOR_ASSIGN NUMBER TO NUMBER {printf ("\nfooor devalartion");}
+FORDecalartion :  IDENTIFIER PUNCTUATOR_ASSIGN NUMBER TO Expression {
+char str2[20];
+sprintf(str2,"%d",$3);
+ajouter_quadruplet(":=",$1,str2,"");
+ajouter_quadruplet("-",$5,$1,"");
+Sif=index_tbq;
+ajouter_quadruplet("bz","","","")
 ;
+}
 instList : instList   inst 
 | inst  
 ;
@@ -429,7 +703,6 @@ inst :
      modifier($1,0,1,str,0);
      ajouter_quadruplet(":=" , $1 , "",str);
        
-     afficher_tbq();    
      affiche_dico();
       
     }
@@ -446,11 +719,11 @@ inst :
   else { 
     desc_identif* var  =  recherche($1) ;
     if ((var->type == 6)){
+        char  str[20]; 
+     sprintf(str,"%s",$3);
  
-     modifier($1,0,6,str,0);
      ajouter_quadruplet(":=" , $1 , "",str);
        
-     afficher_tbq();    
      affiche_dico();
       
     }
@@ -463,18 +736,22 @@ inst :
 
    char str[20];
     sprintf(str,"%d",index_tbq);
-     ajouter_quadruplet("+" , $1 , 1,str);
+     ajouter_quadruplet("+" , $1 ,"1",str);
  }
 | IDENTIFIER OPERATOR_DECREMENTATION PUNCTUATOR_SEMICOLON  {
     char str[20];
     sprintf(str,"%d",index_tbq);
-     ajouter_quadruplet("-" , $1 , 1,str);
+     ajouter_quadruplet("-" , $1 ,"1",str);
     }
 | READ PUNCTUATOR_OPEN_PARENTHESIS IDENTIFIER PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  { printf("READ \n"); }
 | WRITE PUNCTUATOR_OPEN_PARENTHESIS ParmetersList PUNCTUATOR_CLOSE_PARENTHESIS PUNCTUATOR_SEMICOLON  {printf("WRITE \n"); }
 | IF PUNCTUATOR_OPEN_PARENTHESIS LogicExpression
 {
-  Lif=index_tbq;
+
+  push(index_tbq);
+  afficher();
+
+  //Lif=index_tbq;
   ajouter_quadruplet("bz","","","");
   }
  PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
@@ -489,27 +766,44 @@ inst :
   }
 
 }
-| FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { printf("FOR\n");}
+| FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { 
+char str[20];
+sprintf(str,"%d",Sif-2);
+ajouter_quadruplet("+",tbq[Sif-2].deuxieme,"1","r");
+ajouter_quadruplet(":=","r","",tbq[Sif-2].deuxieme);
+ajouter_quadruplet("br","","",str);
+char str1[20];
+sprintf(str1,"%d",index_tbq);
+modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,str1);
+}
 | return_statement {printf("Return\n");}
 ;
 
 ifSuite :  { printf("IF \n");
     char str[20];
     sprintf(str,"%d",index_tbq);
-    modifier_quadruplet(Lif,"bne","","",str);
+    int lif = pop();
+      afficher();
+    modifier_quadruplet(lif,"bz","","",str);
   }
   | ELSE 
    {
-    Lesle=index_tbq;
+    int lif = pop();
+    push(index_tbq);
+      afficher();
     ajouter_quadruplet("br","","","");
     char str[20];
     sprintf(str,"%d",index_tbq);
-    modifier_quadruplet(Lif,"bz","","",str);
+    modifier_quadruplet(lif,"bz","","",str);
+
  
  } Action {
     char str[20];
+    int lesle = pop();
+      afficher();
+
     sprintf(str,"%d",index_tbq);
-    modifier_quadruplet(Lesle,"br","","",str);
+    modifier_quadruplet(lesle,"br","","",str);
 
  }
 ;
@@ -526,7 +820,6 @@ Expression:
   	char str[20]="r";
 	$$=strdup(strcat(str,str_index));
     	ajouter_quadruplet("+",$1,$3,$$);
-    //	afficher_tbq();
    }
   |Expression OPERATOR_MINUS Term {
      	char str_index[20];
@@ -535,7 +828,11 @@ Expression:
 	$$=strdup(strcat(str,str_index));
     	ajouter_quadruplet("-",$1,$3,$$);
       }
-  | Term {$$ = $1;}
+  | Term {
+        $$ = strdup($1);
+
+
+  }
   ;
 Term: 
   Term OPERATOR_MULTIPLICATION Fact  {
@@ -553,7 +850,8 @@ Term:
 	$$=strdup(strcat(str,str_index));
     	ajouter_quadruplet("/",$1,$3,$$);
    }
-  | Fact {$$ = $1;
+  | Fact {
+      $$ = strdup($1);
   }
   ;
 Fact : 
@@ -564,7 +862,10 @@ Fact :
 	$$=strdup(strcat(str,str_index));
       	ajouter_quadruplet("**",$1,$3,$$);
      }
-  | Fact2 {$$ = $1;}
+  | Fact2 {
+    
+      $$ = strdup($1);
+  }
   ;
 Fact2 : 
    REAL      {
@@ -572,9 +873,10 @@ Fact2 :
       sprintf(str,"%f",$1);
        $$ = strdup(str);
       } 
-  |NUMBER      {
+  | NUMBER      {
       char str[50];
       sprintf(str,"%d",$1);
+
       $$ = strdup(str);
       }
   |PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS  {
@@ -697,11 +999,11 @@ LogicExpression3 :
   	sprintf(str_index,"%d",index_tbq);
   	char str[20]="r";
 	  $$=strdup(strcat(str,str_index));
-    ajouter_quadruplet("-",$1,$3,str);
+    ajouter_quadruplet("-",$1,$3,str);}
   | boolvalues   { $$ =$1;
     
       } ;
-  }
+  
   
 ;
 %%
@@ -795,3 +1097,37 @@ void affiche_dico() {
  		afficher_quadruplet(i);
  	}
  }
+
+
+
+
+
+
+
+
+ // ifPile functions   -     ------------------------
+
+void push(int item) {
+  if (ifp.top >= size - 1)
+    return;
+  ifp.top++;
+  ifp.tab[ifp.top] = item;
+}
+int pop() {
+  if (ifp.top == -1)
+    return 1;
+   int item;
+   item = ifp.tab[ifp.top];
+   ifp.top--;
+   return item;
+}
+void afficher() {
+   int i;
+   if (ifp.top == -1)
+      printf("\nLa pile est vide!");
+   else {
+      for (i = ifp.top; i >= 0; i--)
+         printf("\n%d", ifp.tab[i]);
+   }
+}
+
