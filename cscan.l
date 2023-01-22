@@ -75,7 +75,7 @@ false  					{
 
 			/* real(fractional) */
 [0-9]+(\.[0-9]+)?	{
-						yylval.real = atoi(yytext);
+						yylval.real = atof(yytext);
 						return REAL;
 	 }
 

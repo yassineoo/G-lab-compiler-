@@ -1,34 +1,31 @@
 programe glab;
 
-
 var{
-int c;
-bool j;
-int n=50+1003*4/6+3-2;
-double inc;
-double arr [2][2];
-
+	int a=0;
+	double div = 1;
+	bool trouv = true;
 }
 
-main{
-
-while( (6>2) && (12<>4)) {
-    c=1*2+i;
-    if (8 < 2) {
-        c=1000;
-     if (5<2) {c=55;}
-     c=22;
-    }
-    else {
-        c=5;
-    }
-   
 
 
-    c=2*4;
-    c=5*2;
 
+
+
+main {
+ div = 1.25;
+
+for(a=1 to 100){
+	if(a/div < 52){
+		if(div == 0.002){
+			 trouv = true; 
+            a++;
+		}
+	}else{
+		while(a < div){
+			div--;
+		}
+	}
 }
-return 0;
+
 }
 

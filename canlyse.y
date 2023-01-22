@@ -479,21 +479,85 @@ declaration_string :
 }
 ;
 boolvalues : TRUEBOOL {
-    char str[2];
-      sprintf(str,"%d",$1);
-      $$ = strdup(str);
+      $$ = strdup("1");
   }
    | FALSEBOOL {
-    char str[2];
-      sprintf(str,"%d",$1);
-      $$ = strdup(str);
+      $$ = strdup("0");
   } ;
 declaration_bool : declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN boolvalues
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+ 
+    ajouter($3,0,5,$5,0);
+    
+    affiche_dico();
+  }
+}
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER 
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,5,"null",0);
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN boolvalues 
-| IDENTIFIER 
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else {
+    ajouter($1,0,5,$3,0);
+    
+    affiche_dico();
+  }
+}
+| IDENTIFIER
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($1,0,5,"null",0);
+    
+    affiche_dico();
+  }
+} 
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
+{   
+  if (recherche($3) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    ajouter($3,0,5,"null",0);
+    ajouter_quadruplet(":=",$3,$5,"");
+    affiche_dico();
+  }
+}
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
+{   
+  if (recherche($1) !=NULL) {
+    printf (" variable deja declarie");
+    // ajouter une qdp  (,,,) -------------- ? a confirmer 
+  }
+  else { 
+    printf (" LogicExpression");
+
+    ajouter($1,0,5,"null",0);
+    ajouter_quadruplet(":=",$1,$3,"");
+    affiche_dico();
+  }
+}
 ;
 declaration_const : 
  declaration_const PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression 
@@ -718,7 +782,7 @@ inst :
   }
   else { 
     desc_identif* var  =  recherche($1) ;
-    if ((var->type == 6)){
+    if ((var->type == 5)){
         char  str[20]; 
      sprintf(str,"%s",$3);
  
@@ -866,12 +930,16 @@ Fact :
     
       $$ = strdup($1);
   }
+  
+    
+  
   ;
 Fact2 : 
    REAL      {
       char str[50];
       sprintf(str,"%f",$1);
        $$ = strdup(str);
+       printf( " \n real is  :%f    in line %d\n ",$1,index_tbq);
       } 
   | NUMBER      {
       char str[50];
@@ -880,16 +948,33 @@ Fact2 :
       $$ = strdup(str);
       }
   |PUNCTUATOR_OPEN_PARENTHESIS Expression PUNCTUATOR_CLOSE_PARENTHESIS  {
-      $$=$2;
+     $$ = strdup($2);
+
       }
-  | 
+  | IDENTIFIER {
+   
+  if (recherche($1) ==NULL) {
+    printf (" variable non decalrie");
+  }
+  else { 
+    desc_identif* var  =  recherche($1) ;
+    if ((var->type == 2) || (var->type == 1) || var->type == 5){
+
+      $$ = strdup($1);
+      
+    }
+    else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
+ 
+  }
+
+  } 
   ;  
  
   
 LogicExpression :
    LogicExpression1  {
-     $$ = $1; 
-   printf(" the resuluts is %d ",$$ );
+     $$ = strdup($1); 
+   printf(" the resuluts is %s ",$$ );
    } | OPERATOR_NOT LogicExpression1 {
           char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -1001,9 +1086,33 @@ LogicExpression3 :
   	char str[20]="r";
 	  $$=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",$1,$3,str);}
-  | boolvalues   { $$ =$1;
+  | boolvalues   { $$ =strdup($1);
     
-      } ;
+      }
+
+  | IDENTIFIER {
+    printf (" boooooooooooooooooooooooolen ------------******************-");
+   
+  if (recherche($1) ==NULL) {
+    printf (" variable non decalrie");
+  }
+  else { 
+    desc_identif* var  =  recherche($1) ;
+    if (var->type == 5) {
+         char  str[20]; 
+     ajouter_quadruplet(":=" , $1 , "",str);
+       
+     affiche_dico();
+      
+    }
+    else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
+ 
+  }
+
+  } 
+  ;  
+  
+      ;
   
   
 ;
