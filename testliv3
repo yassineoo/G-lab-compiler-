@@ -4,6 +4,8 @@ var{
 	int a=0;
 	double div = 1;
 	bool trouv = true;
+    int kok[10+63];
+    string  matrix[50][30];
 }
 
 
@@ -12,7 +14,8 @@ var{
 
 
 main {
- div = 1.25;
+ div = 1.25+a;
+ a =3.2;
 
 for(a=1 to 100){
 	if(a/div < 52){

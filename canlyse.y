@@ -18,7 +18,6 @@ Third part
 */
 
 %{
-  #define _OPEN_SYS_ITOA_EXT
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,7 +70,7 @@ char* identif;
 // ifpile  --------------------------------------------
 
 
-#define size 5
+#define size 10
 struct pile
 {
     int tab[size];
@@ -229,18 +228,18 @@ instList_var : instList_var inst_var
 
 
 
-inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON {printf("Déclaration d'entiers\n");}
+inst_var : INT declaration_entier PUNCTUATOR_SEMICOLON 
 
-| CHAR declaration_char PUNCTUATOR_SEMICOLON {printf("Déclaration de caractères\n");}
+| CHAR declaration_char PUNCTUATOR_SEMICOLON 
 
-| DOUBLE declaration_real PUNCTUATOR_SEMICOLON {printf("Déclaration de réels\n");}
+| DOUBLE declaration_real PUNCTUATOR_SEMICOLON 
 
-| STRINGTYPE declaration_string PUNCTUATOR_SEMICOLON {printf("Déclaration de strings\n");}
+| STRINGTYPE declaration_string PUNCTUATOR_SEMICOLON 
 
 
-| BOOL declaration_bool PUNCTUATOR_SEMICOLON {printf("Déclaration de booléens\n");}
+| BOOL declaration_bool PUNCTUATOR_SEMICOLON 
 
-| CONST declaration_const PUNCTUATOR_SEMICOLON {printf("Déclaration de constantes\n");}
+| CONST declaration_const PUNCTUATOR_SEMICOLON 
 
 
 //Tableaux
@@ -318,9 +317,7 @@ declaration_entier :
 }
 
 
-// Ajouter l'expression comme membre droit ex: 8*9 ou a+b
-// | declaration_entier PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
-// | IDENTIFIER PUNCTUATOR_ASSIGN Expression
+
 declaration_char : 
 declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
 {   
@@ -484,20 +481,8 @@ boolvalues : TRUEBOOL {
    | FALSEBOOL {
       $$ = strdup("0");
   } ;
-declaration_bool : declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN boolvalues
-{   
-  if (recherche($3) !=NULL) {
-    printf (" variable deja declarie");
-    // ajouter une qdp  (,,,) -------------- ? a confirmer 
-  }
-  else { 
- 
-    ajouter($3,0,5,$5,0);
-    
-    affiche_dico();
-  }
-}
-| declaration_bool PUNCTUATOR_COMMA IDENTIFIER 
+declaration_bool : 
+ declaration_bool PUNCTUATOR_COMMA IDENTIFIER 
 {   
   if (recherche($3) !=NULL) {
     printf (" variable deja declarie");
@@ -636,7 +621,6 @@ declaration_tabstring : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLO
      ajouter_quadruplet("ADEC", $1 ,"","");
        
 }
-| IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabstring PUNCTUATOR_CLOSE_BRACKET 
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
  {
       ajouter($1,0,9,$1,2);
@@ -704,10 +688,7 @@ element_tabreal : element_tabreal PUNCTUATOR_COMMA REAL
 | element_tabreal PUNCTUATOR_COMMA IDENTIFIER
 | REAL
 ;
-element_tabstring : element_tabstring PUNCTUATOR_COMMA CONSTSTRING
-| element_tabstring PUNCTUATOR_COMMA IDENTIFIER
-| CONSTSTRING
-;
+
 element_tabchar : element_tabchar PUNCTUATOR_COMMA CHAR
 | element_tabchar PUNCTUATOR_COMMA IDENTIFIER
 | CHAR
