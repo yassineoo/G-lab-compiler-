@@ -65,7 +65,9 @@ char* identif;
 	void ajouter(char *identif, int classe, int type,char* value, int complement); //ajoute une entrée en fin de table
 	int modifier(char *identif, int classe, int type,char* value, int complement); //modifie un entrée 
 	void affiche_dico(void); //affiche toute les entrées
-	
+	char* afficher_type(int i);
+	char* afficher_classe(int i);
+
 
 // ifpile  --------------------------------------------
 
@@ -80,6 +82,9 @@ typedef struct pile PILE;
 PILE ifp;
 void push(int item); 
 int pop() ;
+PILE whilep;
+void pushwhile(int item); 
+int popwhile() ;
 void afficher();
 
 //----------------------------------------------------
@@ -271,7 +276,6 @@ declaration_entier :
     ajouter($3,0,1,"null",0);
 
     printf ("  ajout avec secuus ");
-    affiche_dico();
 
   }
  }
@@ -286,7 +290,6 @@ declaration_entier :
      sprintf(str,"%s",$5);
     ajouter($3,0,1,str,0);
     
-    affiche_dico();
   }
 }
 | IDENTIFIER {
@@ -296,7 +299,6 @@ declaration_entier :
   }
   else { 
     ajouter($1,0,1,"null",0);
-    affiche_dico();
   }
 }
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression {
@@ -311,7 +313,7 @@ declaration_entier :
     char  str1[20]; 
      sprintf(str1,"%s",$3);
      ajouter($1,0,1,str1,0);
-     affiche_dico();
+    
 
   }
 }
@@ -330,7 +332,6 @@ declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
      sprintf(str,"%d",$5);
     ajouter($3,0,3,str,0);
     
-    affiche_dico();
   }
 }
 | declaration_char PUNCTUATOR_COMMA IDENTIFIER 
@@ -342,8 +343,6 @@ declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
   else { 
     ajouter($3,0,3,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
   }
  } 
 | IDENTIFIER PUNCTUATOR_ASSIGN CHAR 
@@ -357,7 +356,6 @@ declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
      sprintf(str,"%d",$3);
     ajouter($1,0,3,str,0);
     
-    affiche_dico();
   }
 }
 | IDENTIFIER 
@@ -369,8 +367,6 @@ declaration_char PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN CHAR
   else { 
     ajouter($1,0,3,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
   }
  } 
 ;
@@ -384,8 +380,6 @@ declaration_real :
   else { 
     ajouter($3,0,2,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
   }
  } 
 | declaration_real PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN Expression
@@ -397,7 +391,6 @@ declaration_real :
   else { 
     ajouter($3,0,2,$5,0);
     
-    affiche_dico();
   }
 }
 | IDENTIFIER 
@@ -409,8 +402,7 @@ declaration_real :
   else { 
     ajouter($1,0,2,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
+
   }
  }
 | IDENTIFIER PUNCTUATOR_ASSIGN Expression
@@ -421,7 +413,6 @@ declaration_real :
   }
   else { 
     ajouter($1,0,2,$3,0);    
-    affiche_dico();
   }
 }
 ;
@@ -434,8 +425,6 @@ declaration_string :
   }
   else { 
     ajouter($3,0,4,$5,0);
-    
-    affiche_dico();
   }
 }
 | declaration_string PUNCTUATOR_COMMA IDENTIFIER 
@@ -447,7 +436,6 @@ declaration_string :
   else { 
     ajouter($3,0,4,"null",0);
     
-    affiche_dico();
   }
 }
 | IDENTIFIER PUNCTUATOR_ASSIGN CONSTSTRING
@@ -459,7 +447,6 @@ declaration_string :
   else { 
     ajouter($1,0,4,$3,0);
     
-    affiche_dico();
   }
 }
 | IDENTIFIER 
@@ -471,7 +458,7 @@ declaration_string :
   else { 
     ajouter($1,0,4,"null",0);
     
-    affiche_dico();
+
   }
 }
 ;
@@ -490,7 +477,6 @@ declaration_bool :
   }
   else { 
     ajouter($3,0,5,"null",0);
-    affiche_dico();
   }
 }
 | IDENTIFIER PUNCTUATOR_ASSIGN boolvalues 
@@ -502,7 +488,6 @@ declaration_bool :
   else {
     ajouter($1,0,5,$3,0);
     
-    affiche_dico();
   }
 }
 | IDENTIFIER
@@ -514,7 +499,6 @@ declaration_bool :
   else { 
     ajouter($1,0,5,"null",0);
     
-    affiche_dico();
   }
 } 
 | declaration_bool PUNCTUATOR_COMMA IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
@@ -526,7 +510,6 @@ declaration_bool :
   else { 
     ajouter($3,0,5,"null",0);
     ajouter_quadruplet(":=",$3,$5,"");
-    affiche_dico();
   }
 }
 | IDENTIFIER PUNCTUATOR_ASSIGN LogicExpression
@@ -540,7 +523,6 @@ declaration_bool :
 
     ajouter($1,0,5,"null",0);
     ajouter_quadruplet(":=",$1,$3,"");
-    affiche_dico();
   }
 }
 ;
@@ -552,27 +534,28 @@ declaration_const :
 ;
 //Structures utilisés dans les tableaux
 declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CLOSE_BRACKET {
-     ajouter($1,0,7,$1,1);
-     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter($1,0,7,"null",1);
+     ajouter_quadruplet("BOUNDS","0",$3,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
        
-     //affiche_dico();
 }
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET {
-     ajouter($1,0,7,$1,1);
+     
+     if ($3>0){
+     ajouter($1,0,7,"null",1);
      char str[20];
-      sprintf(str,"%d",$3);
+     sprintf(str,"%d",$3-1);
      ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
        
-     //affiche_dico();
+     }
+     else printf("\tERREUR : Erreur de semantique a la ligne %d. incorrect table size  ( :!\n",line_count);
+   
 }
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabint PUNCTUATOR_CLOSE_BRACKET 
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CLOSE_BRACKET
 {
-     ajouter($1,0,7,$1,1);
-     char str[20];
-      sprintf(str,"%d",$3);
+     ajouter($1,0,7,"null",1);
      ajouter_quadruplet("BOUNDS","0" ,$3,"");
      ajouter_quadruplet("BOUNDS","0" ,$6,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
@@ -581,11 +564,11 @@ declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CL
 }
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
 {
-     ajouter($1,0,7,$1,2);
+     ajouter($1,0,7,"null",2);
      char str3[20];
      char str6[20];
-      sprintf(str3,"%d",$3);
-      sprintf(str6,"%d",$6);
+      sprintf(str3,"%d",$3-1);
+      sprintf(str6,"%d",$6-1);
      ajouter_quadruplet("BOUNDS","0" ,str3,"");
      ajouter_quadruplet("BOUNDS","0" ,str6,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
@@ -595,19 +578,21 @@ declaration_tabint : IDENTIFIER PUNCTUATOR_OPEN_BRACKET Expression PUNCTUATOR_CL
 ;
 declaration_tabreal : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
 {
-     ajouter($1,0,8,$1,1);
-     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter($1,0,8,"null",1);
+     char str[20];
+     sprintf(str,"%d",$3-1);
+     ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
        
 }
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabreal PUNCTUATOR_CLOSE_BRACKET |
  IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
  {
-      ajouter($1,0,8,$1,2);
+      ajouter($1,0,8,"null",2);
      char str3[20];
      char str6[20];
-      sprintf(str3,"%d",$3);
-      sprintf(str6,"%d",$6);
+      sprintf(str3,"%d",$3-1);
+      sprintf(str6,"%d",$6-1);
      ajouter_quadruplet("BOUNDS","0" ,str3,"");
      ajouter_quadruplet("BOUNDS","0" ,str6,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
@@ -616,18 +601,20 @@ declaration_tabreal : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE
 }
 ;
 declaration_tabstring : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
-{     ajouter($1,0,9,$1,1);
-     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+{     ajouter($1,0,9,"null",1);
+      char str[20];
+     sprintf(str,"%d",$3-1);
+     ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
        
 }
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
  {
-      ajouter($1,0,9,$1,2);
+      ajouter($1,0,9,"null",2);
      char str3[20];
      char str6[20];
-      sprintf(str3,"%d",$3);
-      sprintf(str6,"%d",$6);
+      sprintf(str3,"%d",$3-1);
+      sprintf(str6,"%d",$6-1);
      ajouter_quadruplet("BOUNDS","0" ,str3,"");
      ajouter_quadruplet("BOUNDS","0" ,str6,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
@@ -636,15 +623,17 @@ declaration_tabstring : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLO
 }
 ;
 declaration_tabchar : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
-{     ajouter($1,0,10,$1,1);
-     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+{     ajouter($1,0,10,"null",1);
+   char str[20];
+      sprintf(str,"%d",$3-1);
+     ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
        
 }
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_ASSIGN PUNCTUATOR_OPEN_BRACKET element_tabchar PUNCTUATOR_CLOSE_BRACKET 
 | IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET
  {
-      ajouter($1,0,10,$1,2);
+      ajouter($1,0,10,"null",2);
      char str3[20];
      char str6[20];
       sprintf(str3,"%d",$3);
@@ -658,8 +647,10 @@ declaration_tabchar : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE
 ;
 declaration_tabbool : IDENTIFIER PUNCTUATOR_OPEN_BRACKET NUMBER PUNCTUATOR_CLOSE_BRACKET 
 {
-     ajouter($1,0,11,$1,1);
-     ajouter_quadruplet("BOUNDS","0" ,$3,"");
+     ajouter($1,0,11,"null",1);
+     char str3[20];
+     sprintf(str3,"%d",$3-1);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
      ajouter_quadruplet("ADEC", $1 ,"","");
        
 }
@@ -727,8 +718,9 @@ char str2[20];
 sprintf(str2,"%d",$3);
 ajouter_quadruplet(":=",$1,str2,"");
 ajouter_quadruplet("-",$5,$1,"");
+ajouter_quadruplet("bz","","","");
 Sif=index_tbq;
-ajouter_quadruplet("bz","","","")
+
 ;
 }
 instList : instList   inst 
@@ -748,7 +740,6 @@ inst :
      modifier($1,0,1,str,0);
      ajouter_quadruplet(":=" , $1 , "",str);
        
-     affiche_dico();
       
     }
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
@@ -769,7 +760,6 @@ inst :
  
      ajouter_quadruplet(":=" , $1 , "",str);
        
-     affiche_dico();
       
     }
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
@@ -794,26 +784,26 @@ inst :
 {
 
   push(index_tbq);
-  afficher();
 
   //Lif=index_tbq;
   ajouter_quadruplet("bz","","","");
   }
  PUNCTUATOR_CLOSE_PARENTHESIS Action ifSuite
 | WHILE PUNCTUATOR_OPEN_PARENTHESIS LogicExpression  PUNCTUATOR_CLOSE_PARENTHESIS {
-  LWhile=index_tbq;
+  pushwhile(index_tbq);
   ajouter_quadruplet("bz","","","");}
  Action        { 
   { 
     char str[20];
     sprintf(str,"%d",index_tbq);
-    modifier_quadruplet(LWhile,"bz","","",str);
+    int lWhile = popwhile();
+    modifier_quadruplet(lWhile,"bz","","",str);
   }
 
 }
 | FOR PUNCTUATOR_OPEN_PARENTHESIS FORDecalartion PUNCTUATOR_CLOSE_PARENTHESIS Action { 
 char str[20];
-sprintf(str,"%d",Sif-2);
+sprintf(str,"%d",Sif-1);
 ajouter_quadruplet("+",tbq[Sif-2].deuxieme,"1","r");
 ajouter_quadruplet(":=","r","",tbq[Sif-2].deuxieme);
 ajouter_quadruplet("br","","",str);
@@ -824,18 +814,16 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 | return_statement {printf("Return\n");}
 ;
 
-ifSuite :  { printf("IF \n");
+ifSuite :  { 
     char str[20];
     sprintf(str,"%d",index_tbq);
     int lif = pop();
-      afficher();
     modifier_quadruplet(lif,"bz","","",str);
   }
   | ELSE 
    {
     int lif = pop();
     push(index_tbq);
-      afficher();
     ajouter_quadruplet("br","","","");
     char str[20];
     sprintf(str,"%d",index_tbq);
@@ -845,7 +833,6 @@ ifSuite :  { printf("IF \n");
  } Action {
     char str[20];
     int lesle = pop();
-      afficher();
 
     sprintf(str,"%d",index_tbq);
     modifier_quadruplet(lesle,"br","","",str);
@@ -920,7 +907,6 @@ Fact2 :
       char str[50];
       sprintf(str,"%f",$1);
        $$ = strdup(str);
-       printf( " \n real is  :%f    in line %d\n ",$1,index_tbq);
       } 
   | NUMBER      {
       char str[50];
@@ -955,7 +941,6 @@ Fact2 :
 LogicExpression :
    LogicExpression1  {
      $$ = strdup($1); 
-   printf(" the resuluts is %s ",$$ );
    } | OPERATOR_NOT LogicExpression1 {
           char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -1000,8 +985,12 @@ LogicExpression3 :
       char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
   	char str[20]="r";
+    	char char1[20];
+  	sprintf(char1,"%c",$1);
+    	char char3[20];
+  	sprintf(char3,"%c",$3);
 	  $$=strdup(strcat(str,str_index));
-    ajouter_quadruplet("-",$1,$3,str);
+    ajouter_quadruplet("-",char1,char3,str);
      }
   | CONSTSTRING  OPERATOR_EQUALS  CONSTSTRING { 
     char str_index[20];
@@ -1023,7 +1012,13 @@ LogicExpression3 :
   	sprintf(str_index,"%d",index_tbq);
   	char str[20]="r";
 	  $$=strdup(strcat(str,str_index));
-    ajouter_quadruplet("-",$1,$3,str);
+
+  	char char1[20];
+  	sprintf(char1,"%c",$1);
+    	char char3[20];
+  	sprintf(char3,"%c",$3);
+
+    ajouter_quadruplet("-",char1,char3,str);
   }
   | CONSTSTRING OPERATOR_DEFFRENT  CONSTSTRING {
         char str_index[20];
@@ -1072,7 +1067,6 @@ LogicExpression3 :
       }
 
   | IDENTIFIER {
-    printf (" boooooooooooooooooooooooolen ------------******************-");
    
   if (recherche($1) ==NULL) {
     printf (" variable non decalrie");
@@ -1083,7 +1077,6 @@ LogicExpression3 :
          char  str[20]; 
      ajouter_quadruplet(":=" , $1 , "",str);
        
-     affiche_dico();
       
     }
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
@@ -1108,7 +1101,10 @@ int yyerror(const char *s) {
 int main(void) {
   init();
   yyparse();
+  affiche_dico();
+
   afficher_tbq();
+
 }
 void init(){
 	tbs=(table_des_symboles*)malloc(sizeof(table_des_symboles));
@@ -1152,18 +1148,48 @@ int modifier(char *identif, int classe, int type,char * value, int complement){
 }
 void affiche_dico() {
 	desc_identif* p;
-  
-    if (p == NULL)
-    {
-        printf("\n this is a printf NULL \n");
-    }
+
      p = tbs->root;
-    while (p != NULL)
-    {
-        printf("%s |%d |%d | %s |%d" , p->identif ,p->classe , p->type , p->value ,p->complement ) ;
-        p=p->next;
-    }
-    printf ("%i",tbs->current_size);
+     if (p != NULL){
+      printf("\n Contenue de la table des symboles\n");
+      printf("|Entrée N |Identificateur |Classe     |Type       |Valeur     |Complément| \n");
+      printf("|-------- |-------------- |------     |----       |------     |----------| \n");
+      int i =1;
+        while (p != NULL)
+      {
+          printf("|%-8d |%-14s |%-10s |%-10s |%-10s |%-10d| \n"  , i,p->identif ,afficher_classe(p->classe) , afficher_type(p->type) , p->value ,p->complement);
+          p=p->next;
+          i++;
+      }
+     }else{
+     printf ("Table des symboles nulle \n");}
+    
+}
+
+char* afficher_type(int i){
+  char* type;
+
+  switch(i){
+    case 1 : type="integer"; break;
+    case 2 : type="real"; break;
+    case 3 : type="char"; break;
+    case 4 : type="string"; break;
+    case 5 : type="boolean"; break;
+    case 6 : type="const"; break;
+    case 7 : type="int[]"; break;
+    case 8 : type="char[]"; break;
+    case 9 : type="string[]"; break;
+  }
+  return type;
+}
+char* afficher_classe(int i){
+  char* classe;
+
+  switch(i){
+    case 0 : classe="globale"; break;
+    case 1 : classe="locale"; break;
+  }
+  return classe;
 }
  void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4){
  	strcpy(tbq[index_tbq].premier,p1);
@@ -1214,11 +1240,31 @@ int pop() {
 }
 void afficher() {
    int i;
-   if (ifp.top == -1)
-      printf("\nLa pile est vide!");
+   if (ifp.top == -1) { printf("pile vide");}
    else {
-      for (i = ifp.top; i >= 0; i--)
-         printf("\n%d", ifp.tab[i]);
+      for (i = ifp.top; i >= 0; i--){
+        printf("for pilr");
+      }
    }
 }
 
+
+
+
+
+ // whilep functions   -     ------------------------
+
+void pushwhile(int item) {
+  if (whilep.top >= size - 1)
+    return;
+  whilep.top++;
+  whilep.tab[whilep.top] = item;
+}
+int popwhile() {
+  if (whilep.top == -1)
+    return 1;
+   int item;
+   item = whilep.tab[whilep.top];
+   whilep.top--;
+   return item;
+}

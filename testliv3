@@ -1,10 +1,14 @@
 programe glab;
 
+
+
 var{
 	int a=0;
+    int b;
+    int c;
 	double div = 1;
 	bool trouv = true;
-    int kok[10+63];
+    int array[5+6];
     string  matrix[50][30];
 }
 
@@ -13,22 +17,12 @@ var{
 
 
 
-main {
- div = 1.25+a;
- a =3.2;
 
-for(a=1 to 100){
-	if(a/div < 52){
-		if(div == 0.002){
-			 trouv = true; 
-            a++;
-		}
-	}else{
-		while(a < div){
-			div--;
-		}
-	}
-}
+
+
+main {
+ a = a+b*c;
+ 
 
 }
 

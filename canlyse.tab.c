@@ -111,7 +111,9 @@ char* identif;
 	void ajouter(char *identif, int classe, int type,char* value, int complement); //ajoute une entrée en fin de table
 	int modifier(char *identif, int classe, int type,char* value, int complement); //modifie un entrée 
 	void affiche_dico(void); //affiche toute les entrées
-	
+	char* afficher_type(int i);
+	char* afficher_classe(int i);
+
 
 // ifpile  --------------------------------------------
 
@@ -126,6 +128,9 @@ typedef struct pile PILE;
 PILE ifp;
 void push(int item); 
 int pop() ;
+PILE whilep;
+void pushwhile(int item); 
+int popwhile() ;
 void afficher();
 
 //----------------------------------------------------
@@ -169,7 +174,7 @@ void afficher();
 
 
 
-#line 173 "canlyse.tab.c" /* yacc.c:339  */
+#line 178 "canlyse.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -269,7 +274,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 129 "canlyse.y" /* yacc.c:355  */
+#line 134 "canlyse.y" /* yacc.c:355  */
 
   int integer;
   double real;
@@ -277,7 +282,7 @@ union YYSTYPE
   char* string;
   
 
-#line 281 "canlyse.tab.c" /* yacc.c:355  */
+#line 286 "canlyse.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -294,7 +299,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 298 "canlyse.tab.c" /* yacc.c:358  */
+#line 303 "canlyse.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -597,24 +602,24 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   192,   192,   193,   194,   195,   196,   197,   201,   202,
-     202,   203,   204,   205,   206,   209,   210,   210,   212,   213,
-     216,   220,   221,   221,   222,   223,   231,   233,   235,   237,
-     240,   242,   246,   248,   250,   252,   254,   264,   278,   292,
-     302,   322,   336,   349,   363,   378,   391,   403,   416,   429,
-     441,   453,   465,   478,   481,   485,   496,   508,   520,   532,
-     548,   549,   550,   551,   554,   561,   570,   571,   582,   596,
-     603,   604,   618,   624,   638,   644,   645,   659,   666,   667,
-     683,   684,   685,   687,   688,   689,   692,   693,   694,   696,
-     697,   698,   701,   701,   702,   702,   704,   705,   707,   707,
-     708,   708,   709,   709,   710,   710,   711,   711,   713,   714,
-     716,   716,   718,   719,   720,   721,   724,   724,   725,   734,
-     735,   738,   759,   780,   786,   791,   792,   794,   793,   803,
-     803,   814,   824,   827,   835,   834,   857,   857,   858,   858,
-     858,   858,   858,   858,   862,   869,   876,   883,   891,   898,
-     903,   910,   919,   925,   931,   935,   956,   959,   968,   980,
-     992,   996,   996,   999,  1006,  1013,  1021,  1028,  1035,  1043,
-    1050,  1057,  1064,  1070,  1074
+       0,   197,   197,   198,   199,   200,   201,   202,   206,   207,
+     207,   208,   209,   210,   211,   214,   215,   215,   217,   218,
+     221,   225,   226,   226,   227,   228,   236,   238,   240,   242,
+     245,   247,   251,   253,   255,   257,   259,   269,   282,   295,
+     304,   324,   337,   348,   361,   374,   385,   396,   408,   420,
+     430,   441,   452,   465,   468,   472,   482,   493,   504,   515,
+     530,   531,   532,   533,   536,   542,   555,   556,   565,   579,
+     588,   589,   603,   611,   625,   633,   634,   648,   657,   658,
+     674,   675,   676,   678,   679,   680,   683,   684,   685,   687,
+     688,   689,   692,   692,   693,   693,   695,   696,   698,   698,
+     699,   699,   700,   700,   701,   701,   702,   702,   704,   705,
+     707,   707,   709,   710,   711,   712,   715,   715,   716,   726,
+     727,   730,   750,   770,   776,   781,   782,   784,   783,   792,
+     792,   804,   814,   817,   824,   823,   844,   844,   845,   845,
+     845,   845,   845,   845,   849,   856,   863,   870,   878,   885,
+     890,   897,   906,   911,   917,   921,   942,   944,   953,   965,
+     977,   981,   981,   984,   995,  1002,  1010,  1023,  1030,  1038,
+    1045,  1052,  1059,  1065,  1069
 };
 #endif
 
@@ -1670,85 +1675,85 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 192 "canlyse.y" /* yacc.c:1646  */
+#line 197 "canlyse.y" /* yacc.c:1646  */
     {printf("\n---------- Programme bien structuré : main ----------\n");}
-#line 1676 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1681 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 193 "canlyse.y" /* yacc.c:1646  */
+#line 198 "canlyse.y" /* yacc.c:1646  */
     {printf("\n---------- Programme bien structuré : type-var-functions-main ----------\n");}
-#line 1682 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1687 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 194 "canlyse.y" /* yacc.c:1646  */
+#line 199 "canlyse.y" /* yacc.c:1646  */
     {printf("\n---------- Programme bien structuré : var-functions-main ----------\n");}
-#line 1688 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1693 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 195 "canlyse.y" /* yacc.c:1646  */
+#line 200 "canlyse.y" /* yacc.c:1646  */
     {printf("\n---------- Programme bien structuré : functions-main ----------\n");}
-#line 1694 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1699 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 196 "canlyse.y" /* yacc.c:1646  */
+#line 201 "canlyse.y" /* yacc.c:1646  */
     {printf("\n---------- Programme bien structuré : type-var-main ----------\n");}
-#line 1700 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1705 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 197 "canlyse.y" /* yacc.c:1646  */
+#line 202 "canlyse.y" /* yacc.c:1646  */
     {printf("\n---------- Programme bien structuré : var-main ----------\n");}
-#line 1706 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1711 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 201 "canlyse.y" /* yacc.c:1646  */
+#line 206 "canlyse.y" /* yacc.c:1646  */
     {ajouter_quadruplet("END","","","");}
-#line 1712 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1717 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 216 "canlyse.y" /* yacc.c:1646  */
+#line 221 "canlyse.y" /* yacc.c:1646  */
     {printf("Structure définie\n\n");}
-#line 1718 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1723 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 246 "canlyse.y" /* yacc.c:1646  */
+#line 251 "canlyse.y" /* yacc.c:1646  */
     {printf("Déclaration de tableau d'entiers\n");}
-#line 1724 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1729 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 248 "canlyse.y" /* yacc.c:1646  */
+#line 253 "canlyse.y" /* yacc.c:1646  */
     {printf("Déclaration de tableau de réels\n");}
-#line 1730 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1735 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 250 "canlyse.y" /* yacc.c:1646  */
+#line 255 "canlyse.y" /* yacc.c:1646  */
     {printf("Déclaration de tableau de strings\n");}
-#line 1736 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1741 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 252 "canlyse.y" /* yacc.c:1646  */
+#line 257 "canlyse.y" /* yacc.c:1646  */
     {printf("Déclaration de tableau de caractères\n");}
-#line 1742 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1747 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 254 "canlyse.y" /* yacc.c:1646  */
+#line 259 "canlyse.y" /* yacc.c:1646  */
     {printf("Déclaration de tableau de booléens\n");}
-#line 1748 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1753 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 265 "canlyse.y" /* yacc.c:1646  */
+#line 270 "canlyse.y" /* yacc.c:1646  */
     {
    if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1758,15 +1763,14 @@ yyreduce:
     ajouter((yyvsp[0].string),0,1,"null",0);
 
     printf ("  ajout avec secuus ");
-    affiche_dico();
 
   }
  }
-#line 1766 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1770 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 279 "canlyse.y" /* yacc.c:1646  */
+#line 283 "canlyse.y" /* yacc.c:1646  */
     {   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
     
@@ -1777,14 +1781,13 @@ yyreduce:
      sprintf(str,"%s",(yyvsp[0].string));
     ajouter((yyvsp[-2].string),0,1,str,0);
     
-    affiche_dico();
   }
 }
-#line 1784 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1787 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 292 "canlyse.y" /* yacc.c:1646  */
+#line 295 "canlyse.y" /* yacc.c:1646  */
     {
   if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1792,14 +1795,13 @@ yyreduce:
   }
   else { 
     ajouter((yyvsp[0].string),0,1,"null",0);
-    affiche_dico();
   }
 }
-#line 1799 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1801 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 302 "canlyse.y" /* yacc.c:1646  */
+#line 304 "canlyse.y" /* yacc.c:1646  */
     {
 
    if (recherche((yyvsp[-2].string)) !=NULL) {
@@ -1812,15 +1814,15 @@ yyreduce:
     char  str1[20]; 
      sprintf(str1,"%s",(yyvsp[0].string));
      ajouter((yyvsp[-2].string),0,1,str1,0);
-     affiche_dico();
+    
 
   }
 }
-#line 1820 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1822 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 323 "canlyse.y" /* yacc.c:1646  */
+#line 325 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1831,14 +1833,13 @@ yyreduce:
      sprintf(str,"%d",(yyvsp[0].charecter));
     ajouter((yyvsp[-2].string),0,3,str,0);
     
-    affiche_dico();
   }
 }
-#line 1838 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1839 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 337 "canlyse.y" /* yacc.c:1646  */
+#line 338 "canlyse.y" /* yacc.c:1646  */
     {
    if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declaré");
@@ -1847,15 +1848,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[0].string),0,3,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
   }
  }
-#line 1855 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1854 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 350 "canlyse.y" /* yacc.c:1646  */
+#line 349 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1866,14 +1865,13 @@ yyreduce:
      sprintf(str,"%d",(yyvsp[0].charecter));
     ajouter((yyvsp[-2].string),0,3,str,0);
     
-    affiche_dico();
   }
 }
-#line 1873 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1871 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 364 "canlyse.y" /* yacc.c:1646  */
+#line 362 "canlyse.y" /* yacc.c:1646  */
     {
    if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declaré");
@@ -1882,15 +1880,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[0].string),0,3,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
   }
  }
-#line 1890 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1886 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 379 "canlyse.y" /* yacc.c:1646  */
+#line 375 "canlyse.y" /* yacc.c:1646  */
     {
    if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declaré");
@@ -1899,15 +1895,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[0].string),0,2,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
   }
  }
-#line 1907 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1901 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 392 "canlyse.y" /* yacc.c:1646  */
+#line 386 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1916,14 +1910,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[-2].string),0,2,(yyvsp[0].string),0);
     
-    affiche_dico();
   }
 }
-#line 1923 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1916 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 404 "canlyse.y" /* yacc.c:1646  */
+#line 397 "canlyse.y" /* yacc.c:1646  */
     {
    if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declaré");
@@ -1932,15 +1925,14 @@ yyreduce:
   else { 
     ajouter((yyvsp[0].string),0,2,"null",0);
 
-    printf ("  ajout avec secuus ");
-    affiche_dico();
+
   }
  }
-#line 1940 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1932 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 417 "canlyse.y" /* yacc.c:1646  */
+#line 409 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1948,14 +1940,13 @@ yyreduce:
   }
   else { 
     ajouter((yyvsp[-2].string),0,2,(yyvsp[0].string),0);    
-    affiche_dico();
   }
 }
-#line 1955 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1946 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 430 "canlyse.y" /* yacc.c:1646  */
+#line 421 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1963,15 +1954,13 @@ yyreduce:
   }
   else { 
     ajouter((yyvsp[-2].string),0,4,(yyvsp[0].string),0);
-    
-    affiche_dico();
   }
 }
-#line 1971 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1960 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 442 "canlyse.y" /* yacc.c:1646  */
+#line 431 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1980,14 +1969,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[0].string),0,4,"null",0);
     
-    affiche_dico();
   }
 }
-#line 1987 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1975 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 454 "canlyse.y" /* yacc.c:1646  */
+#line 442 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -1996,14 +1984,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[-2].string),0,4,(yyvsp[0].string),0);
     
-    affiche_dico();
   }
 }
-#line 2003 "canlyse.tab.c" /* yacc.c:1646  */
+#line 1990 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 466 "canlyse.y" /* yacc.c:1646  */
+#line 453 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -2012,30 +1999,30 @@ yyreduce:
   else { 
     ajouter((yyvsp[0].string),0,4,"null",0);
     
-    affiche_dico();
+
   }
 }
-#line 2019 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2006 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 478 "canlyse.y" /* yacc.c:1646  */
+#line 465 "canlyse.y" /* yacc.c:1646  */
     {
       (yyval.string) = strdup("1");
   }
-#line 2027 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2014 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 481 "canlyse.y" /* yacc.c:1646  */
+#line 468 "canlyse.y" /* yacc.c:1646  */
     {
       (yyval.string) = strdup("0");
   }
-#line 2035 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2022 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 486 "canlyse.y" /* yacc.c:1646  */
+#line 473 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -2043,14 +2030,13 @@ yyreduce:
   }
   else { 
     ajouter((yyvsp[0].string),0,5,"null",0);
-    affiche_dico();
   }
 }
-#line 2050 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2036 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 497 "canlyse.y" /* yacc.c:1646  */
+#line 483 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -2059,14 +2045,13 @@ yyreduce:
   else {
     ajouter((yyvsp[-2].string),0,5,(yyvsp[0].string),0);
     
-    affiche_dico();
   }
 }
-#line 2066 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2051 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 509 "canlyse.y" /* yacc.c:1646  */
+#line 494 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[0].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -2075,14 +2060,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[0].string),0,5,"null",0);
     
-    affiche_dico();
   }
 }
-#line 2082 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2066 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 521 "canlyse.y" /* yacc.c:1646  */
+#line 505 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -2091,14 +2075,13 @@ yyreduce:
   else { 
     ajouter((yyvsp[-2].string),0,5,"null",0);
     ajouter_quadruplet(":=",(yyvsp[-2].string),(yyvsp[0].string),"");
-    affiche_dico();
   }
 }
-#line 2098 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2081 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 533 "canlyse.y" /* yacc.c:1646  */
+#line 516 "canlyse.y" /* yacc.c:1646  */
     {   
   if (recherche((yyvsp[-2].string)) !=NULL) {
     printf (" variable deja declarie");
@@ -2109,46 +2092,63 @@ yyreduce:
 
     ajouter((yyvsp[-2].string),0,5,"null",0);
     ajouter_quadruplet(":=",(yyvsp[-2].string),(yyvsp[0].string),"");
-    affiche_dico();
   }
 }
-#line 2116 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2098 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 554 "canlyse.y" /* yacc.c:1646  */
+#line 536 "canlyse.y" /* yacc.c:1646  */
     {
-     ajouter((yyvsp[-3].string),0,7,(yyvsp[-3].string),1);
-     ajouter_quadruplet("BOUNDS","0" ,(yyvsp[-1].string),"");
+     ajouter((yyvsp[-3].string),0,7,"null",1);
+     ajouter_quadruplet("BOUNDS","0",(yyvsp[-1].string),"");
      ajouter_quadruplet("ADEC", (yyvsp[-3].string) ,"","");
        
-     //affiche_dico();
 }
-#line 2128 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2109 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 561 "canlyse.y" /* yacc.c:1646  */
+#line 542 "canlyse.y" /* yacc.c:1646  */
     {
-     ajouter((yyvsp[-3].string),0,7,(yyvsp[-3].string),1);
+     
+     if ((yyvsp[-1].integer)>0){
+     ajouter((yyvsp[-3].string),0,7,"null",1);
      char str[20];
-      sprintf(str,"%d",(yyvsp[-1].integer));
+     sprintf(str,"%d",(yyvsp[-1].integer)-1);
      ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", (yyvsp[-3].string) ,"","");
        
-     //affiche_dico();
+     }
+     else printf("\tERREUR : Erreur de semantique a la ligne %d. incorrect table size  ( :!\n",line_count);
+   
 }
-#line 2142 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2127 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 572 "canlyse.y" /* yacc.c:1646  */
+#line 557 "canlyse.y" /* yacc.c:1646  */
     {
-     ajouter((yyvsp[-6].string),0,7,(yyvsp[-6].string),1);
-     char str[20];
-      sprintf(str,"%d",(yyvsp[-4].string));
+     ajouter((yyvsp[-6].string),0,7,"null",1);
      ajouter_quadruplet("BOUNDS","0" ,(yyvsp[-4].string),"");
      ajouter_quadruplet("BOUNDS","0" ,(yyvsp[-1].string),"");
+     ajouter_quadruplet("ADEC", (yyvsp[-6].string) ,"","");
+       
+     //affiche_dico();
+}
+#line 2140 "canlyse.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 68:
+#line 566 "canlyse.y" /* yacc.c:1646  */
+    {
+     ajouter((yyvsp[-6].string),0,7,"null",2);
+     char str3[20];
+     char str6[20];
+      sprintf(str3,"%d",(yyvsp[-4].integer)-1);
+      sprintf(str6,"%d",(yyvsp[-1].integer)-1);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
+     ajouter_quadruplet("BOUNDS","0" ,str6,"");
      ajouter_quadruplet("ADEC", (yyvsp[-6].string) ,"","");
        
      //affiche_dico();
@@ -2156,92 +2156,81 @@ yyreduce:
 #line 2157 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
-  case 68:
-#line 583 "canlyse.y" /* yacc.c:1646  */
-    {
-     ajouter((yyvsp[-6].string),0,7,(yyvsp[-6].string),2);
-     char str3[20];
-     char str6[20];
-      sprintf(str3,"%d",(yyvsp[-4].integer));
-      sprintf(str6,"%d",(yyvsp[-1].integer));
-     ajouter_quadruplet("BOUNDS","0" ,str3,"");
-     ajouter_quadruplet("BOUNDS","0" ,str6,"");
-     ajouter_quadruplet("ADEC", (yyvsp[-6].string) ,"","");
-       
-     //affiche_dico();
-}
-#line 2174 "canlyse.tab.c" /* yacc.c:1646  */
-    break;
-
   case 69:
-#line 597 "canlyse.y" /* yacc.c:1646  */
+#line 580 "canlyse.y" /* yacc.c:1646  */
     {
-     ajouter((yyvsp[-3].string),0,8,(yyvsp[-3].string),1);
-     ajouter_quadruplet("BOUNDS","0" ,(yyvsp[-1].integer),"");
+     ajouter((yyvsp[-3].string),0,8,"null",1);
+     char str[20];
+     sprintf(str,"%d",(yyvsp[-1].integer)-1);
+     ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", (yyvsp[-3].string) ,"","");
        
 }
-#line 2185 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2170 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 605 "canlyse.y" /* yacc.c:1646  */
+#line 590 "canlyse.y" /* yacc.c:1646  */
     {
-      ajouter((yyvsp[-6].string),0,8,(yyvsp[-6].string),2);
+      ajouter((yyvsp[-6].string),0,8,"null",2);
      char str3[20];
      char str6[20];
-      sprintf(str3,"%d",(yyvsp[-4].integer));
-      sprintf(str6,"%d",(yyvsp[-1].integer));
+      sprintf(str3,"%d",(yyvsp[-4].integer)-1);
+      sprintf(str6,"%d",(yyvsp[-1].integer)-1);
      ajouter_quadruplet("BOUNDS","0" ,str3,"");
      ajouter_quadruplet("BOUNDS","0" ,str6,"");
      ajouter_quadruplet("ADEC", (yyvsp[-6].string) ,"","");
        
      //affiche_dico();
 }
-#line 2202 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2187 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 619 "canlyse.y" /* yacc.c:1646  */
-    {     ajouter((yyvsp[-3].string),0,9,(yyvsp[-3].string),1);
-     ajouter_quadruplet("BOUNDS","0" ,(yyvsp[-1].integer),"");
+#line 604 "canlyse.y" /* yacc.c:1646  */
+    {     ajouter((yyvsp[-3].string),0,9,"null",1);
+      char str[20];
+     sprintf(str,"%d",(yyvsp[-1].integer)-1);
+     ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", (yyvsp[-3].string) ,"","");
        
 }
-#line 2212 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2199 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 625 "canlyse.y" /* yacc.c:1646  */
+#line 612 "canlyse.y" /* yacc.c:1646  */
     {
-      ajouter((yyvsp[-6].string),0,9,(yyvsp[-6].string),2);
+      ajouter((yyvsp[-6].string),0,9,"null",2);
      char str3[20];
      char str6[20];
-      sprintf(str3,"%d",(yyvsp[-4].integer));
-      sprintf(str6,"%d",(yyvsp[-1].integer));
+      sprintf(str3,"%d",(yyvsp[-4].integer)-1);
+      sprintf(str6,"%d",(yyvsp[-1].integer)-1);
      ajouter_quadruplet("BOUNDS","0" ,str3,"");
      ajouter_quadruplet("BOUNDS","0" ,str6,"");
      ajouter_quadruplet("ADEC", (yyvsp[-6].string) ,"","");
        
      //affiche_dico();
 }
-#line 2229 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2216 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 639 "canlyse.y" /* yacc.c:1646  */
-    {     ajouter((yyvsp[-3].string),0,10,(yyvsp[-3].string),1);
-     ajouter_quadruplet("BOUNDS","0" ,(yyvsp[-1].integer),"");
+#line 626 "canlyse.y" /* yacc.c:1646  */
+    {     ajouter((yyvsp[-3].string),0,10,"null",1);
+   char str[20];
+      sprintf(str,"%d",(yyvsp[-1].integer)-1);
+     ajouter_quadruplet("BOUNDS","0" ,str,"");
      ajouter_quadruplet("ADEC", (yyvsp[-3].string) ,"","");
        
 }
-#line 2239 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2228 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 646 "canlyse.y" /* yacc.c:1646  */
+#line 635 "canlyse.y" /* yacc.c:1646  */
     {
-      ajouter((yyvsp[-6].string),0,10,(yyvsp[-6].string),2);
+      ajouter((yyvsp[-6].string),0,10,"null",2);
      char str3[20];
      char str6[20];
       sprintf(str3,"%d",(yyvsp[-4].integer));
@@ -2252,22 +2241,24 @@ yyreduce:
        
      //affiche_dico();
 }
-#line 2256 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2245 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 660 "canlyse.y" /* yacc.c:1646  */
+#line 649 "canlyse.y" /* yacc.c:1646  */
     {
-     ajouter((yyvsp[-3].string),0,11,(yyvsp[-3].string),1);
-     ajouter_quadruplet("BOUNDS","0" ,(yyvsp[-1].integer),"");
+     ajouter((yyvsp[-3].string),0,11,"null",1);
+     char str3[20];
+     sprintf(str3,"%d",(yyvsp[-1].integer)-1);
+     ajouter_quadruplet("BOUNDS","0" ,str3,"");
      ajouter_quadruplet("ADEC", (yyvsp[-3].string) ,"","");
        
 }
-#line 2267 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2258 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 668 "canlyse.y" /* yacc.c:1646  */
+#line 659 "canlyse.y" /* yacc.c:1646  */
     {
    {
       ajouter((yyvsp[-6].string),0,11,(yyvsp[-6].string),2);
@@ -2282,91 +2273,92 @@ yyreduce:
      //affiche_dico();
 }
 }
-#line 2286 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2277 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 701 "canlyse.y" /* yacc.c:1646  */
+#line 692 "canlyse.y" /* yacc.c:1646  */
     {printf("\n---------- Functions ----------\n\n");}
-#line 2292 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2283 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 707 "canlyse.y" /* yacc.c:1646  */
+#line 698 "canlyse.y" /* yacc.c:1646  */
     {printf("Fonction int\n");}
-#line 2298 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2289 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 707 "canlyse.y" /* yacc.c:1646  */
+#line 698 "canlyse.y" /* yacc.c:1646  */
     {printf("\n");}
-#line 2304 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2295 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 708 "canlyse.y" /* yacc.c:1646  */
+#line 699 "canlyse.y" /* yacc.c:1646  */
     {printf("Fonction double\n");}
-#line 2310 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2301 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 708 "canlyse.y" /* yacc.c:1646  */
+#line 699 "canlyse.y" /* yacc.c:1646  */
     {printf("\n");}
-#line 2316 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2307 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 102:
-#line 709 "canlyse.y" /* yacc.c:1646  */
+#line 700 "canlyse.y" /* yacc.c:1646  */
     {printf("Fonction string\n");}
-#line 2322 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2313 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 103:
-#line 709 "canlyse.y" /* yacc.c:1646  */
+#line 700 "canlyse.y" /* yacc.c:1646  */
     {printf("\n");}
-#line 2328 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2319 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 710 "canlyse.y" /* yacc.c:1646  */
+#line 701 "canlyse.y" /* yacc.c:1646  */
     {printf("Fonction char\n");}
-#line 2334 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2325 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 105:
-#line 710 "canlyse.y" /* yacc.c:1646  */
+#line 701 "canlyse.y" /* yacc.c:1646  */
     {printf("\n");}
-#line 2340 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2331 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 106:
-#line 711 "canlyse.y" /* yacc.c:1646  */
+#line 702 "canlyse.y" /* yacc.c:1646  */
     {printf("Fonction void\n");}
-#line 2346 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2337 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 107:
-#line 711 "canlyse.y" /* yacc.c:1646  */
+#line 702 "canlyse.y" /* yacc.c:1646  */
     {printf("\n");}
-#line 2352 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2343 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 118:
-#line 725 "canlyse.y" /* yacc.c:1646  */
+#line 716 "canlyse.y" /* yacc.c:1646  */
     {
 char str2[20];
 sprintf(str2,"%d",(yyvsp[-2].integer));
 ajouter_quadruplet(":=",(yyvsp[-4].string),str2,"");
 ajouter_quadruplet("-",(yyvsp[0].string),(yyvsp[-4].string),"");
+ajouter_quadruplet("bz","","","");
 Sif=index_tbq;
-ajouter_quadruplet("bz","","","")
+
 ;
 }
-#line 2366 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2358 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 121:
-#line 738 "canlyse.y" /* yacc.c:1646  */
+#line 730 "canlyse.y" /* yacc.c:1646  */
     { 
    
   if (recherche((yyvsp[-3].string)) ==NULL) {
@@ -2380,18 +2372,17 @@ ajouter_quadruplet("bz","","","")
      modifier((yyvsp[-3].string),0,1,str,0);
      ajouter_quadruplet(":=" , (yyvsp[-3].string) , "",str);
        
-     affiche_dico();
       
     }
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
     }
-#line 2391 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2382 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 122:
-#line 759 "canlyse.y" /* yacc.c:1646  */
+#line 750 "canlyse.y" /* yacc.c:1646  */
     { 
    
   if (recherche((yyvsp[-3].string)) ==NULL) {
@@ -2405,88 +2396,87 @@ ajouter_quadruplet("bz","","","")
  
      ajouter_quadruplet(":=" , (yyvsp[-3].string) , "",str);
        
-     affiche_dico();
       
     }
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
  
   }
     }
-#line 2416 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2406 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 123:
-#line 780 "canlyse.y" /* yacc.c:1646  */
+#line 770 "canlyse.y" /* yacc.c:1646  */
     { 
 
    char str[20];
     sprintf(str,"%d",index_tbq);
      ajouter_quadruplet("+" , (yyvsp[-2].string) ,"1",str);
  }
-#line 2427 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2417 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 124:
-#line 786 "canlyse.y" /* yacc.c:1646  */
+#line 776 "canlyse.y" /* yacc.c:1646  */
     {
     char str[20];
     sprintf(str,"%d",index_tbq);
      ajouter_quadruplet("-" , (yyvsp[-2].string) ,"1",str);
     }
-#line 2437 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2427 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 125:
-#line 791 "canlyse.y" /* yacc.c:1646  */
+#line 781 "canlyse.y" /* yacc.c:1646  */
     { printf("READ \n"); }
-#line 2443 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2433 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 126:
-#line 792 "canlyse.y" /* yacc.c:1646  */
+#line 782 "canlyse.y" /* yacc.c:1646  */
     {printf("WRITE \n"); }
-#line 2449 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2439 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 127:
-#line 794 "canlyse.y" /* yacc.c:1646  */
+#line 784 "canlyse.y" /* yacc.c:1646  */
     {
 
   push(index_tbq);
-  afficher();
 
   //Lif=index_tbq;
   ajouter_quadruplet("bz","","","");
   }
-#line 2462 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2451 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 803 "canlyse.y" /* yacc.c:1646  */
+#line 792 "canlyse.y" /* yacc.c:1646  */
     {
-  LWhile=index_tbq;
+  pushwhile(index_tbq);
   ajouter_quadruplet("bz","","","");}
-#line 2470 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2459 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 130:
-#line 806 "canlyse.y" /* yacc.c:1646  */
+#line 795 "canlyse.y" /* yacc.c:1646  */
     { 
   { 
     char str[20];
     sprintf(str,"%d",index_tbq);
-    modifier_quadruplet(LWhile,"bz","","",str);
+    int lWhile = popwhile();
+    modifier_quadruplet(lWhile,"bz","","",str);
   }
 
 }
-#line 2483 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2473 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 814 "canlyse.y" /* yacc.c:1646  */
+#line 804 "canlyse.y" /* yacc.c:1646  */
     { 
 char str[20];
-sprintf(str,"%d",Sif-2);
+sprintf(str,"%d",Sif-1);
 ajouter_quadruplet("+",tbq[Sif-2].deuxieme,"1","r");
 ajouter_quadruplet(":=","r","",tbq[Sif-2].deuxieme);
 ajouter_quadruplet("br","","",str);
@@ -2494,33 +2484,31 @@ char str1[20];
 sprintf(str1,"%d",index_tbq);
 modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,str1);
 }
-#line 2498 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2488 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 824 "canlyse.y" /* yacc.c:1646  */
+#line 814 "canlyse.y" /* yacc.c:1646  */
     {printf("Return\n");}
-#line 2504 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2494 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 133:
-#line 827 "canlyse.y" /* yacc.c:1646  */
-    { printf("IF \n");
+#line 817 "canlyse.y" /* yacc.c:1646  */
+    { 
     char str[20];
     sprintf(str,"%d",index_tbq);
     int lif = pop();
-      afficher();
     modifier_quadruplet(lif,"bz","","",str);
   }
-#line 2516 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2505 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 835 "canlyse.y" /* yacc.c:1646  */
+#line 824 "canlyse.y" /* yacc.c:1646  */
     {
     int lif = pop();
     push(index_tbq);
-      afficher();
     ajouter_quadruplet("br","","","");
     char str[20];
     sprintf(str,"%d",index_tbq);
@@ -2528,25 +2516,24 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 
  
  }
-#line 2532 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2520 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 845 "canlyse.y" /* yacc.c:1646  */
+#line 833 "canlyse.y" /* yacc.c:1646  */
     {
     char str[20];
     int lesle = pop();
-      afficher();
 
     sprintf(str,"%d",index_tbq);
     modifier_quadruplet(lesle,"br","","",str);
 
  }
-#line 2546 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2533 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 862 "canlyse.y" /* yacc.c:1646  */
+#line 849 "canlyse.y" /* yacc.c:1646  */
     {
   	char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2554,11 +2541,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	(yyval.string)=strdup(strcat(str,str_index));
     	ajouter_quadruplet("+",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
    }
-#line 2558 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2545 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 869 "canlyse.y" /* yacc.c:1646  */
+#line 856 "canlyse.y" /* yacc.c:1646  */
     {
      	char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2566,21 +2553,21 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	(yyval.string)=strdup(strcat(str,str_index));
     	ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
       }
-#line 2570 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2557 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 876 "canlyse.y" /* yacc.c:1646  */
+#line 863 "canlyse.y" /* yacc.c:1646  */
     {
         (yyval.string) = strdup((yyvsp[0].string));
 
 
   }
-#line 2580 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2567 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 883 "canlyse.y" /* yacc.c:1646  */
+#line 870 "canlyse.y" /* yacc.c:1646  */
     {
     	char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2589,11 +2576,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
     	ajouter_quadruplet("*",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
   
    }
-#line 2593 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2580 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 148:
-#line 891 "canlyse.y" /* yacc.c:1646  */
+#line 878 "canlyse.y" /* yacc.c:1646  */
     { 
 	char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2601,19 +2588,19 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	(yyval.string)=strdup(strcat(str,str_index));
     	ajouter_quadruplet("/",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
    }
-#line 2605 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2592 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 898 "canlyse.y" /* yacc.c:1646  */
+#line 885 "canlyse.y" /* yacc.c:1646  */
     {
       (yyval.string) = strdup((yyvsp[0].string));
   }
-#line 2613 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2600 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 903 "canlyse.y" /* yacc.c:1646  */
+#line 890 "canlyse.y" /* yacc.c:1646  */
     {
       	char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2621,51 +2608,50 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	(yyval.string)=strdup(strcat(str,str_index));
       	ajouter_quadruplet("**",(yyvsp[-2].string),(yyvsp[0].string),(yyval.string));
      }
-#line 2625 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2612 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 151:
-#line 910 "canlyse.y" /* yacc.c:1646  */
+#line 897 "canlyse.y" /* yacc.c:1646  */
     {
     
       (yyval.string) = strdup((yyvsp[0].string));
   }
-#line 2634 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2621 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 152:
-#line 919 "canlyse.y" /* yacc.c:1646  */
+#line 906 "canlyse.y" /* yacc.c:1646  */
     {
       char str[50];
       sprintf(str,"%f",(yyvsp[0].real));
        (yyval.string) = strdup(str);
-       printf( " \n real is  :%f    in line %d\n ",(yyvsp[0].real),index_tbq);
       }
-#line 2645 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2631 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 153:
-#line 925 "canlyse.y" /* yacc.c:1646  */
+#line 911 "canlyse.y" /* yacc.c:1646  */
     {
       char str[50];
       sprintf(str,"%d",(yyvsp[0].integer));
 
       (yyval.string) = strdup(str);
       }
-#line 2656 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2642 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 154:
-#line 931 "canlyse.y" /* yacc.c:1646  */
+#line 917 "canlyse.y" /* yacc.c:1646  */
     {
      (yyval.string) = strdup((yyvsp[-1].string));
 
       }
-#line 2665 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2651 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 155:
-#line 935 "canlyse.y" /* yacc.c:1646  */
+#line 921 "canlyse.y" /* yacc.c:1646  */
     {
    
   if (recherche((yyvsp[0].string)) ==NULL) {
@@ -2683,20 +2669,19 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
   }
 
   }
-#line 2687 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2673 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 156:
-#line 956 "canlyse.y" /* yacc.c:1646  */
+#line 942 "canlyse.y" /* yacc.c:1646  */
     {
      (yyval.string) = strdup((yyvsp[0].string)); 
-   printf(" the resuluts is %s ",(yyval.string) );
    }
-#line 2696 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2681 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 157:
-#line 959 "canlyse.y" /* yacc.c:1646  */
+#line 944 "canlyse.y" /* yacc.c:1646  */
     {
           char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2704,11 +2689,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet(":=",(yyvsp[0].string),"",str);
 }
-#line 2708 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2693 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 158:
-#line 968 "canlyse.y" /* yacc.c:1646  */
+#line 953 "canlyse.y" /* yacc.c:1646  */
     {  
           char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2721,11 +2706,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
     (yyval.string)=strdup(strcat(str2,str_index));
     ajouter_quadruplet(":=",(yyvsp[0].string),"",str2);
        }
-#line 2725 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2710 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 159:
-#line 980 "canlyse.y" /* yacc.c:1646  */
+#line 965 "canlyse.y" /* yacc.c:1646  */
     {  
     char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2738,42 +2723,46 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
     (yyval.string)=strdup(strcat(str2,str_index));
     ajouter_quadruplet(":=",(yyvsp[0].string),"",str2);
     }
-#line 2742 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2727 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 160:
-#line 992 "canlyse.y" /* yacc.c:1646  */
+#line 977 "canlyse.y" /* yacc.c:1646  */
     { (yyval.string) = (yyvsp[0].string); 
    }
-#line 2749 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2734 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 161:
-#line 996 "canlyse.y" /* yacc.c:1646  */
+#line 981 "canlyse.y" /* yacc.c:1646  */
     {(yyval.string) = (yyvsp[0].string);}
-#line 2755 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2740 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 162:
-#line 996 "canlyse.y" /* yacc.c:1646  */
+#line 981 "canlyse.y" /* yacc.c:1646  */
     {(yyval.string) = (yyvsp[-1].string);}
-#line 2761 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2746 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 163:
-#line 999 "canlyse.y" /* yacc.c:1646  */
+#line 984 "canlyse.y" /* yacc.c:1646  */
     { 
       char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
   	char str[20]="r";
+    	char char1[20];
+  	sprintf(char1,"%c",(yyvsp[-2].charecter));
+    	char char3[20];
+  	sprintf(char3,"%c",(yyvsp[0].charecter));
 	  (yyval.string)=strdup(strcat(str,str_index));
-    ajouter_quadruplet("-",(yyvsp[-2].charecter),(yyvsp[0].charecter),str);
+    ajouter_quadruplet("-",char1,char3,str);
      }
-#line 2773 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2762 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 164:
-#line 1006 "canlyse.y" /* yacc.c:1646  */
+#line 995 "canlyse.y" /* yacc.c:1646  */
     { 
     char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2781,11 +2770,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
   }
-#line 2785 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2774 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 165:
-#line 1013 "canlyse.y" /* yacc.c:1646  */
+#line 1002 "canlyse.y" /* yacc.c:1646  */
     { 
     char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2793,23 +2782,29 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
     }
-#line 2797 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2786 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 166:
-#line 1021 "canlyse.y" /* yacc.c:1646  */
+#line 1010 "canlyse.y" /* yacc.c:1646  */
     {
         char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
   	char str[20]="r";
 	  (yyval.string)=strdup(strcat(str,str_index));
-    ajouter_quadruplet("-",(yyvsp[-2].charecter),(yyvsp[0].charecter),str);
+
+  	char char1[20];
+  	sprintf(char1,"%c",(yyvsp[-2].charecter));
+    	char char3[20];
+  	sprintf(char3,"%c",(yyvsp[0].charecter));
+
+    ajouter_quadruplet("-",char1,char3,str);
   }
-#line 2809 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2804 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 167:
-#line 1028 "canlyse.y" /* yacc.c:1646  */
+#line 1023 "canlyse.y" /* yacc.c:1646  */
     {
         char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2817,11 +2812,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
   }
-#line 2821 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2816 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 168:
-#line 1035 "canlyse.y" /* yacc.c:1646  */
+#line 1030 "canlyse.y" /* yacc.c:1646  */
     {
         char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2829,11 +2824,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
   }
-#line 2833 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2828 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 169:
-#line 1043 "canlyse.y" /* yacc.c:1646  */
+#line 1038 "canlyse.y" /* yacc.c:1646  */
     {
         char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2841,11 +2836,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
   }
-#line 2845 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2840 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 170:
-#line 1050 "canlyse.y" /* yacc.c:1646  */
+#line 1045 "canlyse.y" /* yacc.c:1646  */
     {
         char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2853,11 +2848,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
   }
-#line 2857 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2852 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 171:
-#line 1057 "canlyse.y" /* yacc.c:1646  */
+#line 1052 "canlyse.y" /* yacc.c:1646  */
     {
         char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
@@ -2865,32 +2860,31 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);
   }
-#line 2869 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2864 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 172:
-#line 1064 "canlyse.y" /* yacc.c:1646  */
+#line 1059 "canlyse.y" /* yacc.c:1646  */
     { 
         char str_index[20];
   	sprintf(str_index,"%d",index_tbq);
   	char str[20]="r";
 	  (yyval.string)=strdup(strcat(str,str_index));
     ajouter_quadruplet("-",(yyvsp[-2].string),(yyvsp[0].string),str);}
-#line 2880 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2875 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 173:
-#line 1070 "canlyse.y" /* yacc.c:1646  */
+#line 1065 "canlyse.y" /* yacc.c:1646  */
     { (yyval.string) =strdup((yyvsp[0].string));
     
       }
-#line 2888 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2883 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
   case 174:
-#line 1074 "canlyse.y" /* yacc.c:1646  */
+#line 1069 "canlyse.y" /* yacc.c:1646  */
     {
-    printf (" boooooooooooooooooooooooolen ------------******************-");
    
   if (recherche((yyvsp[0].string)) ==NULL) {
     printf (" variable non decalrie");
@@ -2901,7 +2895,6 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
          char  str[20]; 
      ajouter_quadruplet(":=" , (yyvsp[0].string) , "",str);
        
-     affiche_dico();
       
     }
     else printf("\tERREUR : Erreur de semantique a la ligne %d. Type incompatible (type  conflict :!\n",line_count);
@@ -2909,11 +2902,11 @@ modifier_quadruplet(Sif,tbq[Sif].premier,tbq[Sif].deuxieme,tbq[Sif].troisieme,st
   }
 
   }
-#line 2913 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2906 "canlyse.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2917 "canlyse.tab.c" /* yacc.c:1646  */
+#line 2910 "canlyse.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -3141,7 +3134,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 1100 "canlyse.y" /* yacc.c:1906  */
+#line 1093 "canlyse.y" /* yacc.c:1906  */
 
 /*int yyerror( char const *s) {
   /*fprintf(stderr,"File test.txt | Line: %d %s\n",line_num,s);
@@ -3153,7 +3146,10 @@ int yyerror(const char *s) {
 int main(void) {
   init();
   yyparse();
+  affiche_dico();
+
   afficher_tbq();
+
 }
 void init(){
 	tbs=(table_des_symboles*)malloc(sizeof(table_des_symboles));
@@ -3197,18 +3193,48 @@ int modifier(char *identif, int classe, int type,char * value, int complement){
 }
 void affiche_dico() {
 	desc_identif* p;
-  
-    if (p == NULL)
-    {
-        printf("\n this is a printf NULL \n");
-    }
+
      p = tbs->root;
-    while (p != NULL)
-    {
-        printf("%s |%d |%d | %s |%d" , p->identif ,p->classe , p->type , p->value ,p->complement ) ;
-        p=p->next;
-    }
-    printf ("%i",tbs->current_size);
+     if (p != NULL){
+      printf("\n Contenue de la table des symboles\n");
+      printf("|Entrée N |Identificateur |Classe     |Type       |Valeur     |Complément| \n");
+      printf("|-------- |-------------- |------     |----       |------     |----------| \n");
+      int i =1;
+        while (p != NULL)
+      {
+          printf("|%-8d |%-14s |%-10s |%-10s |%-10s |%-10d| \n"  , i,p->identif ,afficher_classe(p->classe) , afficher_type(p->type) , p->value ,p->complement);
+          p=p->next;
+          i++;
+      }
+     }else{
+     printf ("Table des symboles nulle \n");}
+    
+}
+
+char* afficher_type(int i){
+  char* type;
+
+  switch(i){
+    case 1 : type="integer"; break;
+    case 2 : type="real"; break;
+    case 3 : type="char"; break;
+    case 4 : type="string"; break;
+    case 5 : type="boolean"; break;
+    case 6 : type="const"; break;
+    case 7 : type="int[]"; break;
+    case 8 : type="char[]"; break;
+    case 9 : type="string[]"; break;
+  }
+  return type;
+}
+char* afficher_classe(int i){
+  char* classe;
+
+  switch(i){
+    case 0 : classe="globale"; break;
+    case 1 : classe="locale"; break;
+  }
+  return classe;
 }
  void ajouter_quadruplet(char* p1, char* p2, char* p3, char* p4){
  	strcpy(tbq[index_tbq].premier,p1);
@@ -3259,11 +3285,31 @@ int pop() {
 }
 void afficher() {
    int i;
-   if (ifp.top == -1)
-      printf("\nLa pile est vide!");
+   if (ifp.top == -1) { printf("pile vide");}
    else {
-      for (i = ifp.top; i >= 0; i--)
-         printf("\n%d", ifp.tab[i]);
+      for (i = ifp.top; i >= 0; i--){
+        printf("for pilr");
+      }
    }
 }
 
+
+
+
+
+ // whilep functions   -     ------------------------
+
+void pushwhile(int item) {
+  if (whilep.top >= size - 1)
+    return;
+  whilep.top++;
+  whilep.tab[whilep.top] = item;
+}
+int popwhile() {
+  if (whilep.top == -1)
+    return 1;
+   int item;
+   item = whilep.tab[whilep.top];
+   whilep.top--;
+   return item;
+}
